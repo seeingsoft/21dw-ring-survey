@@ -83,6 +83,10 @@
       <div class="title"><span class="no">0</span>联系手机 <span class="req">*</span></div>
       <input class="txt" name="phone" required placeholder="用于技术对接联系">
     </div>
+    <div class="q">
+      <div class="title"><span class="no">0</span>公司地址 <span class="req">*</span></div>
+      <input class="txt" name="address" required placeholder="用于实地拜访考察（省 / 市 / 区 + 详细地址）">
+    </div>
 
     <!-- ============ 技术评估 ============ -->
     <div class="sec">技术评估 · Technical<small>硬件能力 / SDK 数据粒度 / 连接兼容 / 合规 — 决定技术选型能否成立</small></div>
@@ -550,7 +554,7 @@
 <script>
 const TO = "4007890@qq.com";
 const ORDER = [
-  ["company","供应商公司名称"],["contact","联系人"],["phone","联系手机"],
+  ["company","供应商公司名称"],["contact","联系人"],["phone","联系手机"],["address","公司地址"],
   ["t1","T1 SDK数据粒度"],["t1b","T1.1 额外暴露原始流"],["t1b_note","T1.1 说明"],
   ["t2_local","T2.1 本地直连支持程度"],["t2_cloud","T2.2 必须过云功能"],["t2_note","T2 说明"],
   ["t3_has","T3.1 同时含HRV+皮温"],["t3_cap","T3.2 可提供能力"],["t3_models","T3.3 型号明细"],
