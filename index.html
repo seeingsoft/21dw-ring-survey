@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>植悦 21DW 智能戒指 · 供应商技术与商务问卷</title>
+<style>
+  :root{
+    --bg:#f5f6f8;--card:#ffffff;--ink:#1f2329;--sub:#6b7280;
+    --brand:#2f6b4f;--brand2:#3a8a63;--line:#e5e7eb;--req:#d93025;--ok:#2f6b4f;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:var(--bg);color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
+    line-height:1.6;font-size:15px}
+  .wrap{max-width:760px;margin:0 auto;padding:18px 16px 60px}
+  header{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;
+    border-radius:14px;padding:22px 20px;margin-bottom:18px}
+  header h1{margin:0 0 6px;font-size:20px}
+  header p{margin:0;font-size:13px;opacity:.92}
+  .bg{background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:16px 16px;margin-bottom:16px;font-size:13.5px;color:#374151}
+  .bg b{color:var(--brand)}
+  .q{background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:16px 16px;margin-bottom:14px}
+  .q .no{display:inline-block;background:var(--brand);color:#fff;font-size:12px;
+    font-weight:700;border-radius:6px;padding:2px 8px;margin-right:8px}
+  .q .title{font-weight:600;font-size:15px;margin-bottom:4px}
+  .q .hint{color:var(--sub);font-size:12.5px;margin-bottom:10px}
+  .req{color:var(--req);font-weight:700}
+  label.opt{display:block;padding:8px 10px;border:1px solid var(--line);border-radius:8px;
+    margin:6px 0;cursor:pointer;font-size:14px}
+  label.opt:hover{border-color:var(--brand2);background:#f3f9f5}
+  label.opt input{margin-right:8px}
+  textarea,input.txt{width:100%;border:1px solid var(--line);border-radius:8px;
+    padding:10px;font-size:14px;font-family:inherit;margin-top:6px;resize:vertical}
+  textarea{min-height:78px}
+  input.txt{min-height:auto}
+  .grp{border-left:3px solid var(--brand2);padding-left:10px;margin:10px 0 4px}
+  .grp .gt{font-size:13px;font-weight:600;color:var(--brand)}
+  .submit{position:sticky;bottom:0;background:#fff;border-top:1px solid var(--line);
+    padding:14px 0;margin-top:8px}
+  button.go{width:100%;background:var(--brand);color:#fff;border:0;border-radius:10px;
+    padding:14px;font-size:16px;font-weight:700;cursor:pointer}
+  button.go:hover{background:var(--brand2)}
+  .okbox{display:none;background:#eafaf0;border:1px solid #b7e4c7;border-radius:10px;
+    padding:14px;margin-top:14px;font-size:14px}
+  .okbox.show{display:block}
+  .copybtn{background:#fff;border:1px solid var(--brand);color:var(--brand);
+    border-radius:8px;padding:8px 12px;cursor:pointer;font-size:13px;margin-top:10px}
+  footer{color:var(--sub);font-size:12px;text-align:center;margin-top:24px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>植悦 21DW 智能戒指 · 供应商技术与商务问卷</h1>
+    <p>本问卷用于智能戒指硬件与 SDK 方案的横向选型评估 · 全部项目均为必填</p>
+  </header>
+
+  <div class="bg">
+    <b>项目背景（供贵司理解语境）</b><br>
+    植悦运营跨境营养包品牌 <b>21DAYS WONDER（21DW）</b>，加拿大本土在售。智能戒指作为营养包方案的<b>长期附赠硬件</b>（不单独销售、不作医疗用途）。客户端形态含微信小程序及原生 iOS / Android App，无论开发先后顺序，<b>三端 SDK 均须由贵司提供</b>。数据用于用户 21 天周期的陪伴式趋势呈现，<b>不做任何功效或医疗宣称</b>。我们仅采购<b>非医疗宣称</b>的健康趋势款。品牌授权地域范围含中国大陆及加拿大 / 全球。
+  </div>
+
+  <form id="f" novalidate>
+    <!-- 开头三项 -->
+    <div class="q">
+      <div class="title"><span class="no">0</span>供应商公司名称 <span class="req">*</span></div>
+      <input class="txt" name="company" required placeholder="请填写贵司全称">
+    </div>
+    <div class="q">
+      <div class="title"><span class="no">0</span>联系人 <span class="req">*</span></div>
+      <input class="txt" name="contact" required placeholder="姓名 / 职务">
+    </div>
+    <div class="q">
+      <div class="title"><span class="no">0</span>联系手机 <span class="req">*</span></div>
+      <input class="txt" name="phone" required placeholder="用于技术对接联系">
+    </div>
+
+    <!-- T1 -->
+    <div class="q">
+      <div class="title"><span class="no">T1</span>SDK 数据粒度（最关键） <span class="req">*</span></div>
+      <div class="hint">贵司 SDK 返回的是哪一层数据？</div>
+      <label class="opt"><input type="radio" name="t1" value="原始传感器数据流（PPG波形/三轴加速度原始采样/温度传感器原始读数）" required>原始传感器数据流（PPG 波形、三轴加速度原始采样、温度传感器原始读数）</label>
+      <label class="opt"><input type="radio" name="t1" value="已计算好的体征指标（心率/静息心率/HRV/血氧/皮温等数值）">已计算好的体征指标（心率 / 静息心率 / HRV / 血氧 / 皮温等数值）</label>
+      <label class="opt"><input type="radio" name="t1" value="两者都提供">两者都提供</label>
+      <div class="hint" style="margin-top:8px">若仅提供"已计算好的指标"：SDK 是否可额外暴露原始数据流？是否需要额外授权或费用？</div>
+      <textarea name="t1b" placeholder="补充说明…"></textarea>
+    </div>
+
+    <!-- T2 -->
+    <div class="q">
+      <div class="title"><span class="no">T2</span>数据主权与本地直连 <span class="req">*</span></div>
+      <div class="hint">贵司 SDK 是否支持植悦客户端经 BLE 与设备本地直连、不经供应商云端即可将数据上行至植悦自有服务端？是否存在任何功能必须调用供应商云？如有请逐项列出。</div>
+      <textarea name="t2" required placeholder="请说明本地直连能力、必须过云的功能及条款…"></textarea>
+    </div>
+
+    <!-- T3 -->
+    <div class="q">
+      <div class="title"><span class="no">T3</span>传感器栈与型号对照 <span class="req">*</span></div>
+      <div class="hint">请列出同时满足 HRV + 皮温（体温趋势）的型号；若无同时包含的型号，请分别列出"含 HRV 的型号"与"含皮温的型号"。需含：续航（定义监测频率）/ 重量 / 防水等级（具体）/ 充电仓是否标配。</div>
+      <textarea name="t3" required placeholder="型号 | PPG | HRV | 皮温 | 三轴加速度 | 睡眠/活动 | RR | 续航 | 重量 | 防水 | 充电仓&#10;…"></textarea>
+    </div>
+
+    <!-- T4 三端 -->
+    <div class="q">
+      <div class="title"><span class="no">T4</span>连接与兼容性（三端 SDK 均须提供） <span class="req">*</span></div>
+      <div class="hint">植悦客户端将覆盖微信小程序、iOS 原生 App、Android 原生 App，开发先后顺序由我方决定，不影响对贵司的要求：以下三端 SDK 均须提供或明确答复。请分别选择并提供授权/收费说明。</div>
+      <div class="grp"><div class="gt">微信小程序端</div>
+        <label class="opt"><input type="radio" name="t4_wx" value="已有现成小程序 SDK" required>已有现成小程序 SDK（JS，基于微信 BLE API）</label>
+        <label class="opt"><input type="radio" name="t4_wx" value="需植悦基于贵司协议自适配">未提供现成小程序 SDK，但支持植悦基于贵司通信协议自适配</label>
+        <label class="opt"><input type="radio" name="t4_wx" value="暂不支持">暂不支持</label>
+        <div class="hint" style="margin-top:6px">受小程序无后台实时采集限制，请说明推荐的同步机制（每日打开同步、戒指本地存储容量与回传策略）。</div>
+        <textarea name="t4_wx_note" placeholder="同步机制说明…"></textarea>
+      </div>
+      <div class="grp"><div class="gt">iOS 原生端</div>
+        <label class="opt"><input type="radio" name="t4_ios" value="提供 iOS 原生 SDK" required>提供 iOS 原生 SDK（Swift/Objective-C，封装 CoreBluetooth），BLE 5.x</label>
+        <label class="opt"><input type="radio" name="t4_ios" value="暂不支持 iOS 原生 SDK">暂不支持</label>
+      </div>
+      <div class="grp"><div class="gt">Android 原生端</div>
+        <label class="opt"><input type="radio" name="t4_and" value="提供 Android 原生 SDK" required>提供 Android 原生 SDK（Java/Kotlin，封装 Bluetooth GATT），BLE 5.x</label>
+        <label class="opt"><input type="radio" name="t4_and" value="暂不支持 Android 原生 SDK">暂不支持</label>
+      </div>
+      <div class="hint" style="margin-top:8px">三端 SDK 的授权方式与是否收费？单设备连接稳定性、断连重连机制？对鸿蒙的兼容性？</div>
+      <textarea name="t4_note" placeholder="授权/收费/稳定性/鸿蒙兼容…"></textarea>
+    </div>
+
+    <!-- T5 -->
+    <div class="q">
+      <div class="title"><span class="no">T5</span>算法与精度 <span class="req">*</span></div>
+      <div class="hint">PPG 派生的 HRV / SpO₂ 算法由谁提供？是否支持现场标定/校准？是否可提供精度测试报告（如心率误差 ±__ bpm）？</div>
+      <textarea name="t5" required placeholder="算法来源 / 标定 / 精度报告…"></textarea>
+    </div>
+
+    <!-- T6 -->
+    <div class="q">
+      <div class="title"><span class="no">T6</span>固件与 SDK 维护 <span class="req">*</span></div>
+      <div class="hint">是否支持 OTA 固件升级（OTA 是否依赖供应商云）？SDK 版本迭代承诺、文档完整度、技术对接支持方式（工单/专属群/驻场）？SDK 授权是否收费？</div>
+      <textarea name="t6" required placeholder="OTA / 迭代 / 支持方式 / 授权收费…"></textarea>
+    </div>
+
+    <!-- T7 -->
+    <div class="q">
+      <div class="title"><span class="no">T7</span>硬件白标 <span class="req">*</span></div>
+      <div class="hint">戒指外壳/内壁能否镭雕或定制 21DAYS WONDER 标识？白标最小起订量（MOQ）是否与功能 MOQ 不同？定制费多少？SDK 是否强制绑定贵司自有 App？</div>
+      <textarea name="t7" required placeholder="白标能力 / MOQ / 费用 / 绑定限制…"></textarea>
+    </div>
+
+    <!-- T8 -->
+    <div class="q">
+      <div class="title"><span class="no">T8</span>样品实测 <span class="req">*</span></div>
+      <div class="hint">正式签约/量产前，贵司是否可提供 5–10 台样品供植悦做佩戴率/SDK 对接/数据质量实测？是否可在签约之前提供（未承诺量产权先做技术评估）？样品如何提供（快递/指定物流）、费用多少（免费/样品费/可抵量产权）？样品阶段是否需先签 NDA 或样品协议？</div>
+      <textarea name="t8" required placeholder="样品数量 / 签约前提供 / 方式 / 费用 / NDA…"></textarea>
+    </div>
+
+    <!-- T9 -->
+    <div class="q">
+      <div class="title"><span class="no">T9</span>SDK 交付物 <span class="req">*</span></div>
+      <div class="hint">交付的 SDK 是否包含：通信协议文档、数据字段格式说明、Demo 工程（须分别提供微信小程序端 + iOS 原生端 + Android 原生端三套）、原始数据解析示例？文档语言（中文/英文）？</div>
+      <textarea name="t9" required placeholder="交付物清单 / 文档语言…"></textarea>
+    </div>
+
+    <!-- T10 -->
+    <div class="q">
+      <div class="title"><span class="no">T10</span>隐私合规与数据出境 <span class="req">*</span></div>
+      <div class="hint">因 21DW 含加拿大及全球业务，是否支持数据不出境/仅在植悦自有服务端处理？是否提供符合《个人信息保护法》及境外适用法规的隐私合规支持材料（如数据处理协议 DPA 模板）？</div>
+      <textarea name="t10" required placeholder="数据出境方案 / DPA 支持…"></textarea>
+    </div>
+
+    <!-- B1 -->
+    <div class="q">
+      <div class="title"><span class="no">B1</span>MOQ 与单价 <span class="req">*</span></div>
+      <div class="hint">请按贵司型号分档报价（附赠为长期策略，需支持多档与迭代）。建议列：型号 | 能力定位 | 不含充电仓单价 | 含充电仓单价 | 功能 MOQ | 长期采购阶梯价（1k/5k/1w 枚） | 样品价(5-10台)。</div>
+      <textarea name="b1" required placeholder="型号 | 能力 | 不含仓单价 | 含仓单价 | MOQ | 阶梯价 | 样品价&#10;健康款（含HRV+皮温） | …&#10;基础款（含HRV无皮温） | …"></textarea>
+    </div>
+
+    <!-- B2 -->
+    <div class="q">
+      <div class="title"><span class="no">B2</span>品牌授权（含全球） <span class="req">*</span></div>
+      <div class="hint">是否可出具书面授权，允许植悦将该硬件以 21DAYS WONDER 品牌随营养包赠品形式，在中国大陆及加拿大/全球范围交付使用？授权范围、期限、地域限制、是否收费？</div>
+      <textarea name="b2" required placeholder="授权范围 / 期限 / 地域 / 收费…"></textarea>
+    </div>
+
+    <!-- B3 -->
+    <div class="q">
+      <div class="title"><span class="no">B3</span>交期与产能 <span class="req">*</span></div>
+      <div class="hint">样品交期（5–10 台）？首批量（如 500/1000 枚）交期？月产能上限？</div>
+      <textarea name="b3" required placeholder="样品交期 / 首批量交期 / 月产能…"></textarea>
+    </div>
+
+    <!-- B4 -->
+    <div class="q">
+      <div class="title"><span class="no">B4</span>质保与售后 <span class="req">*</span></div>
+      <div class="hint">出厂不良率标准（如 AQL 等级）？保修期多长？返修/补损流程与时效？</div>
+      <textarea name="b4" required placeholder="AQL / 保修期 / 返修流程…"></textarea>
+    </div>
+
+    <!-- B5 -->
+    <div class="q">
+      <div class="title"><span class="no">B5</span>认证与合规（含跨境） <span class="req">*</span></div>
+      <div class="hint">已具备哪些认证：CE / FCC / RoHS / 加拿大 ISED / 电池 UN38.3 / Bluetooth SIG / 其他？跨境发货至加拿大时能否提供清关与运输合规文件？请明确不含任何医疗宣称的型号清单（含 ECG/血压/血糖/血脂者不纳入）。</div>
+      <textarea name="b5" required placeholder="认证清单 / 清关文件 / 非医疗型号清单…"></textarea>
+    </div>
+
+    <!-- B6 -->
+    <div class="q">
+      <div class="title"><span class="no">B6</span>付款与账期 <span class="req">*</span></div>
+      <div class="hint">付款方式、首付款比例、账期政策？样品款是否可抵扣量产权？</div>
+      <textarea name="b6" required placeholder="付款方式 / 首付 / 账期 / 样品款抵扣…"></textarea>
+    </div>
+
+    <!-- B7 -->
+    <div class="q">
+      <div class="title"><span class="no">B7</span>合作确认与签约时点 <span class="req">*</span></div>
+      <div class="hint">植悦将在回收本问卷、对比多家供应商技术方案与 SDK 后，再确定终选与合作。贵司是否接受"先样品实测 + 技术方案评估，后签约"？签约前可提供哪些配合（寄样/SDK 对接/答疑）？是否需先签 NDA？若最终未合作，样品如何处理？量产权签约形式（框架协议/单笔订单）、是否含最低合作量承诺、合作期限？</div>
+      <textarea name="b7" required placeholder="接受先评估后签约 / 配合 / NDA / 样品处理 / 签约形式…"></textarea>
+    </div>
+
+    <div class="submit">
+      <button class="go" type="submit">提交问卷（全部必填）</button>
+    </div>
+  </form>
+
+  <div class="okbox" id="okbox">
+    <b>✅ 已为你打开邮件客户端，请点击"发送"将答案发送至植悦。</b><br>
+    若邮件未自动弹出，或贵司环境无法发送邮件，请点击下方按钮复制全部答案，通过微信/邮件手动发送。
+    <br><button class="copybtn" id="copybtn" type="button">复制全部答案</button>
+    <div id="raw" style="white-space:pre-wrap;font-size:12px;color:#374151;margin-top:10px;display:none"></div>
+  </div>
+
+  <footer>植悦 21DAYS WONDER · 智能戒指供应商评估问卷 · 答案将发送至 4007890@qq.com</footer>
+</div>
+
+<script>
+const TO = "4007890@qq.com";
+const ORDER = [
+  ["company","供应商公司名称"],["contact","联系人"],["phone","联系手机"],
+  ["t1","T1 SDK数据粒度"],["t1b","T1 补充说明"],
+  ["t2","T2 数据主权与本地直连"],
+  ["t3","T3 传感器栈与型号对照"],
+  ["t4_wx","T4 微信小程序端 SDK"],["t4_wx_note","T4 小程序同步机制"],
+  ["t4_ios","T4 iOS 原生端 SDK"],["t4_and","T4 Android 原生端 SDK"],
+  ["t4_note","T4 三端授权/收费/稳定性/鸿蒙"],
+  ["t5","T5 算法与精度"],["t6","T6 固件与SDK维护"],["t7","T7 硬件白标"],
+  ["t8","T8 样品实测"],["t9","T9 SDK交付物"],["t10","T10 隐私合规与数据出境"],
+  ["b1","B1 MOQ与单价"],["b2","B2 品牌授权"],["b3","B3 交期与产能"],
+  ["b4","B4 质保与售后"],["b5","B5 认证与合规"],["b6","B6 付款与账期"],
+  ["b7","B7 合作确认与签约时点"]
+];
+function buildBody(){
+  let s = "植悦 21DW 智能戒指 · 供应商问卷回卷\n";
+  s += "提交时间：" + new Date().toLocaleString("zh-CN") + "\n";
+  s += "========================================\n\n";
+  const fd = new FormData(document.getElementById("f"));
+  for(const [k,label] of ORDER){
+    let v = fd.get(k);
+    if(v===null||v==="") v="（未填写）";
+    s += "【"+label+"】\n"+v+"\n\n";
+  }
+  return s;
+}
+document.getElementById("f").addEventListener("submit",function(e){
+  e.preventDefault();
+  const f=document.getElementById("f");
+  if(!f.checkValidity()){ f.reportValidity(); return; }
+  const body = buildBody();
+  document.getElementById("raw").textContent = body;
+  const subject = "智能戒指供应商问卷回卷 - " + (f.company.value||"") + " - " + (f.contact.value||"");
+  window.location.href = "mailto:"+TO+"?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
+  document.getElementById("okbox").classList.add("show");
+  window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});
+});
+document.getElementById("copybtn").addEventListener("click",function(){
+  const body=document.getElementById("raw").textContent;
+  navigator.clipboard.writeText(body).then(()=>{
+    this.textContent="已复制 ✓";
+  }).catch(()=>{
+    const ta=document.createElement("textarea");ta.value=body;document.body.appendChild(ta);
+    ta.select();document.execCommand("copy");document.body.removeChild(ta);
+    this.textContent="已复制 ✓";
+  });
+});
+</script>
+</body>
+</html>
