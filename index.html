@@ -39,6 +39,9 @@
     padding:10px;font-size:14px;font-family:inherit;margin-top:6px;resize:vertical}
   textarea{min-height:78px}
   input.txt{min-height:auto}
+  .otherbox{display:none;margin:6px 0 4px 26px}
+  .otherbox.show{display:block}
+  .otherbox input.txt{background:#fbfcff}
   .chkgrp{border:1px dashed var(--line);border-radius:8px;padding:8px 10px;margin:8px 0}
   .chkgrp .ct{font-size:12.5px;font-weight:600;color:var(--brand);margin-bottom:4px}
   .submit{position:sticky;bottom:0;background:#fff;border-top:1px solid var(--line);
@@ -223,6 +226,7 @@
       <div class="title"><span class="no">T6.2</span>SDK 授权是否收费？ <span class="req">*</span></div>
       <label class="opt"><input type="radio" name="t6_sdkfee" value="SDK免费" required>SDK 授权免费</label>
       <label class="opt"><input type="radio" name="t6_sdkfee" value="SDK收费">SDK 授权收费（请说明）</label>
+      <div class="otherbox" data-other="t6_sdkfee" data-trigger="SDK收费"><input class="txt" name="t6_sdkfee_other" placeholder="请说明 SDK 授权收费方式与金额"></div>
       <label class="opt"><input type="radio" name="t6_sdkfee" value="随硬件量产权免费">随硬件量产权免费</label>
     </div>
 
@@ -391,6 +395,7 @@
       <label class="opt"><input type="radio" name="b4_aql" value="AQL2.5">AQL 2.5</label>
       <label class="opt"><input type="radio" name="b4_aql" value="AQL4.0">AQL 4.0</label>
       <label class="opt"><input type="radio" name="b4_aql" value="其他AQL">其他（请说明）</label>
+      <div class="otherbox" data-other="b4_aql" data-trigger="其他AQL"><input class="txt" name="b4_aql_other" placeholder="请填写具体 AQL 标准（如 AQL 0.65）"></div>
     </div>
 
     <!-- B4.2 -->
@@ -400,6 +405,7 @@
       <label class="opt"><input type="radio" name="b4_warr" value="保修6个月">6 个月</label>
       <label class="opt"><input type="radio" name="b4_warr" value="保修12个月">12 个月</label>
       <label class="opt"><input type="radio" name="b4_warr" value="其他保修期">其他（请说明）</label>
+      <div class="otherbox" data-other="b4_warr" data-trigger="其他保修期"><input class="txt" name="b4_warr_other" placeholder="请填写具体保修期（如 18 个月）"></div>
     </div>
 
     <!-- B4.3 -->
@@ -408,6 +414,7 @@
       <label class="opt"><input type="radio" name="b4_repair" value="返修≤7天" required>≤ 7 天</label>
       <label class="opt"><input type="radio" name="b4_repair" value="返修8-15天">8–15 天</label>
       <label class="opt"><input type="radio" name="b4_repair" value="其他返修时效">其他（请说明）</label>
+      <div class="otherbox" data-other="b4_repair" data-trigger="其他返修时效"><input class="txt" name="b4_repair_other" placeholder="请填写具体返修 / 补损时效"></div>
       <textarea name="b4_note" placeholder="售后流程补充（选填）…"></textarea>
     </div>
 
@@ -421,8 +428,9 @@
         <label class="opt"><input type="checkbox" name="b5_cert" value="加拿大ISED">加拿大 ISED</label>
         <label class="opt"><input type="checkbox" name="b5_cert" value="电池UN38.3">电池 UN38.3</label>
         <label class="opt"><input type="checkbox" name="b5_cert" value="Bluetooth SIG">Bluetooth SIG</label>
-        <label class="opt"><input type="checkbox" name="b5_cert" value="其他认证">其他（请下方说明）</label>
+        <label class="opt"><input type="checkbox" name="b5_cert" value="其他认证">其他（请说明）</label>
       </div>
+      <div class="otherbox" data-other="b5_cert" data-trigger="其他认证"><input class="txt" name="b5_cert_other" placeholder="请填写其他认证名称"></div>
     </div>
 
     <!-- B5.2 -->
@@ -447,6 +455,7 @@
       <label class="opt"><input type="radio" name="b6_pay" value="信用证LC">信用证 LC</label>
       <label class="opt"><input type="radio" name="b6_pay" value="线上支付">线上支付</label>
       <label class="opt"><input type="radio" name="b6_pay" value="其他付款方式">其他（请说明）</label>
+      <div class="otherbox" data-other="b6_pay" data-trigger="其他付款方式"><input class="txt" name="b6_pay_other" placeholder="请填写具体付款方式"></div>
     </div>
 
     <!-- B6.2 -->
@@ -456,6 +465,7 @@
       <label class="opt"><input type="radio" name="b6_deposit" value="首付30%">30%</label>
       <label class="opt"><input type="radio" name="b6_deposit" value="首付50%">50%</label>
       <label class="opt"><input type="radio" name="b6_deposit" value="其他首付比例">其他（请说明）</label>
+      <div class="otherbox" data-other="b6_deposit" data-trigger="其他首付比例"><input class="txt" name="b6_deposit_other" placeholder="请填写具体首付款比例"></div>
     </div>
 
     <!-- B6.3 -->
@@ -465,6 +475,7 @@
       <label class="opt"><input type="radio" name="b6_term" value="月结30天">月结 30 天</label>
       <label class="opt"><input type="radio" name="b6_term" value="月结60天">月结 60 天</label>
       <label class="opt"><input type="radio" name="b6_term" value="其他账期">其他（请说明）</label>
+      <div class="otherbox" data-other="b6_term" data-trigger="其他账期"><input class="txt" name="b6_term_other" placeholder="请填写具体账期政策"></div>
     </div>
 
     <!-- B6.4 -->
@@ -509,13 +520,15 @@
       <label class="opt"><input type="radio" name="b7_form" value="框架协议" required>框架协议（长期）</label>
       <label class="opt"><input type="radio" name="b7_form" value="单笔订单">单笔订单</label>
       <label class="opt"><input type="radio" name="b7_form" value="其他签约形式">其他（请说明）</label>
+      <div class="otherbox" data-other="b7_form" data-trigger="其他签约形式"><input class="txt" name="b7_form_other" placeholder="请填写具体签约形式"></div>
     </div>
 
     <!-- B7.5 -->
     <div class="q">
       <div class="title"><span class="no">B7.5</span>是否含最低合作量承诺？ <span class="req">*</span></div>
       <label class="opt"><input type="radio" name="b7_min" value="无最低量承诺" required>无最低量承诺</label>
-      <label class="opt"><input type="radio" name="b7_min" value="有最低量承诺">有最低量承诺（请说明）</label>
+      <label class="opt"><input type="radio" name="b7_min" value="有最低量承诺（请说明）">有最低量承诺（请说明）</label>
+      <div class="otherbox" data-other="b7_min" data-trigger="有最低量承诺（请说明）"><input class="txt" name="b7_min_other" placeholder="请说明最低合作量（数量 / 周期）"></div>
       <textarea name="b7_note" placeholder="合作期限 / 其他说明（选填）…"></textarea>
     </div>
 
@@ -544,7 +557,7 @@ const ORDER = [
   ["t4_wx","T4.1 微信小程序端 SDK"],["t4_wx_note","T4.1a 同步机制"],
   ["t4_ios","T4.2 iOS 原生端 SDK"],["t4_and","T4.3 Android 原生端 SDK"],["t4_note","T4.4 三端授权/收费/稳定性/鸿蒙"],
   ["t5_algo","T5.1 算法来源"],["t5_calib","T5.2 标定"],["t5_report","T5.3 精度报告"],["t5_note","T5 说明"],
-  ["t6_ota","T6.1 OTA"],["t6_sdkfee","T6.2 SDK授权收费"],["t6_support","T6.3 支持方式"],["t6_note","T6 说明"],
+  ["t6_ota","T6.1 OTA"],["t6_sdkfee","T6.2 SDK授权收费"],["t6_sdkfee_other","T6.2 SDK收费说明"],["t6_support","T6.3 支持方式"],["t6_note","T6 说明"],
   ["t7_laser","T7.1 白标镭雕"],["t7_moq","T7.2 白标MOQ"],["t7_bind","T7.3 绑定限制"],["t7_note","T7 说明"],
   ["t8_pre","T8.1 签约前提供样品"],["t8_fee","T8.2 样品费用"],["t8_nda","T8.3 样品NDA"],["t8_note","T8 物流说明"],
   ["t9_deliver","T9.1 交付物"],["t9_lang","T9.2 文档语言"],["t9_note","T9 说明"],
@@ -552,12 +565,38 @@ const ORDER = [
   ["b1_ladder","B1.1 报价方式"],["b1","B1.2 报价表"],
   ["b2_auth","B2.1 授权形式"],["b2_fee","B2.2 授权收费"],["b2_note","B2 说明"],
   ["b3_samp","B3.1 样品交期"],["b3_bulk","B3.2 首批量交期"],["b3_cap","B3.3 月产能"],["b3_note","B3 说明"],
-  ["b4_aql","B4.1 AQL"],["b4_warr","B4.2 保修期"],["b4_repair","B4.3 返修时效"],["b4_note","B4 说明"],
-  ["b5_cert","B5.1 认证"],["b5_customs","B5.2 清关文件"],["b5_medlist","B5.3 非医疗清单"],["b5_note","B5 说明"],
-  ["b6_pay","B6.1 付款方式"],["b6_deposit","B6.2 首付比例"],["b6_term","B6.3 账期"],["b6_samplefee","B6.4 样品款抵扣"],["b6_note","B6 说明"],
+  ["b4_aql","B4.1 AQL"],["b4_aql_other","B4.1 AQL-其他说明"],["b4_warr","B4.2 保修期"],["b4_warr_other","B4.2 保修期-其他说明"],
+  ["b4_repair","B4.3 返修时效"],["b4_repair_other","B4.3 返修时效-其他说明"],["b4_note","B4 说明"],
+  ["b5_cert","B5.1 认证"],["b5_cert_other","B5.1 认证-其他说明"],["b5_customs","B5.2 清关文件"],["b5_medlist","B5.3 非医疗清单"],["b5_note","B5 说明"],
+  ["b6_pay","B6.1 付款方式"],["b6_pay_other","B6.1 付款方式-其他说明"],["b6_deposit","B6.2 首付比例"],["b6_deposit_other","B6.2 首付比例-其他说明"],
+  ["b6_term","B6.3 账期"],["b6_term_other","B6.3 账期-其他说明"],["b6_samplefee","B6.4 样品款抵扣"],["b6_note","B6 说明"],
   ["b7_accept","B7.1 接受先评估后签约"],["b7_support","B7.2 签约前配合"],["b7_sample","B7.3 未合作样品处理"],
-  ["b7_form","B7.4 签约形式"],["b7_min","B7.5 最低量承诺"],["b7_note","B7 说明"]
+  ["b7_form","B7.4 签约形式"],["b7_form_other","B7.4 签约形式-其他说明"],["b7_min","B7.5 最低量承诺"],["b7_min_other","B7.5 最低量承诺-其他说明"],["b7_note","B7 说明"]
 ];
+
+// "其他（请说明）"行内输入框：选中对应选项时才显示，并强制校验必填
+document.querySelectorAll('.otherbox').forEach(ob=>{
+  const name = ob.dataset.other;
+  const trig = ob.dataset.trigger;
+  if(!name) return;
+  // 单选：监听该组所有 radio
+  const radios = document.querySelectorAll('input[type=radio][name="'+name+'"]');
+  radios.forEach(r=>{
+    r.addEventListener('change', ()=>{
+      if(r.value===trig && r.checked) ob.classList.add('show');
+      else ob.classList.remove('show');
+    });
+  });
+  // 多选：监听该 checkbox（如 B5.1 其他认证）
+  const cbs = document.querySelectorAll('input[type=checkbox][name="'+name+'"][value="'+trig+'"]');
+  cbs.forEach(c=>{
+    c.addEventListener('change', ()=>{
+      if(c.checked) ob.classList.add('show');
+      else ob.classList.remove('show');
+    });
+  });
+});
+
 function getVals(fd,name){
   const all = fd.getAll(name);
   if(all.length===0) return "";
@@ -590,6 +629,17 @@ document.getElementById("f").addEventListener("submit",function(e){
   if(!chkOk){
     if(firstBad) firstBad.scrollIntoView({behavior:'smooth',block:'center'});
     alert('请在每个标注【可多选】的题目中至少勾选一项。');
+    return;
+  }
+  // "其他（请说明）"若已显示但为空，则拦截
+  let otherOk=true;
+  document.querySelectorAll('.otherbox.show').forEach(ob=>{
+    const inp = ob.querySelector('input.txt');
+    if(inp && inp.value.trim()===""){ otherOk=false; if(!firstBad) firstBad=ob; }
+  });
+  if(!otherOk){
+    if(firstBad) firstBad.scrollIntoView({behavior:'smooth',block:'center'});
+    alert('您选择了"其他（请说明）"，请在展开的输入栏中填写具体内容后再提交。');
     return;
   }
   const body = buildBody();
