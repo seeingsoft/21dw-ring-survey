@@ -217,6 +217,26 @@
       <textarea name="t4_wx_note" placeholder="同步机制说明（选填）…"></textarea>
     </div>
 
+    <!-- T4.1b 本地存储 -->
+    <div class="q">
+      <div class="title"><span class="no">T4.1b</span>戒指本地存储容量 <span class="req">*</span></div>
+      <div class="hint">小程序无后台实时连接，数据需先暂存在戒指本地、待用户打开时再同步。请按贵司常规采样频率说明戒指可暂存多少天数据。</div>
+      <label class="opt"><input type="radio" name="t4_store" value="本地存储≥14天" required>≥ 14 天</label>
+      <label class="opt"><input type="radio" name="t4_store" value="本地存储7-13天">7–13 天</label>
+      <label class="opt"><input type="radio" name="t4_store" value="本地存储<7天">&lt; 7 天</label>
+      <label class="opt"><input type="radio" name="t4_store" value="无本地存储">无本地存储（必须实时连接）</label>
+      <textarea name="t4_store_note" placeholder="采样频率与存储规格说明（选填）…"></textarea>
+    </div>
+
+    <!-- T4.1c 断连续采 -->
+    <div class="q">
+      <div class="title"><span class="no">T4.1c</span>与手机断连后，戒指是否继续采集并自动补传？ <span class="req">*</span></div>
+      <label class="opt"><input type="radio" name="t4_offline" value="断连继续采集且自动补传" required>继续采集，重连后<b>自动补传</b>（无数据丢失）</label>
+      <label class="opt"><input type="radio" name="t4_offline" value="断连继续采集但需手动补传">继续采集，但需手动触发补传</label>
+      <label class="opt"><input type="radio" name="t4_offline" value="断连后停止采集">断连后停止采集</label>
+      <textarea name="t4_offline_note" placeholder="同步一次（含 7 天数据）的大致耗时（选填）…"></textarea>
+    </div>
+
     <!-- T4.2 -->
     <div class="q">
       <div class="title"><span class="no">T4.2</span>iOS 原生端 SDK 提供方式 <span class="req">*</span></div>
@@ -335,11 +355,21 @@
       <textarea name="t8_note" placeholder="样品物流提供方式（选填）…"></textarea>
     </div>
 
+    <!-- T9.0 通信协议文档 -->
+    <div class="q">
+      <div class="title"><span class="no">T9.0</span>是否提供完整 BLE 通信协议文档？ <span class="req">*</span></div>
+      <div class="hint">协议文档指：GATT 服务与特征值 UUID、数据包字节格式、指令集、认证／绑定方式。植悦需据此评估自主开发与多端扩展能力。</div>
+      <label class="opt"><input type="radio" name="t9_proto" value="提供完整协议文档" required>提供完整协议文档（可作为技术交付物列入合同）</label>
+      <label class="opt"><input type="radio" name="t9_proto" value="仅提供SDK不含协议文档">仅提供 SDK，不提供协议文档</label>
+      <label class="opt"><input type="radio" name="t9_proto" value="协议文档需额外授权或收费">需额外授权或收费方可提供</label>
+      <label class="opt"><input type="radio" name="t9_proto" value="不提供协议文档">不提供协议文档</label>
+      <textarea name="t9_proto_note" placeholder="协议文档范围／授权／费用说明（选填）…"></textarea>
+    </div>
+
     <!-- T9.1 多选 -->
     <div class="q">
       <div class="title"><span class="no">T9.1</span>SDK 交付物包含哪些？ <span class="req">*</span> <span style="color:var(--brand);font-weight:600">（可多选）</span></div>
       <div class="chkgrp">
-        <label class="opt"><input type="checkbox" name="t9_deliver" value="通信协议文档">通信协议文档</label>
         <label class="opt"><input type="checkbox" name="t9_deliver" value="数据字段格式说明">数据字段格式说明</label>
         <label class="opt"><input type="checkbox" name="t9_deliver" value="Demo工程-微信小程序端">Demo 工程 — 微信小程序端</label>
         <label class="opt"><input type="checkbox" name="t9_deliver" value="Demo工程-iOS原生端">Demo 工程 — iOS 原生端</label>
@@ -606,11 +636,14 @@ const ORDER = [
   ["t3_cap","T3.2 分级能力(P0/P1/P2)"],["t3_cap_other","T3.2 能力-其他说明"],
   ["t3_models","T3.3 型号明细"],["t3_med","T3.4 医疗宣称功能"],["t3_med_other","T3.4 医疗功能说明"],
   ["t4_wx","T4.1 微信小程序端 SDK"],["t4_wx_note","T4.1a 同步机制"],
+  ["t4_store","T4.1b 戒指本地存储容量"],["t4_store_note","T4.1b 存储说明"],
+  ["t4_offline","T4.1c 断连采集与补传"],["t4_offline_note","T4.1c 同步耗时说明"],
   ["t4_ios","T4.2 iOS 原生端 SDK"],["t4_and","T4.3 Android 原生端 SDK"],["t4_note","T4.4 三端授权/收费/稳定性/鸿蒙"],
   ["t5_algo","T5.1 算法来源"],["t5_calib","T5.2 标定"],["t5_report","T5.3 精度报告"],["t5_note","T5 说明"],
   ["t6_ota","T6.1 OTA"],["t6_sdkfee","T6.2 SDK授权收费"],["t6_sdkfee_other","T6.2 SDK收费说明"],["t6_support","T6.3 支持方式"],["t6_note","T6 说明"],
   ["t7_laser","T7.1 白标镭雕"],["t7_moq","T7.2 白标MOQ"],["t7_bind","T7.3 绑定限制"],["t7_note","T7 说明"],
   ["t8_pre","T8.1 签约前提供样品"],["t8_fee","T8.2 样品费用"],["t8_nda","T8.3 样品NDA"],["t8_note","T8 物流说明"],
+  ["t9_proto","T9.0 通信协议文档"],["t9_proto_note","T9.0 协议文档说明"],
   ["t9_deliver","T9.1 交付物"],["t9_lang","T9.2 文档语言"],["t9_note","T9 说明"],
   ["t10_dataout","T10.1 数据不出境"],["t10_dpa","T10.2 DPA支持"],["t10_note","T10 说明"],
   ["b1_ladder","B1.1 报价方式"],["b1","B1.2 报价表"],
