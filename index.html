@@ -66,7 +66,8 @@
 
   <div class="bg">
     <b>项目背景（供贵司理解语境）</b><br>
-    植悦运营跨境营养包品牌 <b>21DAYS WONDER（21DW）</b>，加拿大本土在售。智能戒指作为营养包方案的<b>长期附赠硬件</b>（不单独销售、不作医疗用途）。客户端形态含微信小程序及原生 iOS / Android App，无论开发先后顺序，<b>三端 SDK 均须由贵司提供</b>。数据用于用户 21 天周期的陪伴式趋势呈现，<b>不做任何功效或医疗宣称</b>。我们仅采购<b>非医疗宣称</b>的健康趋势款。品牌授权地域范围含中国大陆及加拿大 / 全球。
+    植悦运营跨境营养包品牌 <b>21DAYS WONDER（21DW）</b>，加拿大本土在售。智能戒指作为营养包方案的<b>长期附赠硬件</b>（不单独销售、不作医疗用途）。客户端形态含微信小程序及原生 iOS / Android App，无论开发先后顺序，<b>三端 SDK 均须由贵司提供</b>。数据用于用户 21 天周期的陪伴式趋势呈现，<b>不做任何功效或医疗宣称</b>。我们仅采购<b>非医疗宣称</b>的健康趋势款。品牌授权地域范围含中国大陆及加拿大 / 全球。<br>
+    <b>能力分级口径（请据此作答）</b>：我方按 <b>P0 必备</b>（睡眠时长与结构 · 静息心率 RHR · HRV · 心率 PPG · 活动/步数，<b>缺一项即出局</b>）／<b>P1 强建议</b>（皮温趋势、SpO₂ 血氧、呼吸率，缺项降分但可入选）／<b>P2 可选</b>（睡眠评分、恢复指数等复合指数）三档评估；含 <b>ECG 心电 / 血压 / 血糖 / 血脂</b> 等医疗宣称功能者与我方定位冲突。
   </div>
 
   <form id="f" novalidate>
@@ -110,6 +111,19 @@
       <textarea name="t1b_note" placeholder="补充说明（选填）…"></textarea>
     </div>
 
+    <!-- T1.3 数据底座 -->
+    <div class="q">
+      <div class="title"><span class="no">T1.3</span>数据底座要求（P0 级硬条件） <span class="req">*</span> <span style="color:var(--brand);font-weight:600">（可多选）</span></div>
+      <div class="hint">趋势数据须可复算、可校验，否则我方无法向用户解释"数据为何变化"。请勾选贵司可满足项。</div>
+      <div class="chkgrp">
+        <label class="opt"><input type="checkbox" name="t1_base" value="PPG采样质量可校验">PPG 采样质量可校验（可提供采样率 / 信噪比或原始波形）</label>
+        <label class="opt"><input type="checkbox" name="t1_base" value="三轴加速度原始可回溯">三轴加速度原始数据可回溯</label>
+        <label class="opt"><input type="checkbox" name="t1_base" value="采样连续性与佩戴率可查">采样连续性与佩戴率可查（可输出佩戴率 / 有效时长）</label>
+        <label class="opt"><input type="checkbox" name="t1_base" value="以上均不满足">以上均不满足（请说明）</label>
+      </div>
+      <div class="otherbox" data-other="t1_base" data-trigger="以上均不满足"><input class="txt" name="t1_base_other" placeholder="请说明数据底座无法满足的具体原因"></div>
+    </div>
+
     <!-- T2.1 -->
     <div class="q">
       <div class="title"><span class="no">T2.1</span>本地直连支持程度 <span class="req">*</span></div>
@@ -130,32 +144,62 @@
 
     <!-- T3.1 -->
     <div class="q">
-      <div class="title"><span class="no">T3.1</span>是否已有型号同时含 HRV + 皮温（体温趋势）？ <span class="req">*</span></div>
-      <label class="opt"><input type="radio" name="t3_has" value="有同时含HRV+皮温的型号" required>有（请于 T3.3 列出型号）</label>
-      <label class="opt"><input type="radio" name="t3_has" value="无，将分别列出含HRV与含皮温的型号">无（将分别列出"含 HRV 的型号"与"含皮温的型号"）</label>
+      <div class="title"><span class="no">T3.1</span>推荐型号是否<b>同时具备全部 P0 级能力</b>？ <span class="req">*</span></div>
+      <div class="hint">P0 五项＝睡眠（时长与结构）· 静息心率 RHR · HRV · 心率 PPG · 活动/步数。<b>缺任一项即无法进入终选</b>。</div>
+      <label class="opt"><input type="radio" name="t3_has" value="P0五项全部具备" required>是，P0 五项全部具备（请于 T3.3 列出型号）</label>
+      <label class="opt"><input type="radio" name="t3_has" value="P0部分具备">否，仅部分具备（请于 T3.1a 勾选缺失项）</label>
     </div>
 
-    <!-- T3.2 多选 -->
+    <!-- T3.1a 条件追问 -->
     <div class="q">
-      <div class="title"><span class="no">T3.2</span>可提供的体征 / 传感器能力 <span class="req">*</span> <span style="color:var(--brand);font-weight:600">（可多选）</span></div>
-      <div class="chkgrp">
-        <label class="opt"><input type="checkbox" name="t3_cap" value="PPG/心率">PPG / 心率</label>
-        <label class="opt"><input type="checkbox" name="t3_cap" value="静息心率RHR">静息心率 RHR</label>
-        <label class="opt"><input type="checkbox" name="t3_cap" value="HRV">HRV</label>
-        <label class="opt"><input type="checkbox" name="t3_cap" value="SpO₂血氧">SpO₂ 血氧</label>
-        <label class="opt"><input type="checkbox" name="t3_cap" value="皮温/体温">皮温 / 体温</label>
-        <label class="opt"><input type="checkbox" name="t3_cap" value="三轴加速度">三轴加速度</label>
-        <label class="opt"><input type="checkbox" name="t3_cap" value="睡眠评分">睡眠评分</label>
-        <label class="opt"><input type="checkbox" name="t3_cap" value="活动/步数">活动 / 步数</label>
-        <label class="opt"><input type="checkbox" name="t3_cap" value="RR呼吸率">RR 呼吸率</label>
+      <div class="title"><span class="no">T3.1a</span>若 P0 仅部分具备，请勾选缺失项 <span style="color:var(--brand);font-weight:600">（可多选，无缺失可不答）</span></div>
+      <div class="chkgrp" data-optional="1">
+        <label class="opt"><input type="checkbox" name="t3_p0miss" value="缺-睡眠">缺：睡眠（时长 / 结构）</label>
+        <label class="opt"><input type="checkbox" name="t3_p0miss" value="缺-RHR">缺：静息心率 RHR</label>
+        <label class="opt"><input type="checkbox" name="t3_p0miss" value="缺-HRV">缺：HRV</label>
+        <label class="opt"><input type="checkbox" name="t3_p0miss" value="缺-PPG心率">缺：心率 PPG</label>
+        <label class="opt"><input type="checkbox" name="t3_p0miss" value="缺-活动步数">缺：活动 / 步数</label>
       </div>
+    </div>
+
+    <!-- T3.2 多选（按 P0/P1/P2 分级） -->
+    <div class="q">
+      <div class="title"><span class="no">T3.2</span>可提供的体征 / 传感器能力（按我方分级勾选） <span class="req">*</span> <span style="color:var(--brand);font-weight:600">（可多选）</span></div>
+      <div class="hint">请按 P0 / P1 / P2 三档分别勾选贵司可提供项。</div>
+      <div class="chkgrp">
+        <div class="ct" style="color:var(--req)">P0 · 必备（缺一项即出局）</div>
+        <label class="opt"><input type="checkbox" name="t3_cap" value="P0-睡眠(时长与结构)">睡眠（总时长 + 入睡/醒来 + 深睡/浅睡/REM）</label>
+        <label class="opt"><input type="checkbox" name="t3_cap" value="P0-静息心率RHR">静息心率 RHR（夜间）</label>
+        <label class="opt"><input type="checkbox" name="t3_cap" value="P0-HRV">HRV（夜间 RMSSD / SDNN）</label>
+        <label class="opt"><input type="checkbox" name="t3_cap" value="P0-心率PPG">心率 PPG</label>
+        <label class="opt"><input type="checkbox" name="t3_cap" value="P0-活动步数">活动 / 步数（三轴加速度）</label>
+        <div class="ct">P1 · 强建议（缺项降分但可入选）</div>
+        <label class="opt"><input type="checkbox" name="t3_cap" value="P1-皮温体温趋势">皮温 / 体温趋势</label>
+        <label class="opt"><input type="checkbox" name="t3_cap" value="P1-SpO2血氧">SpO₂ 血氧（我方仅采集，不做用户提示）</label>
+        <label class="opt"><input type="checkbox" name="t3_cap" value="P1-RR呼吸率">RR 呼吸率</label>
+        <div class="ct">P2 · 可选</div>
+        <label class="opt"><input type="checkbox" name="t3_cap" value="P2-睡眠评分">睡眠评分</label>
+        <label class="opt"><input type="checkbox" name="t3_cap" value="P2-恢复就绪指数">恢复 / 就绪指数（Readiness 等复合指数）</label>
+        <label class="opt"><input type="checkbox" name="t3_cap" value="其他能力">其他（请说明）</label>
+      </div>
+      <div class="otherbox" data-other="t3_cap" data-trigger="其他能力"><input class="txt" name="t3_cap_other" placeholder="请填写其他可提供的能力"></div>
     </div>
 
     <!-- T3.3 -->
     <div class="q">
       <div class="title"><span class="no">T3.3</span>推荐型号明细 <span class="req">*</span></div>
-      <div class="hint">请列出推荐型号及：续航（定义监测频率）/ 重量 / 防水等级（具体）/ 充电仓是否标配。</div>
-      <textarea name="t3_models" required placeholder="型号 | 续航 | 重量 | 防水 | 充电仓&#10;健康款（含HRV+皮温） | …&#10;基础款（含HRV无皮温） | …"></textarea>
+      <div class="hint">请列出推荐型号及：续航（定义监测频率）/ 重量 / 防水等级（具体）/ 充电仓是否标配，<b>并注明各型号覆盖了哪些 P0 / P1 能力</b>。</div>
+      <textarea name="t3_models" required placeholder="型号 | 覆盖能力(P0/P1) | 续航 | 重量 | 防水 | 充电仓&#10;健康款（P0全 + 皮温） | …&#10;基础款（仅P0五项） | …"></textarea>
+    </div>
+
+    <!-- T3.4 医疗宣称反向排除 -->
+    <div class="q">
+      <div class="title"><span class="no">T3.4</span>推荐型号是否含医疗宣称功能？ <span class="req">*</span></div>
+      <div class="hint">我方仅采购非医疗趋势款。含 ECG 心电 / 血压 / 血糖 / 血脂者与我方定位冲突，将影响评分。</div>
+      <label class="opt"><input type="radio" name="t3_med" value="不含任何医疗宣称功能" required>不含任何医疗宣称功能（符合我方定位）</label>
+      <label class="opt"><input type="radio" name="t3_med" value="含部分医疗宣称功能">含其中部分功能（请说明）</label>
+      <div class="otherbox" data-other="t3_med" data-trigger="含部分医疗宣称功能"><input class="txt" name="t3_med_other" placeholder="请说明含哪些医疗宣称功能（如 ECG / 血压 / 血糖 / 血脂）"></div>
+      <label class="opt"><input type="radio" name="t3_med" value="主推即为医疗宣称款">主推型号即为医疗宣称款</label>
     </div>
 
     <!-- T4.1 -->
@@ -556,8 +600,11 @@ const TO = "4007890@qq.com";
 const ORDER = [
   ["company","供应商公司名称"],["contact","联系人"],["phone","联系手机"],["address","公司地址"],
   ["t1","T1 SDK数据粒度"],["t1b","T1.1 额外暴露原始流"],["t1b_note","T1.1 说明"],
+  ["t1_base","T1.3 数据底座要求"],["t1_base_other","T1.3 数据底座-不满足说明"],
   ["t2_local","T2.1 本地直连支持程度"],["t2_cloud","T2.2 必须过云功能"],["t2_note","T2 说明"],
-  ["t3_has","T3.1 同时含HRV+皮温"],["t3_cap","T3.2 可提供能力"],["t3_models","T3.3 型号明细"],
+  ["t3_has","T3.1 P0五项是否齐全"],["t3_p0miss","T3.1a P0缺失项"],
+  ["t3_cap","T3.2 分级能力(P0/P1/P2)"],["t3_cap_other","T3.2 能力-其他说明"],
+  ["t3_models","T3.3 型号明细"],["t3_med","T3.4 医疗宣称功能"],["t3_med_other","T3.4 医疗功能说明"],
   ["t4_wx","T4.1 微信小程序端 SDK"],["t4_wx_note","T4.1a 同步机制"],
   ["t4_ios","T4.2 iOS 原生端 SDK"],["t4_and","T4.3 Android 原生端 SDK"],["t4_note","T4.4 三端授权/收费/稳定性/鸿蒙"],
   ["t5_algo","T5.1 算法来源"],["t5_calib","T5.2 标定"],["t5_report","T5.3 精度报告"],["t5_note","T5 说明"],
@@ -625,6 +672,7 @@ document.getElementById("f").addEventListener("submit",function(e){
   // 多选组至少勾选一项
   let chkOk=true, firstBad=null;
   document.querySelectorAll('.chkgrp').forEach(g=>{
+    if(g.dataset.optional) return;
     if(!g.querySelector('input[type=checkbox]:checked')){
       chkOk=false;
       if(!firstBad) firstBad=g;
