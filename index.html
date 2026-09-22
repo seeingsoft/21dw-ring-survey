@@ -237,6 +237,25 @@
       <textarea name="t4_offline_note" placeholder="同步一次（含 7 天数据）的大致耗时（选填）…"></textarea>
     </div>
 
+    <!-- T4.1d 时间戳 -->
+    <div class="q">
+      <div class="title"><span class="no">T4.1d</span>戒指回传的数据是否带时间戳？ <span class="req">*</span></div>
+      <div class="hint">非实时同步方案下，数据先存戒指本地、再批量回传；若不带时间戳，服务端将无法还原各指标的发生时点。</div>
+      <label class="opt"><input type="radio" name="t4_ts" value="均带分钟级时间戳" required>所有数据均带时间戳（可精确到分钟）</label>
+      <label class="opt"><input type="radio" name="t4_ts" value="仅按天聚合无分钟级时间戳">仅按天聚合，无分钟级时间戳</label>
+      <label class="opt"><input type="radio" name="t4_ts" value="不带时间戳">不带时间戳</label>
+    </div>
+
+    <!-- T4.1e 时钟校准 -->
+    <div class="q">
+      <div class="title"><span class="no">T4.1e</span>戒指是否支持由手机端校准时钟？ <span class="req">*</span></div>
+      <div class="hint">戒指本地时钟存在漂移，需由手机在同步时校准，否则回传数据的时间会错乱。</div>
+      <label class="opt"><input type="radio" name="t4_clock" value="每次同步自动校时" required>支持，每次同步<b>自动校时</b></label>
+      <label class="opt"><input type="radio" name="t4_clock" value="校时需手动触发">支持，但需手动触发</label>
+      <label class="opt"><input type="radio" name="t4_clock" value="不支持校时">不支持校时（依赖戒指自带时钟）</label>
+      <textarea name="t4_clock_note" placeholder="时钟漂移范围、跨时区／夏令时处理方式（选填）…"></textarea>
+    </div>
+
     <!-- T4.2 -->
     <div class="q">
       <div class="title"><span class="no">T4.2</span>iOS 原生端 SDK 提供方式 <span class="req">*</span></div>
@@ -638,6 +657,7 @@ const ORDER = [
   ["t4_wx","T4.1 微信小程序端 SDK"],["t4_wx_note","T4.1a 同步机制"],
   ["t4_store","T4.1b 戒指本地存储容量"],["t4_store_note","T4.1b 存储说明"],
   ["t4_offline","T4.1c 断连采集与补传"],["t4_offline_note","T4.1c 同步耗时说明"],
+  ["t4_ts","T4.1d 数据时间戳"],["t4_clock","T4.1e 时钟校准"],["t4_clock_note","T4.1e 校时说明"],
   ["t4_ios","T4.2 iOS 原生端 SDK"],["t4_and","T4.3 Android 原生端 SDK"],["t4_note","T4.4 三端授权/收费/稳定性/鸿蒙"],
   ["t5_algo","T5.1 算法来源"],["t5_calib","T5.2 标定"],["t5_report","T5.3 精度报告"],["t5_note","T5 说明"],
   ["t6_ota","T6.1 OTA"],["t6_sdkfee","T6.2 SDK授权收费"],["t6_sdkfee_other","T6.2 SDK收费说明"],["t6_support","T6.3 支持方式"],["t6_note","T6 说明"],
