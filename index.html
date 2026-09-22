@@ -67,7 +67,7 @@
   <div class="bg">
     <b>项目背景（供贵司理解语境）</b><br>
     植悦运营跨境营养包品牌 <b>21DAYS WONDER（21DW）</b>，加拿大本土在售。智能戒指作为营养包方案的<b>长期附赠硬件</b>（不单独销售、不作医疗用途）。客户端形态含微信小程序及原生 iOS / Android App，无论开发先后顺序，<b>三端 SDK 均须由贵司提供</b>。数据用于用户 21 天周期的陪伴式趋势呈现，<b>不做任何功效或医疗宣称</b>。我们仅采购<b>非医疗宣称</b>的健康趋势款。品牌授权地域范围含中国大陆及加拿大 / 全球。<br>
-    <b>能力分级口径（请据此作答）</b>：我方按 <b>P0 必备</b>（睡眠时长与结构 · 静息心率 RHR · HRV · 心率 PPG · 活动/步数，<b>缺一项即出局</b>）／<b>P1 强建议</b>（皮温趋势、SpO₂ 血氧、呼吸率，缺项降分但可入选）／<b>P2 可选</b>（睡眠评分、恢复指数等复合指数）三档评估；含 <b>ECG 心电 / 血压 / 血糖 / 血脂</b> 等医疗宣称功能者与我方定位冲突。
+    <b>能力分级口径（请据此作答）</b>：我方按 <b>P0 必备</b>（睡眠时长与结构 · 静息心率 RHR · HRV · 心率 PPG · 活动/步数）／<b>P1 强建议</b>（皮温趋势、SpO₂ 血氧、呼吸率）／<b>P2 可选</b>（睡眠评分、恢复指数等复合指数）三档评估；含 <b>ECG 心电 / 血压 / 血糖 / 血脂</b> 等医疗宣称功能者与我方定位冲突。
   </div>
 
   <form id="f" novalidate>
@@ -145,7 +145,7 @@
     <!-- T3.1 -->
     <div class="q">
       <div class="title"><span class="no">T3.1</span>推荐型号是否<b>同时具备全部 P0 级能力</b>？ <span class="req">*</span></div>
-      <div class="hint">P0 五项＝睡眠（时长与结构）· 静息心率 RHR · HRV · 心率 PPG · 活动/步数。<b>缺任一项即无法进入终选</b>。</div>
+      <div class="hint">P0 五项＝睡眠（时长与结构）· 静息心率 RHR · HRV · 心率 PPG · 活动/步数。</div>
       <label class="opt"><input type="radio" name="t3_has" value="P0五项全部具备" required>是，P0 五项全部具备（请于 T3.3 列出型号）</label>
       <label class="opt"><input type="radio" name="t3_has" value="P0部分具备">否，仅部分具备（请于 T3.1a 勾选缺失项）</label>
     </div>
@@ -167,13 +167,13 @@
       <div class="title"><span class="no">T3.2</span>可提供的体征 / 传感器能力（按我方分级勾选） <span class="req">*</span> <span style="color:var(--brand);font-weight:600">（可多选）</span></div>
       <div class="hint">请按 P0 / P1 / P2 三档分别勾选贵司可提供项。</div>
       <div class="chkgrp">
-        <div class="ct" style="color:var(--req)">P0 · 必备（缺一项即出局）</div>
+        <div class="ct" style="color:var(--req)">P0 · 必备</div>
         <label class="opt"><input type="checkbox" name="t3_cap" value="P0-睡眠(时长与结构)">睡眠（总时长 + 入睡/醒来 + 深睡/浅睡/REM）</label>
         <label class="opt"><input type="checkbox" name="t3_cap" value="P0-静息心率RHR">静息心率 RHR（夜间）</label>
         <label class="opt"><input type="checkbox" name="t3_cap" value="P0-HRV">HRV（夜间 RMSSD / SDNN）</label>
         <label class="opt"><input type="checkbox" name="t3_cap" value="P0-心率PPG">心率 PPG</label>
         <label class="opt"><input type="checkbox" name="t3_cap" value="P0-活动步数">活动 / 步数（三轴加速度）</label>
-        <div class="ct">P1 · 强建议（缺项降分但可入选）</div>
+        <div class="ct">P1 · 强建议</div>
         <label class="opt"><input type="checkbox" name="t3_cap" value="P1-皮温体温趋势">皮温 / 体温趋势</label>
         <label class="opt"><input type="checkbox" name="t3_cap" value="P1-SpO2血氧">SpO₂ 血氧（我方仅采集，不做用户提示）</label>
         <label class="opt"><input type="checkbox" name="t3_cap" value="P1-RR呼吸率">RR 呼吸率</label>
@@ -195,7 +195,7 @@
     <!-- T3.4 医疗宣称反向排除 -->
     <div class="q">
       <div class="title"><span class="no">T3.4</span>推荐型号是否含医疗宣称功能？ <span class="req">*</span></div>
-      <div class="hint">我方仅采购非医疗趋势款。含 ECG 心电 / 血压 / 血糖 / 血脂者与我方定位冲突，将影响评分。</div>
+      <div class="hint">我方仅采购非医疗趋势款。含 ECG 心电 / 血压 / 血糖 / 血脂者与我方定位不符。</div>
       <label class="opt"><input type="radio" name="t3_med" value="不含任何医疗宣称功能" required>不含任何医疗宣称功能（符合我方定位）</label>
       <label class="opt"><input type="radio" name="t3_med" value="含部分医疗宣称功能">含其中部分功能（请说明）</label>
       <div class="otherbox" data-other="t3_med" data-trigger="含部分医疗宣称功能"><input class="txt" name="t3_med_other" placeholder="请说明含哪些医疗宣称功能（如 ECG / 血压 / 血糖 / 血脂）"></div>
