@@ -39,8 +39,6 @@
     padding:10px;font-size:14px;font-family:inherit;margin-top:6px;resize:vertical}
   textarea{min-height:78px}
   input.txt{min-height:auto}
-  .grp{border-left:3px solid var(--brand2);padding-left:10px;margin:10px 0 4px}
-  .grp .gt{font-size:13px;font-weight:600;color:var(--brand)}
   .chkgrp{border:1px dashed var(--line);border-radius:8px;padding:8px 10px;margin:8px 0}
   .chkgrp .ct{font-size:12.5px;font-weight:600;color:var(--brand);margin-bottom:4px}
   .submit{position:sticky;bottom:0;background:#fff;border-top:1px solid var(--line);
@@ -88,36 +86,52 @@
 
     <!-- T1 -->
     <div class="q">
-      <div class="title"><span class="no">T1</span>SDK 数据粒度（最关键） <span class="req">*</span></div>
+      <div class="title"><span class="no">T1</span>SDK 返回的数据粒度 <span class="req">*</span></div>
       <div class="hint">贵司 SDK 返回的是哪一层数据？</div>
       <label class="opt"><input type="radio" name="t1" value="原始传感器数据流" required>原始传感器数据流（PPG 波形、三轴加速度原始采样、温度传感器原始读数）</label>
       <label class="opt"><input type="radio" name="t1" value="已计算好的体征指标">已计算好的体征指标（心率 / 静息心率 / HRV / 血氧 / 皮温等数值）</label>
       <label class="opt"><input type="radio" name="t1" value="两者都提供">两者都提供</label>
-      <div class="hint" style="margin-top:8px">若选"已计算好的体征指标"：SDK 是否可额外暴露原始数据流？是否需要额外授权或费用？</div>
-      <textarea name="t1b" placeholder="补充说明（选填）…"></textarea>
     </div>
 
-    <!-- T2 -->
+    <!-- T1.1 条件追问 -->
     <div class="q">
-      <div class="title"><span class="no">T2</span>数据主权与本地直连 <span class="req">*</span></div>
-      <div class="hint">贵司 SDK 是否支持植悦客户端经 BLE 与设备本地直连、不经供应商云端即可将数据上行至植悦自有服务端？</div>
+      <div class="title"><span class="no">T1.1</span>若仅提供计算结果，是否可额外暴露原始数据流？</div>
+      <div class="hint">仅当 T1 选择"已计算好的体征指标"时请回答；若 T1 选"原始"或"两者都提供"可不答。</div>
+      <label class="opt"><input type="radio" name="t1b" value="可额外暴露原始流">可额外暴露原始数据流（无需额外授权 / 费用）</label>
+      <label class="opt"><input type="radio" name="t1b" value="需授权或收费才暴露">需额外授权或费用方可暴露</label>
+      <label class="opt"><input type="radio" name="t1b" value="不可暴露原始流">不可暴露原始数据流</label>
+      <textarea name="t1b_note" placeholder="补充说明（选填）…"></textarea>
+    </div>
+
+    <!-- T2.1 -->
+    <div class="q">
+      <div class="title"><span class="no">T2.1</span>本地直连支持程度 <span class="req">*</span></div>
+      <div class="hint">贵司 SDK 是否支持植悦客户端经 BLE 与设备本地直连、不经供应商云端？</div>
       <label class="opt"><input type="radio" name="t2_local" value="完全支持本地直连" required>完全支持本地直连（数据不经供应商云）</label>
-      <label class="opt"><input type="radio" name="t2_local" value="部分支持（部分功能需过云）">部分支持（部分功能需经供应商云，请下方说明）</label>
+      <label class="opt"><input type="radio" name="t2_local" value="部分支持（部分功能需过云）">部分支持（部分功能需经供应商云，请于 T2.2 说明）</label>
       <label class="opt"><input type="radio" name="t2_local" value="不支持本地直连">不支持本地直连（强制走供应商云）</label>
-      <div class="hint" style="margin-top:10px">是否存在任何功能必须调用供应商云？若有，请逐项列出。</div>
+    </div>
+
+    <!-- T2.2 -->
+    <div class="q">
+      <div class="title"><span class="no">T2.2</span>是否存在必须调用供应商云的功能？ <span class="req">*</span></div>
+      <div class="hint">若 T2.1 选"部分支持"或"不支持"，请如实说明。</div>
       <label class="opt"><input type="radio" name="t2_cloud" value="无任何功能必须过云" required>无任何功能必须过云</label>
       <label class="opt"><input type="radio" name="t2_cloud" value="有功能必须过云">有功能必须过云（请下方说明）</label>
       <textarea name="t2_note" placeholder="必须过云的功能及条款说明（选填）…"></textarea>
     </div>
 
-    <!-- T3 -->
+    <!-- T3.1 -->
     <div class="q">
-      <div class="title"><span class="no">T3</span>传感器栈与型号对照 <span class="req">*</span></div>
-      <div class="hint">是否已有型号同时满足 HRV + 皮温（体温趋势）？</div>
-      <label class="opt"><input type="radio" name="t3_has" value="有同时含HRV+皮温的型号" required>有（请于下方列出型号）</label>
+      <div class="title"><span class="no">T3.1</span>是否已有型号同时含 HRV + 皮温（体温趋势）？ <span class="req">*</span></div>
+      <label class="opt"><input type="radio" name="t3_has" value="有同时含HRV+皮温的型号" required>有（请于 T3.3 列出型号）</label>
       <label class="opt"><input type="radio" name="t3_has" value="无，将分别列出含HRV与含皮温的型号">无（将分别列出"含 HRV 的型号"与"含皮温的型号"）</label>
+    </div>
+
+    <!-- T3.2 多选 -->
+    <div class="q">
+      <div class="title"><span class="no">T3.2</span>可提供的体征 / 传感器能力 <span class="req">*</span> <span style="color:var(--brand);font-weight:600">（可多选）</span></div>
       <div class="chkgrp">
-        <div class="ct">可提供的体征 / 传感器能力（可多选）*</div>
         <label class="opt"><input type="checkbox" name="t3_cap" value="PPG/心率">PPG / 心率</label>
         <label class="opt"><input type="checkbox" name="t3_cap" value="静息心率RHR">静息心率 RHR</label>
         <label class="opt"><input type="checkbox" name="t3_cap" value="HRV">HRV</label>
@@ -128,94 +142,151 @@
         <label class="opt"><input type="checkbox" name="t3_cap" value="活动/步数">活动 / 步数</label>
         <label class="opt"><input type="checkbox" name="t3_cap" value="RR呼吸率">RR 呼吸率</label>
       </div>
-      <div class="hint" style="margin-top:8px">请列出推荐型号及：续航（定义监测频率）/ 重量 / 防水等级（具体）/ 充电仓是否标配。</div>
-      <textarea name="t3_models" required placeholder="型号 | 续航 | 重量 | 防水 | 充电仓&#10;…"></textarea>
     </div>
 
-    <!-- T4 -->
+    <!-- T3.3 -->
     <div class="q">
-      <div class="title"><span class="no">T4</span>连接与兼容性（三端 SDK 均须提供） <span class="req">*</span></div>
-      <div class="hint">植悦客户端将覆盖微信小程序、iOS 原生 App、Android 原生 App，开发先后顺序由我方决定，不影响对贵司要求：以下三端 SDK 均须提供或明确答复。</div>
-      <div class="grp"><div class="gt">微信小程序端</div>
-        <label class="opt"><input type="radio" name="t4_wx" value="已有现成小程序SDK" required>已有现成小程序 SDK（JS，基于微信 BLE API）</label>
-        <label class="opt"><input type="radio" name="t4_wx" value="需植悦基于贵司协议自适配">未提供现成小程序 SDK，但支持植悦基于贵司通信协议自适配</label>
-        <label class="opt"><input type="radio" name="t4_wx" value="暂不支持">暂不支持</label>
-        <div class="hint" style="margin-top:6px">受小程序无后台实时采集限制，请说明推荐同步机制（每日打开同步、戒指本地存储容量与回传策略）。</div>
-        <textarea name="t4_wx_note" placeholder="同步机制说明（选填）…"></textarea>
-      </div>
-      <div class="grp"><div class="gt">iOS 原生端</div>
-        <label class="opt"><input type="radio" name="t4_ios" value="提供iOS原生SDK" required>提供 iOS 原生 SDK（Swift / Objective-C，封装 CoreBluetooth），BLE 5.x</label>
-        <label class="opt"><input type="radio" name="t4_ios" value="暂不支持iOS原生SDK">暂不支持</label>
-      </div>
-      <div class="grp"><div class="gt">Android 原生端</div>
-        <label class="opt"><input type="radio" name="t4_and" value="提供Android原生SDK" required>提供 Android 原生 SDK（Java / Kotlin，封装 Bluetooth GATT），BLE 5.x</label>
-        <label class="opt"><input type="radio" name="t4_and" value="暂不支持Android原生SDK">暂不支持</label>
-      </div>
-      <div class="hint" style="margin-top:8px">三端 SDK 授权方式与是否收费？单设备连接稳定性、断连重连机制？对鸿蒙的兼容性？</div>
+      <div class="title"><span class="no">T3.3</span>推荐型号明细 <span class="req">*</span></div>
+      <div class="hint">请列出推荐型号及：续航（定义监测频率）/ 重量 / 防水等级（具体）/ 充电仓是否标配。</div>
+      <textarea name="t3_models" required placeholder="型号 | 续航 | 重量 | 防水 | 充电仓&#10;健康款（含HRV+皮温） | …&#10;基础款（含HRV无皮温） | …"></textarea>
+    </div>
+
+    <!-- T4.1 -->
+    <div class="q">
+      <div class="title"><span class="no">T4.1</span>微信小程序端 SDK 提供方式 <span class="req">*</span></div>
+      <label class="opt"><input type="radio" name="t4_wx" value="已有现成小程序SDK" required>已有现成小程序 SDK（JS，基于微信 BLE API）</label>
+      <label class="opt"><input type="radio" name="t4_wx" value="需植悦基于贵司协议自适配">未提供现成小程序 SDK，但支持植悦基于贵司通信协议自适配</label>
+      <label class="opt"><input type="radio" name="t4_wx" value="暂不支持">暂不支持</label>
+    </div>
+
+    <!-- T4.1.1 -->
+    <div class="q">
+      <div class="title"><span class="no">T4.1a</span>小程序同步机制说明</div>
+      <div class="hint">受小程序无后台实时采集限制，请说明推荐同步机制（每日打开同步、戒指本地存储容量与回传策略）。</div>
+      <textarea name="t4_wx_note" placeholder="同步机制说明（选填）…"></textarea>
+    </div>
+
+    <!-- T4.2 -->
+    <div class="q">
+      <div class="title"><span class="no">T4.2</span>iOS 原生端 SDK 提供方式 <span class="req">*</span></div>
+      <label class="opt"><input type="radio" name="t4_ios" value="提供iOS原生SDK" required>提供 iOS 原生 SDK（Swift / Objective-C，封装 CoreBluetooth），BLE 5.x</label>
+      <label class="opt"><input type="radio" name="t4_ios" value="暂不支持iOS原生SDK">暂不支持</label>
+    </div>
+
+    <!-- T4.3 -->
+    <div class="q">
+      <div class="title"><span class="no">T4.3</span>Android 原生端 SDK 提供方式 <span class="req">*</span></div>
+      <label class="opt"><input type="radio" name="t4_and" value="提供Android原生SDK" required>提供 Android 原生 SDK（Java / Kotlin，封装 Bluetooth GATT），BLE 5.x</label>
+      <label class="opt"><input type="radio" name="t4_and" value="暂不支持Android原生SDK">暂不支持</label>
+    </div>
+
+    <!-- T4.4 -->
+    <div class="q">
+      <div class="title"><span class="no">T4.4</span>三端 SDK 授权 / 收费 / 稳定性 / 鸿蒙兼容</div>
+      <div class="hint">三端 SDK 授权方式与是否收费？单设备连接稳定性、断连重连机制？对鸿蒙的兼容性？</div>
       <textarea name="t4_note" placeholder="授权 / 收费 / 稳定性 / 鸿蒙兼容（选填）…"></textarea>
     </div>
 
-    <!-- T5 -->
+    <!-- T5.1 -->
     <div class="q">
-      <div class="title"><span class="no">T5</span>算法与精度 <span class="req">*</span></div>
+      <div class="title"><span class="no">T5.1</span>PPG 派生算法来源 <span class="req">*</span></div>
       <label class="opt"><input type="radio" name="t5_algo" value="贵司提供算法" required>PPG 派生的 HRV / SpO₂ 算法由贵司提供（固件 / SDK 内）</label>
       <label class="opt"><input type="radio" name="t5_algo" value="植悦自行开发（提供原始PPG）">需植悦自行开发（贵司提供原始 PPG）</label>
       <label class="opt"><input type="radio" name="t5_algo" value="第三方算法">由第三方算法提供</label>
+    </div>
+
+    <!-- T5.2 -->
+    <div class="q">
+      <div class="title"><span class="no">T5.2</span>是否支持现场标定 / 校准？ <span class="req">*</span></div>
       <label class="opt"><input type="radio" name="t5_calib" value="支持现场标定" required>支持现场标定 / 校准</label>
       <label class="opt"><input type="radio" name="t5_calib" value="不支持现场标定">不支持现场标定</label>
+    </div>
+
+    <!-- T5.3 -->
+    <div class="q">
+      <div class="title"><span class="no">T5.3</span>是否可提供精度测试报告？ <span class="req">*</span></div>
       <label class="opt"><input type="radio" name="t5_report" value="可提供精度测试报告" required>可提供精度测试报告（如心率误差 ±__ bpm）</label>
       <label class="opt"><input type="radio" name="t5_report" value="暂不可提供精度测试报告">暂不可提供精度测试报告</label>
       <textarea name="t5_note" placeholder="精度范围 / 报告样本说明（选填）…"></textarea>
     </div>
 
-    <!-- T6 -->
+    <!-- T6.1 -->
     <div class="q">
-      <div class="title"><span class="no">T6</span>固件与 SDK 维护 <span class="req">*</span></div>
+      <div class="title"><span class="no">T6.1</span>OTA 固件升级方式 <span class="req">*</span></div>
       <label class="opt"><input type="radio" name="t6_ota" value="支持且OTA不依赖供应商云" required>支持 OTA 固件升级，且 OTA 不依赖供应商云</label>
       <label class="opt"><input type="radio" name="t6_ota" value="支持但OTA依赖供应商云">支持 OTA，但 OTA 依赖供应商云</label>
       <label class="opt"><input type="radio" name="t6_ota" value="不支持OTA">不支持 OTA</label>
+    </div>
+
+    <!-- T6.2 -->
+    <div class="q">
+      <div class="title"><span class="no">T6.2</span>SDK 授权是否收费？ <span class="req">*</span></div>
       <label class="opt"><input type="radio" name="t6_sdkfee" value="SDK免费" required>SDK 授权免费</label>
       <label class="opt"><input type="radio" name="t6_sdkfee" value="SDK收费">SDK 授权收费（请说明）</label>
       <label class="opt"><input type="radio" name="t6_sdkfee" value="随硬件量产权免费">随硬件量产权免费</label>
-      <label class="opt"><input type="radio" name="t6_support" value="工单系统" required>技术对接支持方式：工单系统</label>
-      <label class="opt"><input type="radio" name="t6_support" value="专属对接群">技术对接支持方式：专属对接群</label>
-      <label class="opt"><input type="radio" name="t6_support" value="驻场支持">技术对接支持方式：驻场支持</label>
-      <label class="opt"><input type="radio" name="t6_support" value="文档自助">技术对接支持方式：文档自助</label>
+    </div>
+
+    <!-- T6.3 -->
+    <div class="q">
+      <div class="title"><span class="no">T6.3</span>技术对接支持方式 <span class="req">*</span></div>
+      <label class="opt"><input type="radio" name="t6_support" value="工单系统" required>工单系统</label>
+      <label class="opt"><input type="radio" name="t6_support" value="专属对接群">专属对接群</label>
+      <label class="opt"><input type="radio" name="t6_support" value="驻场支持">驻场支持</label>
+      <label class="opt"><input type="radio" name="t6_support" value="文档自助">文档自助</label>
       <textarea name="t6_note" placeholder="SDK 版本迭代承诺 / 文档完整度（选填）…"></textarea>
     </div>
 
-    <!-- T7 -->
+    <!-- T7.1 -->
     <div class="q">
-      <div class="title"><span class="no">T7</span>硬件白标 <span class="req">*</span></div>
+      <div class="title"><span class="no">T7.1</span>硬件是否可白标镭雕？ <span class="req">*</span></div>
       <label class="opt"><input type="radio" name="t7_laser" value="可镭雕/定制标识" required>戒指外壳 / 内壁可镭雕或定制 21DAYS WONDER 标识</label>
       <label class="opt"><input type="radio" name="t7_laser" value="不可定制（仅裸机）">不可定制（仅提供裸机）</label>
+    </div>
+
+    <!-- T7.2 -->
+    <div class="q">
+      <div class="title"><span class="no">T7.2</span>白标 MOQ 与功能 MOQ 是否相同？ <span class="req">*</span></div>
       <label class="opt"><input type="radio" name="t7_moq" value="白标MOQ与功能MOQ相同" required>白标最小起订量（MOQ）与功能 MOQ 相同</label>
       <label class="opt"><input type="radio" name="t7_moq" value="白标MOQ与功能MOQ不同">白标 MOQ 与功能 MOQ 不同（请说明）</label>
-      <label class="opt"><input type="radio" name="t7_bind" value="不绑定贵司App" required>SDK 不强制绑定贵司自有 App（可纯对接植悦系统）</label>
-      <label class="opt"><input type="radio" name="t7_bind" value="绑定贵司App">SDK 强制绑定贵司自有 App</label>
       <textarea name="t7_note" placeholder="定制费 / 白标起订量差异说明（选填）…"></textarea>
     </div>
 
-    <!-- T8 -->
+    <!-- T7.3 -->
     <div class="q">
-      <div class="title"><span class="no">T8</span>样品实测 <span class="req">*</span></div>
+      <div class="title"><span class="no">T7.3</span>SDK 是否强制绑定贵司自有 App？ <span class="req">*</span></div>
+      <label class="opt"><input type="radio" name="t7_bind" value="不绑定贵司App" required>SDK 不强制绑定贵司自有 App（可纯对接植悦系统）</label>
+      <label class="opt"><input type="radio" name="t7_bind" value="绑定贵司App">SDK 强制绑定贵司自有 App</label>
+    </div>
+
+    <!-- T8.1 -->
+    <div class="q">
+      <div class="title"><span class="no">T8.1</span>是否可在签约前提供样品？ <span class="req">*</span></div>
       <div class="hint">正式签约 / 量产前，贵司是否可提供 5–10 台样品供植悦做佩戴率 / SDK 对接 / 数据质量实测？</div>
       <label class="opt"><input type="radio" name="t8_pre" value="可在签约前提供样品" required>可以（签约前即可提供，未承诺量产权先做技术评估）</label>
       <label class="opt"><input type="radio" name="t8_pre" value="需先签NDA/样品协议">需先签 NDA / 样品协议方可提供</label>
       <label class="opt"><input type="radio" name="t8_pre" value="不可在签约前提供样品">不可在签约前提供</label>
+    </div>
+
+    <!-- T8.2 -->
+    <div class="q">
+      <div class="title"><span class="no">T8.2</span>样品费用如何？ <span class="req">*</span></div>
       <label class="opt"><input type="radio" name="t8_fee" value="样品免费" required>样品费用：免费提供</label>
       <label class="opt"><input type="radio" name="t8_fee" value="收样品费">收样品费（请说明）</label>
       <label class="opt"><input type="radio" name="t8_fee" value="样品费可抵量产权">样品费可抵后续量产权</label>
+    </div>
+
+    <!-- T8.3 -->
+    <div class="q">
+      <div class="title"><span class="no">T8.3</span>样品阶段是否需先签 NDA？ <span class="req">*</span></div>
       <label class="opt"><input type="radio" name="t8_nda" value="样品阶段需先签NDA" required>样品阶段需先签 NDA</label>
       <label class="opt"><input type="radio" name="t8_nda" value="样品阶段不需NDA">样品阶段不需 NDA</label>
       <textarea name="t8_note" placeholder="样品物流提供方式（选填）…"></textarea>
     </div>
 
-    <!-- T9 -->
+    <!-- T9.1 多选 -->
     <div class="q">
-      <div class="title"><span class="no">T9</span>SDK 交付物 <span class="req">*</span></div>
+      <div class="title"><span class="no">T9.1</span>SDK 交付物包含哪些？ <span class="req">*</span> <span style="color:var(--brand);font-weight:600">（可多选）</span></div>
       <div class="chkgrp">
-        <div class="ct">交付的 SDK 包含哪些？（可多选）*</div>
         <label class="opt"><input type="checkbox" name="t9_deliver" value="通信协议文档">通信协议文档</label>
         <label class="opt"><input type="checkbox" name="t9_deliver" value="数据字段格式说明">数据字段格式说明</label>
         <label class="opt"><input type="checkbox" name="t9_deliver" value="Demo工程-微信小程序端">Demo 工程 — 微信小程序端</label>
@@ -223,19 +294,29 @@
         <label class="opt"><input type="checkbox" name="t9_deliver" value="Demo工程-Android原生端">Demo 工程 — Android 原生端</label>
         <label class="opt"><input type="checkbox" name="t9_deliver" value="原始数据解析示例">原始数据解析示例</label>
       </div>
-      <label class="opt"><input type="radio" name="t9_lang" value="中文" required>文档语言：中文</label>
-      <label class="opt"><input type="radio" name="t9_lang" value="英文">文档语言：英文</label>
-      <label class="opt"><input type="radio" name="t9_lang" value="中英文均可">文档语言：中英文均可</label>
+    </div>
+
+    <!-- T9.2 -->
+    <div class="q">
+      <div class="title"><span class="no">T9.2</span>文档语言 <span class="req">*</span></div>
+      <label class="opt"><input type="radio" name="t9_lang" value="中文" required>中文</label>
+      <label class="opt"><input type="radio" name="t9_lang" value="英文">英文</label>
+      <label class="opt"><input type="radio" name="t9_lang" value="中英文均可">中英文均可</label>
       <textarea name="t9_note" placeholder="其他交付物或说明（选填）…"></textarea>
     </div>
 
-    <!-- T10 -->
+    <!-- T10.1 -->
     <div class="q">
-      <div class="title"><span class="no">T10</span>隐私合规与数据出境 <span class="req">*</span></div>
+      <div class="title"><span class="no">T10.1</span>是否支持数据不出境？ <span class="req">*</span></div>
       <div class="hint">因 21DW 含加拿大及全球业务，请确认数据合规能力。</div>
       <label class="opt"><input type="radio" name="t10_dataout" value="支持数据不出境" required>支持数据不出境 / 仅在植悦自有服务端处理</label>
       <label class="opt"><input type="radio" name="t10_dataout" value="不支持数据不出境">不支持数据不出境</label>
       <label class="opt"><input type="radio" name="t10_dataout" value="部分支持数据不出境">部分支持（请说明）</label>
+    </div>
+
+    <!-- T10.2 -->
+    <div class="q">
+      <div class="title"><span class="no">T10.2</span>是否提供隐私合规材料（DPA）？ <span class="req">*</span></div>
       <label class="opt"><input type="radio" name="t10_dpa" value="提供DPA模板" required>提供符合个保法及境外法规的隐私合规材料（如 DPA 模板）</label>
       <label class="opt"><input type="radio" name="t10_dpa" value="不提供DPA但可协助">不提供模板，但可协助出具</label>
       <label class="opt"><input type="radio" name="t10_dpa" value="不提供DPA支持">不提供</label>
@@ -245,66 +326,95 @@
     <!-- ============ 商务条款 ============ -->
     <div class="sec">商务条款 · Commercial<small>报价 / 授权 / 交期 / 认证 / 付款 / 合作方式 — 决定商务可行性与配合度</small></div>
 
-    <!-- B1 -->
+    <!-- B1.1 -->
     <div class="q">
-      <div class="title"><span class="no">B1</span>MOQ 与单价 <span class="req">*</span></div>
+      <div class="title"><span class="no">B1.1</span>报价方式 <span class="req">*</span></div>
       <label class="opt"><input type="radio" name="b1_ladder" value="支持分档与阶梯报价" required>支持按型号分档报价及长期采购阶梯（多档 / 迭代）</label>
       <label class="opt"><input type="radio" name="b1_ladder" value="仅单一报价">仅提供单一报价</label>
-      <div class="hint" style="margin-top:8px">请按贵司型号分档填写报价表（建议列：型号 | 能力定位 | 不含充电仓单价 | 含充电仓单价 | 功能 MOQ | 长期采购阶梯价 1k/5k/1w 枚 | 样品价 5–10 台）。</div>
+    </div>
+
+    <!-- B1.2 -->
+    <div class="q">
+      <div class="title"><span class="no">B1.2</span>各型号报价表 <span class="req">*</span></div>
+      <div class="hint">请按贵司型号分档填写（建议列：型号 | 能力定位 | 不含充电仓单价 | 含充电仓单价 | 功能 MOQ | 长期采购阶梯价 1k/5k/1w 枚 | 样品价 5–10 台）。</div>
       <textarea name="b1" required placeholder="型号 | 能力 | 不含仓单价 | 含仓单价 | MOQ | 阶梯价 | 样品价&#10;健康款（含HRV+皮温） | …&#10;基础款（含HRV无皮温） | …"></textarea>
     </div>
 
-    <!-- B2 -->
+    <!-- B2.1 -->
     <div class="q">
-      <div class="title"><span class="no">B2</span>品牌授权（含全球） <span class="req">*</span></div>
+      <div class="title"><span class="no">B2.1</span>品牌授权形式 <span class="req">*</span></div>
       <label class="opt"><input type="radio" name="b2_auth" value="可出具书面授权" required>可出具书面授权，允许以 21DAYS WONDER 品牌随营养包赠品在全球范围交付</label>
       <label class="opt"><input type="radio" name="b2_auth" value="仅口头/合同授权">仅口头 / 合同授权（无独立授权书）</label>
       <label class="opt"><input type="radio" name="b2_auth" value="不可授权">不可授权（需保留贵司品牌）</label>
+    </div>
+
+    <!-- B2.2 -->
+    <div class="q">
+      <div class="title"><span class="no">B2.2</span>品牌授权是否收费？ <span class="req">*</span></div>
       <label class="opt"><input type="radio" name="b2_fee" value="授权免费" required>品牌授权免费</label>
       <label class="opt"><input type="radio" name="b2_fee" value="授权收费">品牌授权收费（请说明）</label>
       <textarea name="b2_note" placeholder="授权范围 / 期限 / 地域限制说明（选填）…"></textarea>
     </div>
 
-    <!-- B3 -->
+    <!-- B3.1 -->
     <div class="q">
-      <div class="title"><span class="no">B3</span>交期与产能 <span class="req">*</span></div>
-      <label class="opt"><input type="radio" name="b3_samp" value="样品≤7天" required>样品交期（5–10 台）：≤ 7 天</label>
-      <label class="opt"><input type="radio" name="b3_samp" value="样品8-15天">样品交期（5–10 台）：8–15 天</label>
-      <label class="opt"><input type="radio" name="b3_samp" value="样品16-30天">样品交期（5–10 台）：16–30 天</label>
-      <label class="opt"><input type="radio" name="b3_samp" value="样品>30天">样品交期（5–10 台）：> 30 天</label>
-      <label class="opt"><input type="radio" name="b3_bulk" value="首批量≤30天" required>首批量（500/1000 枚）交期：≤ 30 天</label>
-      <label class="opt"><input type="radio" name="b3_bulk" value="首批量31-60天">首批量交期：31–60 天</label>
-      <label class="opt"><input type="radio" name="b3_bulk" value="首批量61-90天">首批量交期：61–90 天</label>
-      <label class="opt"><input type="radio" name="b3_bulk" value="首批量>90天">首批量交期：> 90 天</label>
-      <label class="opt"><input type="radio" name="b3_cap" value="月产能<1万" required>月产能上限：< 1 万枚</label>
-      <label class="opt"><input type="radio" name="b3_cap" value="月产能1-5万">月产能上限：1–5 万枚</label>
-      <label class="opt"><input type="radio" name="b3_cap" value="月产能5-10万">月产能上限：5–10 万枚</label>
-      <label class="opt"><input type="radio" name="b3_cap" value="月产能>10万">月产能上限：> 10 万枚</label>
+      <div class="title"><span class="no">B3.1</span>样品交期（5–10 台） <span class="req">*</span></div>
+      <label class="opt"><input type="radio" name="b3_samp" value="样品≤7天" required>≤ 7 天</label>
+      <label class="opt"><input type="radio" name="b3_samp" value="样品8-15天">8–15 天</label>
+      <label class="opt"><input type="radio" name="b3_samp" value="样品16-30天">16–30 天</label>
+      <label class="opt"><input type="radio" name="b3_samp" value="样品>30天">> 30 天</label>
+    </div>
+
+    <!-- B3.2 -->
+    <div class="q">
+      <div class="title"><span class="no">B3.2</span>首批量交期（500 / 1000 枚） <span class="req">*</span></div>
+      <label class="opt"><input type="radio" name="b3_bulk" value="首批量≤30天" required>≤ 30 天</label>
+      <label class="opt"><input type="radio" name="b3_bulk" value="首批量31-60天">31–60 天</label>
+      <label class="opt"><input type="radio" name="b3_bulk" value="首批量61-90天">61–90 天</label>
+      <label class="opt"><input type="radio" name="b3_bulk" value="首批量>90天">> 90 天</label>
+    </div>
+
+    <!-- B3.3 -->
+    <div class="q">
+      <div class="title"><span class="no">B3.3</span>月产能上限 <span class="req">*</span></div>
+      <label class="opt"><input type="radio" name="b3_cap" value="月产能<1万" required>< 1 万枚</label>
+      <label class="opt"><input type="radio" name="b3_cap" value="月产能1-5万">1–5 万枚</label>
+      <label class="opt"><input type="radio" name="b3_cap" value="月产能5-10万">5–10 万枚</label>
+      <label class="opt"><input type="radio" name="b3_cap" value="月产能>10万">> 10 万枚</label>
       <textarea name="b3_note" placeholder="具体交期 / 爬产计划（选填）…"></textarea>
     </div>
 
-    <!-- B4 -->
+    <!-- B4.1 -->
     <div class="q">
-      <div class="title"><span class="no">B4</span>质保与售后 <span class="req">*</span></div>
-      <label class="opt"><input type="radio" name="b4_aql" value="AQL1.0" required>出厂不良率标准：AQL 1.0</label>
-      <label class="opt"><input type="radio" name="b4_aql" value="AQL2.5">出厂不良率标准：AQL 2.5</label>
-      <label class="opt"><input type="radio" name="b4_aql" value="AQL4.0">出厂不良率标准：AQL 4.0</label>
+      <div class="title"><span class="no">B4.1</span>出厂不良率标准（AQL） <span class="req">*</span></div>
+      <label class="opt"><input type="radio" name="b4_aql" value="AQL1.0" required>AQL 1.0</label>
+      <label class="opt"><input type="radio" name="b4_aql" value="AQL2.5">AQL 2.5</label>
+      <label class="opt"><input type="radio" name="b4_aql" value="AQL4.0">AQL 4.0</label>
       <label class="opt"><input type="radio" name="b4_aql" value="其他AQL">其他（请说明）</label>
-      <label class="opt"><input type="radio" name="b4_warr" value="保修3个月" required>保修期：3 个月</label>
-      <label class="opt"><input type="radio" name="b4_warr" value="保修6个月">保修期：6 个月</label>
-      <label class="opt"><input type="radio" name="b4_warr" value="保修12个月">保修期：12 个月</label>
+    </div>
+
+    <!-- B4.2 -->
+    <div class="q">
+      <div class="title"><span class="no">B4.2</span>保修期 <span class="req">*</span></div>
+      <label class="opt"><input type="radio" name="b4_warr" value="保修3个月" required>3 个月</label>
+      <label class="opt"><input type="radio" name="b4_warr" value="保修6个月">6 个月</label>
+      <label class="opt"><input type="radio" name="b4_warr" value="保修12个月">12 个月</label>
       <label class="opt"><input type="radio" name="b4_warr" value="其他保修期">其他（请说明）</label>
-      <label class="opt"><input type="radio" name="b4_repair" value="返修≤7天" required>返修 / 补损时效：≤ 7 天</label>
-      <label class="opt"><input type="radio" name="b4_repair" value="返修8-15天">返修 / 补损时效：8–15 天</label>
+    </div>
+
+    <!-- B4.3 -->
+    <div class="q">
+      <div class="title"><span class="no">B4.3</span>返修 / 补损时效 <span class="req">*</span></div>
+      <label class="opt"><input type="radio" name="b4_repair" value="返修≤7天" required>≤ 7 天</label>
+      <label class="opt"><input type="radio" name="b4_repair" value="返修8-15天">8–15 天</label>
       <label class="opt"><input type="radio" name="b4_repair" value="其他返修时效">其他（请说明）</label>
       <textarea name="b4_note" placeholder="售后流程补充（选填）…"></textarea>
     </div>
 
-    <!-- B5 -->
+    <!-- B5.1 多选 -->
     <div class="q">
-      <div class="title"><span class="no">B5</span>认证与合规（含跨境） <span class="req">*</span></div>
+      <div class="title"><span class="no">B5.1</span>已具备哪些认证？ <span class="req">*</span> <span style="color:var(--brand);font-weight:600">（可多选）</span></div>
       <div class="chkgrp">
-        <div class="ct">已具备哪些认证？（可多选）*</div>
         <label class="opt"><input type="checkbox" name="b5_cert" value="CE">CE</label>
         <label class="opt"><input type="checkbox" name="b5_cert" value="FCC">FCC</label>
         <label class="opt"><input type="checkbox" name="b5_cert" value="RoHS">RoHS</label>
@@ -313,54 +423,98 @@
         <label class="opt"><input type="checkbox" name="b5_cert" value="Bluetooth SIG">Bluetooth SIG</label>
         <label class="opt"><input type="checkbox" name="b5_cert" value="其他认证">其他（请下方说明）</label>
       </div>
+    </div>
+
+    <!-- B5.2 -->
+    <div class="q">
+      <div class="title"><span class="no">B5.2</span>跨境清关文件提供能力 <span class="req">*</span></div>
       <label class="opt"><input type="radio" name="b5_customs" value="可提供清关文件" required>跨境发货至加拿大时，可提供清关与运输合规文件</label>
       <label class="opt"><input type="radio" name="b5_customs" value="不可提供清关文件">不可提供清关文件</label>
+    </div>
+
+    <!-- B5.3 -->
+    <div class="q">
+      <div class="title"><span class="no">B5.3</span>非医疗型号清单提供能力 <span class="req">*</span></div>
       <label class="opt"><input type="radio" name="b5_medlist" value="可明确非医疗型号清单" required>可明确提供不含医疗宣称的型号清单（含 ECG / 血压 / 血糖 / 血脂者不纳入）</label>
       <label class="opt"><input type="radio" name="b5_medlist" value="不纳入医疗但无清单">不纳入医疗型号，但无独立清单</label>
       <textarea name="b5_note" placeholder="其他认证 / 清关说明（选填）…"></textarea>
     </div>
 
-    <!-- B6 -->
+    <!-- B6.1 -->
     <div class="q">
-      <div class="title"><span class="no">B6</span>付款与账期 <span class="req">*</span></div>
-      <label class="opt"><input type="radio" name="b6_pay" value="电汇TT" required>付款方式：电汇 TT</label>
-      <label class="opt"><input type="radio" name="b6_pay" value="信用证LC">付款方式：信用证 LC</label>
-      <label class="opt"><input type="radio" name="b6_pay" value="线上支付">付款方式：线上支付</label>
+      <div class="title"><span class="no">B6.1</span>付款方式 <span class="req">*</span></div>
+      <label class="opt"><input type="radio" name="b6_pay" value="电汇TT" required>电汇 TT</label>
+      <label class="opt"><input type="radio" name="b6_pay" value="信用证LC">信用证 LC</label>
+      <label class="opt"><input type="radio" name="b6_pay" value="线上支付">线上支付</label>
       <label class="opt"><input type="radio" name="b6_pay" value="其他付款方式">其他（请说明）</label>
-      <label class="opt"><input type="radio" name="b6_deposit" value="首付0%" required>首付款比例：0%（款到发货）</label>
-      <label class="opt"><input type="radio" name="b6_deposit" value="首付30%">首付款比例：30%</label>
-      <label class="opt"><input type="radio" name="b6_deposit" value="首付50%">首付款比例：50%</label>
+    </div>
+
+    <!-- B6.2 -->
+    <div class="q">
+      <div class="title"><span class="no">B6.2</span>首付款比例 <span class="req">*</span></div>
+      <label class="opt"><input type="radio" name="b6_deposit" value="首付0%" required>0%（款到发货）</label>
+      <label class="opt"><input type="radio" name="b6_deposit" value="首付30%">30%</label>
+      <label class="opt"><input type="radio" name="b6_deposit" value="首付50%">50%</label>
       <label class="opt"><input type="radio" name="b6_deposit" value="其他首付比例">其他（请说明）</label>
-      <label class="opt"><input type="radio" name="b6_term" value="无账期" required>账期政策：无账期（先款后货）</label>
-      <label class="opt"><input type="radio" name="b6_term" value="月结30天">账期政策：月结 30 天</label>
-      <label class="opt"><input type="radio" name="b6_term" value="月结60天">账期政策：月结 60 天</label>
+    </div>
+
+    <!-- B6.3 -->
+    <div class="q">
+      <div class="title"><span class="no">B6.3</span>账期政策 <span class="req">*</span></div>
+      <label class="opt"><input type="radio" name="b6_term" value="无账期" required>无账期（先款后货）</label>
+      <label class="opt"><input type="radio" name="b6_term" value="月结30天">月结 30 天</label>
+      <label class="opt"><input type="radio" name="b6_term" value="月结60天">月结 60 天</label>
       <label class="opt"><input type="radio" name="b6_term" value="其他账期">其他（请说明）</label>
+    </div>
+
+    <!-- B6.4 -->
+    <div class="q">
+      <div class="title"><span class="no">B6.4</span>样品款可否抵扣量产权？ <span class="req">*</span></div>
       <label class="opt"><input type="radio" name="b6_samplefee" value="样品款可抵扣" required>样品款可抵扣量产权</label>
       <label class="opt"><input type="radio" name="b6_samplefee" value="样品款不可抵扣">样品款不可抵扣</label>
       <textarea name="b6_note" placeholder="付款条件补充（选填）…"></textarea>
     </div>
 
-    <!-- B7 -->
+    <!-- B7.1 -->
     <div class="q">
-      <div class="title"><span class="no">B7</span>合作确认与签约时点 <span class="req">*</span></div>
+      <div class="title"><span class="no">B7.1</span>是否接受"先评估后签约"？ <span class="req">*</span></div>
       <div class="hint">植悦将在回收本问卷、对比多家供应商技术方案与 SDK 后，再确定终选与合作。</div>
       <label class="opt"><input type="radio" name="b7_accept" value="接受先评估后签约" required>接受"先样品实测 + 技术方案评估，后签约"</label>
       <label class="opt"><input type="radio" name="b7_accept" value="需先签框架协议再评估">需先签框架协议再评估</label>
       <label class="opt"><input type="radio" name="b7_accept" value="不接受先评估后签约">不接受先评估后签约</label>
+    </div>
+
+    <!-- B7.2 多选 -->
+    <div class="q">
+      <div class="title"><span class="no">B7.2</span>签约前可提供哪些配合？ <span class="req">*</span> <span style="color:var(--brand);font-weight:600">（可多选）</span></div>
       <div class="chkgrp">
-        <div class="ct">签约前可提供哪些配合？（可多选）*</div>
         <label class="opt"><input type="checkbox" name="b7_support" value="寄样">寄样</label>
         <label class="opt"><input type="checkbox" name="b7_support" value="SDK对接支持">SDK 对接支持</label>
         <label class="opt"><input type="checkbox" name="b7_support" value="技术答疑">技术答疑</label>
         <label class="opt"><input type="checkbox" name="b7_support" value="签署NDA">签署 NDA</label>
       </div>
-      <label class="opt"><input type="radio" name="b7_sample" value="未合作样品退还" required>若最终未合作，样品：退还供应商</label>
-      <label class="opt"><input type="radio" name="b7_sample" value="未合作样品留样">若最终未合作，样品：留样由植悦处理</label>
-      <label class="opt"><input type="radio" name="b7_sample" value="未合作样品结算">若最终未合作，样品：按样品费结算</label>
-      <label class="opt"><input type="radio" name="b7_form" value="框架协议" required>量产权签约形式：框架协议（长期）</label>
-      <label class="opt"><input type="radio" name="b7_form" value="单笔订单">量产权签约形式：单笔订单</label>
+    </div>
+
+    <!-- B7.3 -->
+    <div class="q">
+      <div class="title"><span class="no">B7.3</span>若最终未合作，样品如何处理？ <span class="req">*</span></div>
+      <label class="opt"><input type="radio" name="b7_sample" value="未合作样品退还" required>退还供应商</label>
+      <label class="opt"><input type="radio" name="b7_sample" value="未合作样品留样">留样由植悦处理</label>
+      <label class="opt"><input type="radio" name="b7_sample" value="未合作样品结算">按样品费结算</label>
+    </div>
+
+    <!-- B7.4 -->
+    <div class="q">
+      <div class="title"><span class="no">B7.4</span>量产权签约形式 <span class="req">*</span></div>
+      <label class="opt"><input type="radio" name="b7_form" value="框架协议" required>框架协议（长期）</label>
+      <label class="opt"><input type="radio" name="b7_form" value="单笔订单">单笔订单</label>
       <label class="opt"><input type="radio" name="b7_form" value="其他签约形式">其他（请说明）</label>
-      <label class="opt"><input type="radio" name="b7_min" value="无最低量承诺" required>是否含最低合作量承诺：无最低量</label>
+    </div>
+
+    <!-- B7.5 -->
+    <div class="q">
+      <div class="title"><span class="no">B7.5</span>是否含最低合作量承诺？ <span class="req">*</span></div>
+      <label class="opt"><input type="radio" name="b7_min" value="无最低量承诺" required>无最低量承诺</label>
       <label class="opt"><input type="radio" name="b7_min" value="有最低量承诺">有最低量承诺（请说明）</label>
       <textarea name="b7_note" placeholder="合作期限 / 其他说明（选填）…"></textarea>
     </div>
@@ -384,25 +538,25 @@
 const TO = "4007890@qq.com";
 const ORDER = [
   ["company","供应商公司名称"],["contact","联系人"],["phone","联系手机"],
-  ["t1","T1 SDK数据粒度"],["t1b","T1 补充说明"],
-  ["t2_local","T2 本地直连支持程度"],["t2_cloud","T2 必须过云功能"],["t2_note","T2 说明"],
-  ["t3_has","T3 是否同时含HRV+皮温"],["t3_cap","T3 可提供能力"],["t3_models","T3 型号明细"],
-  ["t4_wx","T4 微信小程序端 SDK"],["t4_wx_note","T4 小程序同步机制"],
-  ["t4_ios","T4 iOS 原生端 SDK"],["t4_and","T4 Android 原生端 SDK"],["t4_note","T4 三端授权/收费/稳定性/鸿蒙"],
-  ["t5_algo","T5 算法来源"],["t5_calib","T5 标定"],["t5_report","T5 精度报告"],["t5_note","T5 说明"],
-  ["t6_ota","T6 OTA"],["t6_sdkfee","T6 SDK授权收费"],["t6_support","T6 支持方式"],["t6_note","T6 说明"],
-  ["t7_laser","T7 白标镭雕"],["t7_moq","T7 白标MOQ"],["t7_bind","T7 绑定限制"],["t7_note","T7 说明"],
-  ["t8_pre","T8 签约前提供样品"],["t8_fee","T8 样品费用"],["t8_nda","T8 样品NDA"],["t8_note","T8 物流说明"],
-  ["t9_deliver","T9 交付物"],["t9_lang","T9 文档语言"],["t9_note","T9 说明"],
-  ["t10_dataout","T10 数据不出境"],["t10_dpa","T10 DPA支持"],["t10_note","T10 说明"],
-  ["b1_ladder","B1 分档阶梯报价"],["b1","B1 报价表"],
-  ["b2_auth","B2 授权形式"],["b2_fee","B2 授权收费"],["b2_note","B2 说明"],
-  ["b3_samp","B3 样品交期"],["b3_bulk","B3 首批量交期"],["b3_cap","B3 月产能"],["b3_note","B3 说明"],
-  ["b4_aql","B4 AQL"],["b4_warr","B4 保修期"],["b4_repair","B4 返修时效"],["b4_note","B4 说明"],
-  ["b5_cert","B5 认证"],["b5_customs","B5 清关文件"],["b5_medlist","B5 非医疗清单"],["b5_note","B5 说明"],
-  ["b6_pay","B6 付款方式"],["b6_deposit","B6 首付比例"],["b6_term","B6 账期"],["b6_samplefee","B6 样品款抵扣"],["b6_note","B6 说明"],
-  ["b7_accept","B7 接受先评估后签约"],["b7_support","B7 签约前配合"],["b7_sample","B7 未合作样品处理"],
-  ["b7_form","B7 签约形式"],["b7_min","B7 最低量承诺"],["b7_note","B7 说明"]
+  ["t1","T1 SDK数据粒度"],["t1b","T1.1 额外暴露原始流"],["t1b_note","T1.1 说明"],
+  ["t2_local","T2.1 本地直连支持程度"],["t2_cloud","T2.2 必须过云功能"],["t2_note","T2 说明"],
+  ["t3_has","T3.1 同时含HRV+皮温"],["t3_cap","T3.2 可提供能力"],["t3_models","T3.3 型号明细"],
+  ["t4_wx","T4.1 微信小程序端 SDK"],["t4_wx_note","T4.1a 同步机制"],
+  ["t4_ios","T4.2 iOS 原生端 SDK"],["t4_and","T4.3 Android 原生端 SDK"],["t4_note","T4.4 三端授权/收费/稳定性/鸿蒙"],
+  ["t5_algo","T5.1 算法来源"],["t5_calib","T5.2 标定"],["t5_report","T5.3 精度报告"],["t5_note","T5 说明"],
+  ["t6_ota","T6.1 OTA"],["t6_sdkfee","T6.2 SDK授权收费"],["t6_support","T6.3 支持方式"],["t6_note","T6 说明"],
+  ["t7_laser","T7.1 白标镭雕"],["t7_moq","T7.2 白标MOQ"],["t7_bind","T7.3 绑定限制"],["t7_note","T7 说明"],
+  ["t8_pre","T8.1 签约前提供样品"],["t8_fee","T8.2 样品费用"],["t8_nda","T8.3 样品NDA"],["t8_note","T8 物流说明"],
+  ["t9_deliver","T9.1 交付物"],["t9_lang","T9.2 文档语言"],["t9_note","T9 说明"],
+  ["t10_dataout","T10.1 数据不出境"],["t10_dpa","T10.2 DPA支持"],["t10_note","T10 说明"],
+  ["b1_ladder","B1.1 报价方式"],["b1","B1.2 报价表"],
+  ["b2_auth","B2.1 授权形式"],["b2_fee","B2.2 授权收费"],["b2_note","B2 说明"],
+  ["b3_samp","B3.1 样品交期"],["b3_bulk","B3.2 首批量交期"],["b3_cap","B3.3 月产能"],["b3_note","B3 说明"],
+  ["b4_aql","B4.1 AQL"],["b4_warr","B4.2 保修期"],["b4_repair","B4.3 返修时效"],["b4_note","B4 说明"],
+  ["b5_cert","B5.1 认证"],["b5_customs","B5.2 清关文件"],["b5_medlist","B5.3 非医疗清单"],["b5_note","B5 说明"],
+  ["b6_pay","B6.1 付款方式"],["b6_deposit","B6.2 首付比例"],["b6_term","B6.3 账期"],["b6_samplefee","B6.4 样品款抵扣"],["b6_note","B6 说明"],
+  ["b7_accept","B7.1 接受先评估后签约"],["b7_support","B7.2 签约前配合"],["b7_sample","B7.3 未合作样品处理"],
+  ["b7_form","B7.4 签约形式"],["b7_min","B7.5 最低量承诺"],["b7_note","B7 说明"]
 ];
 function getVals(fd,name){
   const all = fd.getAll(name);
