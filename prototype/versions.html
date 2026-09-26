@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>植悦 21DW 小程序原型 · 版本对比中心</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#F4F6F9;color:#1F2329;
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif;
+    -webkit-font-smoothing:antialiased;height:100vh;display:flex;flex-direction:column;overflow:hidden}
+  header{background:linear-gradient(135deg,#002FA7,#3457C4);color:#fff;padding:16px 22px 0;flex:none}
+  header .t{font-size:17px;font-weight:700}
+  header .m{font-size:12px;opacity:.9;margin-top:4px;padding-bottom:12px}
+  .tabs{display:flex;gap:4px;padding:0 22px;background:#fff;border-bottom:1px solid #E3E6EB;flex:none;overflow-x:auto}
+  .tab{padding:12px 16px;font-size:14px;font-weight:600;color:#6B7280;cursor:pointer;
+    border-bottom:3px solid transparent;white-space:nowrap;display:flex;align-items:center;gap:7px}
+  .tab:hover{color:#002FA7}
+  .tab.on{color:#002FA7;border-bottom-color:#002FA7}
+  .tab .ts{font-size:10.5px;font-weight:500;color:#98A2B3}
+  .tab.on .ts{color:#5B7BD5}
+  .tab .latest{background:#E8F0FE;color:#1A56DB;font-size:10px;padding:1px 6px;border-radius:10px;font-weight:700}
+
+  .bar{background:#fff;border-bottom:1px solid #E9ECF1;padding:11px 22px;flex:none;
+    display:flex;justify-content:space-between;align-items:flex-start;gap:20px;flex-wrap:wrap}
+  .bar .left{flex:1;min-width:260px}
+  .bar .vt{font-size:14px;font-weight:700;color:#002FA7}
+  .bar .vd{font-size:12.5px;color:#6B7280;margin-top:4px;line-height:1.6}
+  .bar .vd b{color:#1F2329}
+  .bar .acts{display:flex;gap:8px;flex:none}
+  .btn{border:1px solid #002FA7;color:#002FA7;background:#fff;border-radius:8px;
+    padding:7px 13px;font-size:12.5px;cursor:pointer;text-decoration:none;white-space:nowrap}
+  .btn:hover{background:#F0F4FE}
+  .btn.primary{background:#002FA7;color:#fff}
+
+  .stage{flex:1;position:relative;background:#E7E1DA}
+  .stage iframe{position:absolute;inset:0;width:100%;height:100%;border:0;display:none}
+  .stage iframe.on{display:block}
+
+  /* 版本演进速览 */
+  .evo{background:#fff;border-top:1px solid #E9ECF1;padding:10px 22px;flex:none;
+    display:flex;gap:18px;font-size:12px;color:#6B7280;overflow-x:auto;align-items:center}
+  .evo .chip{display:flex;align-items:center;gap:6px;white-space:nowrap}
+  .evo .dot{width:7px;height:7px;border-radius:50%;background:#C9CFD8;flex:none}
+  .evo .chip.on .dot{background:#002FA7}
+  .evo .chip.on{color:#1F2329;font-weight:600}
+  .evo .sep{color:#D5DAE2}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="t">植悦 21DW 小程序原型 · 版本对比中心</div>
+  <div class="m">所有版本收在本页，点标签切换对比。每个版本同时保留独立链接，可直接分享。</div>
+</header>
+
+<div class="tabs" id="tabs"></div>
+
+<div class="bar">
+  <div class="left">
+    <div class="vt" id="vt"></div>
+    <div class="vd" id="vd"></div>
+  </div>
+  <div class="acts">
+    <a class="btn" id="openNew" target="_blank">在新窗口打开本版本</a>
+    <a class="btn primary" id="openPhone" target="_blank">手机扫码预览</a>
+  </div>
+</div>
+
+<div class="stage" id="stage"></div>
+
+<div class="evo" id="evo"></div>
+
+<script>
+/* =========================================================
+   版本清单：新增版本只需在 VERSIONS 里加一条，页面自动生成标签
+   file  = 版本固定文件（与 index.html 同目录）
+   ========================================================= */
+var VERSIONS = [
+  {
+    id:'v1.2', label:'v1.2', ts:'20260926-1630', latest:true,
+    file:'v1.2-20260926-1630.html',
+    title:'v1.2 · 双范式融合（LemonBox + RingConn）',
+    desc:'确认 21DW 为 11 款 SKU 家族，新增<b>购前 5 步问卷</b>与<b>个人营养组合报告</b>（含逐款推荐理由）；数据页重构为 RingConn 式<b>四瓣花 Wellness Balance</b>；今日页新增 <b>21 天打卡日历</b>；报告新增<b>组合复评</b>（下周期增减建议）。保留 v1.1 的一天只推一件事 / 三段式基线 / 一色一义 / 圈号三闸 / 隐私盾牌。'
+  },
+  {
+    id:'v1.1', label:'v1.1', ts:'20260926-1509',
+    file:'v1.1-20260926-1509.html',
+    title:'v1.1 · 设计规范全量落地',
+    desc:'按《小程序设计规范建议 v1.0》改造：首页改「<b>一天只推一件事</b>」并删除 2×3 指标网格；新增<b>三段式双轨基线</b>；详情页＝可缩放折线＋上周期虚线＋基线带＋点按取时间戳；睡眠分期图参考区间与本人值并排；综合分与构成同屏；配色改<b>暖调低饱和一色一义</b>（取消红黄绿风险灯）；激活改<b>圈号三道闸</b>；新增<b>常驻隐私盾牌</b>三态。'
+  }
+];
+
+// 版本演进时间线（顶部标签右侧的速览）
+var EVOLUTION = [
+  {v:'v1.0', d:'初版原型：今日/数据/方案/我的 + 待确认标记', done:true, file:'../2026-08-27-00-20-02/'},
+  {v:'v1.1', d:'设计规范落地：One Big Thing + 三段式基线 + 一色一义 + 圈号三闸', done:true},
+  {v:'v1.2', d:'双范式融合：问卷→营养组合报告 + 四瓣花数据看板 + 打卡日历 + 组合复评', done:true},
+  {v:'v1.3', d:'待规划：AI 营养师对话（小程序内 agent 记忆体系）', done:false},
+  {v:'v1.4', d:'待规划：组合复评自动调整 / 多人协作 / 数据导出', done:false}
+];
+
+var cur = VERSIONS[0].id;
+
+function render(){
+  // 标签
+  document.getElementById('tabs').innerHTML = VERSIONS.map(function(v){
+    return '<div class="tab'+(v.id===cur?' on':'')+'" onclick="sw(\''+v.id+'\')">'+
+      v.label + (v.latest?'<span class="latest">最新</span>':'') +
+      '<span class="ts">'+v.ts+'</span></div>';
+  }).join('');
+
+  // 舞台
+  var V = VERSIONS.filter(function(v){return v.id===cur;})[0];
+  document.getElementById('stage').innerHTML = VERSIONS.map(function(v){
+    return '<iframe class="'+(v.id===cur?'on':'')+'" data-v="'+v.id+'" src="'+v.file+'" loading="lazy"></iframe>';
+  }).join('');
+  document.getElementById('vt').textContent = V.title;
+  document.getElementById('vd').innerHTML = V.desc;
+  document.getElementById('openNew').href = V.file;
+  document.getElementById('openPhone').href = V.file;
+
+  // 演进速览
+  document.getElementById('evo').innerHTML = EVOLUTION.map(function(e,i){
+    return '<div class="chip'+(e.v==='v1.2'?' on':'')+'">'+
+      '<span class="dot"></span>'+e.v+' · '+e.d+'</div>'+
+      (i<EVOLUTION.length-1?'<span class="sep">→</span>':'');
+  }).join('');
+}
+function sw(id){ cur=id; render(); }
+render();
+</script>
+</body>
+</html>
