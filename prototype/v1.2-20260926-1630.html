@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>植悦 21DW 小程序原型 v1.2 · 20260926-1630</title>
+<style>
+  /* 一色一义（沿用 v1.1 规范）；11 款产品各自品牌色仅用于产品卡标识 */
+  :root{
+    --brand:#A8455C; --brand-soft:#F6E8EB;
+    --warm:#E8A33D;  --warm-soft:#FDF3E3;
+    --ink:#3A3550; --sub:#8B8397;
+    --bg:#FAF6F0; --card:#FFFFFF; --line:#EDE6DE;
+    --ref:#C9C2B8; --base:#D8CFE0;
+    --p-local:#9AA0A6; --p-sync:#4E9A6A; --p-live:#E8A33D;
+    --note:#E8A33D;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#E7E1DA;color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif;
+    display:flex;gap:26px;justify-content:center;padding:20px;flex-wrap:wrap;align-items:flex-start}
+
+  /* 左侧说明 */
+  .doc{width:392px;font-size:12.5px;line-height:1.7}
+  .doc .vcard{background:#fff;border-radius:12px;padding:14px;margin-bottom:12px;border-left:4px solid var(--brand)}
+  .doc .vcard h1{font-size:16.5px;color:var(--brand);margin-bottom:5px}
+  .doc .vcard .meta{font-size:11.5px;color:var(--sub)}
+  .doc h2{font-size:13px;margin:14px 0 6px;color:var(--brand)}
+  .doc table{width:100%;border-collapse:collapse;font-size:11.5px;background:#fff;border-radius:8px;overflow:hidden;margin-bottom:4px}
+  .doc th,.doc td{border-bottom:1px solid var(--line);padding:5px 7px;text-align:left;vertical-align:top}
+  .doc th{background:var(--brand-soft);color:var(--brand);font-weight:600}
+  .doc ul{margin-left:15px}.doc li{margin-bottom:3px}
+  .doc code{background:#EFEAE4;padding:1px 4px;border-radius:4px;font-size:11px}
+  .tip{background:var(--warm-soft);border-left:3px solid var(--warm);padding:8px 10px;border-radius:6px;margin-top:8px;font-size:12px}
+
+  /* 手机 */
+  .phone{width:390px;height:844px;background:#fff;border-radius:44px;position:relative;
+    box-shadow:0 20px 60px rgba(58,53,80,.28);overflow:hidden;border:8px solid #1a1a1a}
+  .status{height:42px;background:var(--bg);display:flex;align-items:center;justify-content:space-between;
+    padding:0 20px;font-size:12.5px;font-weight:600}
+  .nav{height:42px;background:var(--bg);display:flex;align-items:center;justify-content:center;
+    position:relative;font-size:16.5px;font-weight:600;border-bottom:1px solid var(--line)}
+  .nav .back{position:absolute;left:13px;font-size:20px;font-weight:400;cursor:pointer}
+  .topbar{position:absolute;top:42px;left:0;right:0;height:32px;background:var(--bg);
+    display:flex;align-items:center;justify-content:space-between;padding:0 16px;font-size:11.5px;color:var(--sub);z-index:15}
+  .shield{display:inline-flex;align-items:center;gap:4px;cursor:pointer}
+  .shield .dot{width:8px;height:8px;border-radius:50%;background:var(--p-sync)}
+  .screen{height:calc(844px - 42px - 42px - 32px - 60px);overflow-y:auto;background:var(--bg)}
+  .screen::-webkit-scrollbar{width:0}
+  .tabbar{height:60px;background:#FDFBF8;border-top:1px solid var(--line);display:flex;padding-bottom:5px}
+  .tabbar .tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    font-size:10.5px;color:var(--sub);cursor:pointer;gap:2px}
+  .tabbar .tab.on{color:var(--brand);font-weight:600}
+  .tabbar .ico{font-size:18px;line-height:1}
+
+  /* 通用 */
+  .card{background:var(--card);border-radius:14px;margin:12px;padding:14px;position:relative}
+  .sub{font-size:11.5px;color:var(--sub)}
+  .row{display:flex;justify-content:space-between;align-items:center}
+  .btn{background:var(--brand);color:#fff;border-radius:10px;padding:12px;text-align:center;
+    font-size:14.5px;font-weight:600;cursor:pointer;margin:12px}
+  .btn.ghost{background:#fff;color:var(--brand);border:1px solid var(--brand)}
+  .btn.warm{background:var(--warm)}
+  .pill{display:inline-block;background:var(--brand-soft);color:var(--brand);font-size:10.5px;
+    padding:3px 8px;border-radius:20px;font-weight:600}
+  .pill.warm{background:var(--warm-soft);color:#B87A1B}
+  .sec-t{font-size:13.5px;font-weight:700;padding:15px 16px 6px}
+  .hide{display:none!important}
+  .li{background:#fff;padding:12px 16px;border-bottom:1px solid var(--line);display:flex;
+    justify-content:space-between;align-items:center;font-size:13.5px;cursor:pointer}
+  svg{display:block}
+
+  /* One Big Thing */
+  .obi{margin:12px;background:var(--card);border-radius:16px;padding:17px;border:1px solid var(--line);position:relative}
+  .obi .lead{font-size:11.5px;color:var(--sub);margin-bottom:5px}
+  .obi .headline{font-size:21px;font-weight:700;line-height:1.35}
+  .obi .headline em{font-style:normal;color:var(--brand)}
+  .obi .act{margin-top:13px;background:var(--brand);color:#fff;border-radius:10px;padding:10px;
+    text-align:center;font-size:13.5px;font-weight:600;cursor:pointer}
+
+  /* 21 天打卡日历（LemonBox 式） */
+  .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:10px}
+  .cal i{aspect-ratio:1;border-radius:6px;background:var(--line);display:flex;align-items:center;
+    justify-content:center;font-size:10px;color:var(--sub);font-style:normal}
+  .cal i.on{background:var(--warm);color:#fff;font-weight:700}
+  .cal i.today{border:2px solid var(--brand)}
+  .cal i.miss{background:#F5F0EA;color:#C9C2B8}
+  .streak{margin-top:10px;font-size:11.5px;color:var(--sub)}
+  .streak b{color:var(--brand)}
+
+  /* 今日组合 */
+  .combo{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .sku{display:flex;align-items:center;gap:7px;background:#FBF8F4;border-radius:10px;
+    padding:8px 10px;font-size:12px;border:1px solid var(--line)}
+  .sku .no{width:22px;height:22px;border-radius:6px;color:#fff;font-size:11px;font-weight:700;
+    display:flex;align-items:center;justify-content:center;flex:none}
+  .sku .ck{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--brand);
+    display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--brand);cursor:pointer}
+  .sku .ck.done{background:var(--warm);border-color:var(--warm);color:#fff}
+
+  /* 指标状态条 */
+  .strip{display:flex;gap:8px;padding:0 12px}
+  .st{flex:1;background:#fff;border-radius:12px;padding:10px 7px;text-align:center;cursor:pointer;border:1px solid var(--line)}
+  .st .lab{font-size:10px;color:var(--sub)}
+  .st .state{font-size:12.5px;font-weight:700;margin-top:5px}
+  .st .bar{height:5px;border-radius:3px;background:var(--line);margin-top:6px;overflow:hidden}
+  .st .bar i{display:block;height:100%;border-radius:3px;background:var(--brand)}
+
+  /* 顾问 */
+  .advisor{margin:12px;background:linear-gradient(135deg,var(--brand),#C4617A);color:#fff;border-radius:14px;padding:14px}
+  .advisor .nm{font-size:14.5px;font-weight:700}
+  .advisor .ds{font-size:12px;opacity:.92;margin-top:3px}
+  .advisor .go{background:#fff;color:var(--brand);margin-top:10px;padding:9px;border-radius:9px;
+    text-align:center;font-size:13.5px;font-weight:600;cursor:pointer}
+
+  /* 产品卡（11 款） */
+  .prod{background:#FBF8F4;border-radius:12px;padding:11px 12px;margin-bottom:9px;border:1px solid var(--line);
+    display:flex;gap:11px;align-items:flex-start}
+  .prod .tag{width:34px;height:34px;border-radius:9px;color:#fff;font-weight:700;font-size:14px;
+    display:flex;align-items:center;justify-content:center;flex:none}
+  .prod .bd{flex:1}
+  .prod .nm{font-size:13.5px;font-weight:700}
+  .prod .en{font-size:9.5px;color:var(--sub);letter-spacing:.5px;margin-top:1px}
+  .prod .cl{font-size:11.5px;color:var(--sub);margin-top:4px;line-height:1.55}
+  .prod .why{font-size:11.5px;color:var(--brand);margin-top:5px;line-height:1.55;
+    background:var(--brand-soft);border-radius:7px;padding:6px 8px}
+  .prod .ing{font-size:10.5px;color:#9C9188;margin-top:5px;line-height:1.5}
+
+  /* 问卷 */
+  .pbar{height:6px;background:var(--line);border-radius:3px;margin:12px 16px 4px;overflow:hidden}
+  .pbar i{display:block;height:100%;background:var(--brand);transition:width .25s}
+  .qstep{font-size:11.5px;color:var(--sub);padding:0 16px 6px}
+  .quizcard{margin:12px;background:#fff;border-radius:14px;padding:16px}
+  .quizcard .qt{font-size:15px;font-weight:700;margin-bottom:4px}
+  .opt{display:block;padding:11px 12px;border:1px solid var(--line);border-radius:10px;
+    margin:7px 0;font-size:13.5px;cursor:pointer}
+  .opt:hover{border-color:var(--brand);background:var(--brand-soft)}
+  .opt.sel{border-color:var(--brand);background:var(--brand-soft);font-weight:600}
+
+  /* 报告 */
+  .rep-h{font-size:13.5px;font-weight:700;color:var(--brand);margin-bottom:8px}
+  .kv{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;border-bottom:1px dashed var(--line)}
+  .kv:last-child{border-bottom:none}
+
+  #notebox{position:absolute;left:14px;right:14px;bottom:70px;background:#3A3550;color:#fff;
+    border-radius:12px;padding:12px 14px;font-size:12.5px;line-height:1.6;display:none;z-index:30}
+  #notebox b{color:#F0C070}
+  #notebox .close{float:right;opacity:.7;cursor:pointer;margin-left:8px}
+  .note-dot{display:inline-flex;width:15px;height:15px;background:var(--note);color:#fff;
+    border-radius:50%;font-size:10px;align-items:center;justify-content:center;cursor:pointer;
+    margin-left:4px;font-weight:700;vertical-align:middle}
+</style>
+</head>
+<body>
+
+<!-- ============ 左：版本与设计来源 ============ -->
+<div class="doc">
+  <div class="vcard">
+    <h1>植悦 21DW 小程序原型 v1.2</h1>
+    <div class="meta">
+      版本 v1.2 ｜ 更新时间戳 <b>20260926-1630</b><br>
+      文件：植悦21DW_小程序原型_v1.2_20260926-1630.html<br>
+      双范式融合：<b>LemonBox（问卷→报告→组合）</b> + <b>RingConn（数据看板）</b>
+    </div>
+  </div>
+
+  <h2>本版核心变化</h2>
+  <table>
+    <tr><th>项</th><th>v1.2 做法</th><th>来源</th></tr>
+    <tr><td>产品认知</td><td>确认为 <b>11 款 SKU 精准营养包家族</b>，可做<b>组合推荐</b>（非配方定制）</td><td>产品手册</td></tr>
+    <tr><td>新增问卷</td><td>购前分步问卷 5 步 → 需求识别（<b>放在购买前</b>，否则无法下单）</td><td>LemonBox</td></tr>
+    <tr><td>新增个人营养报告</td><td>需求画像 + 状态快照 + <b>推荐组合 + 逐款推荐理由</b></td><td>LemonBox / FANCL</td></tr>
+    <tr><td>数据页重构</td><td><b>四瓣花 Wellness Balance</b> + 三档评级 + 指标卡 + 睡眠分期（参考区间并排）</td><td>RingConn</td></tr>
+    <tr><td>今日页</td><td>新增 <b>21 天打卡日历</b> + 今日应服组合</td><td>LemonBox</td></tr>
+    <tr><td>报告页</td><td>新增 <b>组合复评 → 下周期增减建议</b>（"复填问卷调方案"的合规版）</td><td>LemonBox + FANCL</td></tr>
+    <tr><td>保留 v1.1</td><td>一天只推一件事 / 三段式基线 / 一色一义 / 圈号三闸 / 隐私盾牌 / 因果归因</td><td>v1.1</td></tr>
+  </table>
+
+  <h2>11 款 SKU 与颜色标识</h2>
+  <table>
+    <tr><th>#</th><th>类目</th><th>主张</th></tr>
+    <tr><td>01</td><td>IMMUNITY 免疫</td><td>免疫三重盾 换季不感冒</td></tr>
+    <tr><td>02</td><td>METABOLISM 代谢</td><td>代谢加速器 轻盈好状态</td></tr>
+    <tr><td>03</td><td>ANTI-INFLAMMATORY 御炎</td><td>身体没负担 状态自然轻</td></tr>
+    <tr><td>04</td><td>SKIN ANTI-OXIDANT 皮肤</td><td>糖氧双对抗 透亮熬夜肌</td></tr>
+    <tr><td>05</td><td>ANTI-AGING 抗衰</td><td>细胞焕活力 年轻看得见</td></tr>
+    <tr><td>06</td><td>CARDIOVASCULAR 心脑</td><td>心脑双养护 畅通无负担</td></tr>
+    <tr><td>07</td><td>BRAIN&amp;SLEEP 睡眠</td><td>自然深睡力 醒后精神足</td></tr>
+    <tr><td>08</td><td>SPORTS BONE 运动关节</td><td>关节更灵活 运动更自在</td></tr>
+    <tr><td>09</td><td>LIVER HEALTH 肝</td><td>肝净人不累 熬夜也轻松</td></tr>
+    <tr><td>10</td><td>STOMACH 肠胃</td><td>肠胃有活力 消化更顺畅</td></tr>
+    <tr><td>11</td><td>EYE HEALTH 眼</td><td>双眼不干涩 看屏更舒适</td></tr>
+  </table>
+  <div class="tip">颜色规则：界面主色仍守<b>一色一义</b>（品牌莓果／激励暖橙）；11 款产品各自的品牌色<b>仅用于产品卡编号标识</b>，不参与界面语义。</div>
+
+  <h2>合规边界（本版已内建）</h2>
+  <ul>
+    <li>问卷<b>只问需求与习惯</b>，不问症状、不问疾病</li>
+    <li>报告只给"<b>我们据你的自述与状态数据选了这些</b>"，<b>不给"你缺什么、这些能治什么"</b></li>
+    <li>推荐理由不出现"改善/缓解/治疗"等表述</li>
+    <li>戒指数据只做趋势描述，标注非医疗、不构成因果</li>
+    <li>顾问话术：说"数据变了"，不说"你变好了"</li>
+  </ul>
+
+  <h2>怎么用</h2>
+  <ul>
+    <li>底部切换：<b>今日 / 数据 / 组合 / 我的</b></li>
+    <li>「今日」点 <b>重新评估我的组合</b> 走一遍问卷 → 看报告生成</li>
+    <li>「数据」看 RingConn 式四瓣花看板</li>
+    <li>「组合」看 11 款产品库与当前组合</li>
+    <li>橙色 <b>?</b> 为待确认项</li>
+  </ul>
+
+  <h2>v1.2 待确认（7 条）</h2>
+  <ul>
+    <li>问卷放购前（本版）还是购后？购前可能被理解为"定制"</li>
+    <li>推荐组合控制在几款？（本版 3–4 款）</li>
+    <li>是否展示"推荐理由"？展示会更可信但也更接近建议</li>
+    <li>未绑定戒指时，报告是否仍出（用纯问卷版）</li>
+    <li>21 天复评是否自动调整组合，还是仅给建议由顾问确认</li>
+    <li>四瓣花的四个维度定哪四个（本版：睡眠/活动/生命体征/压力）</li>
+    <li>11 款是否全量上架，还是首期只上 4–5 款</li>
+  </ul>
+  <div class="tip">⚠️ 所有数字为 Mock。产品名称与主张来自《21days 产品手册》。</div>
+</div>
+
+<!-- ============ 右：手机 ============ -->
+<div class="phone">
+  <div class="status"><span>9:41</span><span>●●● WiFi 🔋</span></div>
+  <div class="nav">
+    <span class="back hide" id="back">‹</span>
+    <span id="navtitle">今日</span>
+  </div>
+  <div class="topbar">
+    <span class="pill" id="cyclepill">第 18 天 · 第 2 周期</span>
+    <span class="shield" onclick="cycleShield()"><span class="dot"></span><span id="shieldtxt">已加密同步</span></span>
+  </div>
+
+  <div class="screen">
+
+    <!-- ========== 今日 ========== -->
+    <div class="page" id="p-home">
+      <div class="obi">
+        <div class="lead">今天最值得看的一件事</div>
+        <div class="headline" id="obi-head">你的静息心率 <em>58 bpm</em>，比上周期低了 <em>2</em></div>
+        <div class="act" onclick="go('report')">看看这 21 天的变化</div>
+      </div>
+
+      <!-- 21 天打卡日历（LemonBox） -->
+      <div class="card">
+        <div class="row">
+          <div style="font-size:14px;font-weight:700">本周期服用记录</div>
+          <span class="pill warm">第 18 / 21 天</span>
+        </div>
+        <div class="cal" id="cal"></div>
+        <div class="streak">已连续 <b id="streakNum">11</b> 天 · 漏一天不重置 · 依从率 <b id="adhRate">83%</b></div>
+      </div>
+
+      <!-- 今日应服组合 -->
+      <div class="card">
+        <div class="row" style="margin-bottom:2px">
+          <div style="font-size:14px;font-weight:700">今天要吃的组合</div>
+          <span class="pill">3 款</span>
+        </div>
+        <div class="combo" id="todayCombo"></div>
+        <div class="sub" style="margin-top:9px">全部勾选即完成今日服用</div>
+      </div>
+
+      <!-- 指标状态条 -->
+      <div class="sec-t">身体状态<span class="note-dot" onclick="note('概览层用状态条（MOMOUX 三层架构）。四瓣花与详细指标在「数据」页。')">?</span></div>
+      <div class="strip">
+        <div class="st" onclick="tab('data')"><div class="lab">睡眠</div><div class="state" style="color:var(--brand)">不错</div><div class="bar"><i style="width:82%"></i></div></div>
+        <div class="st" onclick="tab('data')"><div class="lab">静息心率</div><div class="state" style="color:var(--brand)">偏低</div><div class="bar"><i style="width:74%"></i></div></div>
+        <div class="st" onclick="tab('data')"><div class="lab">HRV</div><div class="state" style="color:var(--brand)">平稳</div><div class="bar"><i style="width:66%"></i></div></div>
+        <div class="st" onclick="tab('data')"><div class="lab">活动</div><div class="state" style="color:var(--warm)">达标</div><div class="bar"><i style="width:88%;background:var(--warm)"></i></div></div>
+      </div>
+
+      <!-- 问卷入口 -->
+      <div class="card" onclick="go('quiz')" style="border:1px solid var(--brand)">
+        <div class="row">
+          <div>
+            <div style="font-size:14px;font-weight:700">重新评估我的组合</div>
+            <div class="sub" style="margin-top:3px">5 步问卷 · 约 3 分钟 · 结合戒指数据生成报告</div>
+          </div>
+          <span style="color:#C8C2CE">›</span>
+        </div>
+      </div>
+
+      <div class="advisor">
+        <div class="nm">你的营养顾问 · 小林</div>
+        <div class="ds">组合与数据上的问题，随时问我</div>
+        <div class="go" onclick="note('顾问入口：卡内入口 + 我的页面。点击后跳企微会话（原型不做真实跳转）。')">在企微中咨询</div>
+      </div>
+
+      <div style="height:14px"></div>
+    </div>
+
+    <!-- ========== 数据（RingConn 式） ========== -->
+    <div class="page hide" id="p-data">
+      <div class="sec-t">身心平衡<span class="note-dot" onclick="note('四瓣花（Wellness Balance）是 RingConn 的标志性组件：一屏回答「我整体怎么样」。确认：四个维度定为睡眠/活动/生命体征/压力是否合适？')">?</span></div>
+      <div class="card" style="text-align:center">
+        <svg width="230" height="200" viewBox="0 0 230 200">
+          <g transform="translate(115,100)">
+            <path d="M0,-8 C-30,-30 -34,-58 -18,-72 C-4,-84 12,-70 8,-46 C6,-30 2,-16 0,-8 Z" fill="#A8455C" opacity=".85"/>
+            <path d="M8,0 C30,-30 58,-34 72,-18 C84,-4 70,12 46,8 C30,6 16,2 8,0 Z" fill="#C4617A" opacity=".8"/>
+            <path d="M0,8 C30,30 34,58 18,72 C4,84 -12,70 -8,46 C-6,30 -2,16 0,8 Z" fill="#E8A33D" opacity=".85"/>
+            <path d="M-8,0 C-30,30 -58,34 -72,18 C-84,4 -70,-12 -46,-8 C-30,-6 -16,-2 -8,0 Z" fill="#D8CFE0" opacity=".95"/>
+            <circle r="15" fill="#fff"/>
+            <text y="-1" text-anchor="middle" font-size="11" font-weight="700" fill="#3A3550">良好</text>
+            <text y="11" text-anchor="middle" font-size="8" fill="#8B8397">综合</text>
+          </g>
+          <text x="115" y="14" text-anchor="middle" font-size="9.5" fill="#8B8397">睡眠</text>
+          <text x="212" y="103" text-anchor="middle" font-size="9.5" fill="#8B8397">活动</text>
+          <text x="115" y="194" text-anchor="middle" font-size="9.5" fill="#8B8397">压力</text>
+          <text x="18" y="103" text-anchor="middle" font-size="9.5" fill="#8B8397">生命体征</text>
+        </svg>
+        <div style="margin-top:2px"><span class="pill warm">良好</span> <span class="pill">可提升</span> <span class="pill">需关注</span></div>
+        <div class="sub" style="margin-top:8px;line-height:1.65">
+          四项均在你的个人基线范围内，其中<b style="color:var(--warm)">活动</b>表现最好。
+        </div>
+      </div>
+
+      <div class="sec-t">指标明细</div>
+      <div class="card">
+        <div class="kv" onclick="go('detail','sleep')"><span>睡眠时长</span><span><b>7h 12m</b> <span style="color:var(--brand);font-size:12px">+22 分钟</span></span></div>
+        <div class="kv" onclick="go('detail','rhr')"><span>静息心率</span><span><b>58 bpm</b> <span style="color:var(--brand);font-size:12px">−2</span></span></div>
+        <div class="kv" onclick="go('detail','hrv')"><span>HRV</span><span><b>42 ms</b> <span style="color:var(--brand);font-size:12px">+3</span></span></div>
+        <div class="kv" onclick="go('detail','steps')"><span>活动步数</span><span><b>6,842</b> <span style="color:var(--brand);font-size:12px">+640</span></span></div>
+        <div class="kv" onclick="go('detail','temp')"><span>皮温（P1）</span><span><b>36.4 ℃</b> <span style="color:var(--sub);font-size:12px">持平</span></span></div>
+      </div>
+
+      <div class="card">
+        <div style="font-size:13.5px;font-weight:700">昨夜睡眠结构</div>
+        <div style="margin-top:10px">
+          <div style="position:relative;height:70px;background:#FBF8F4;border-radius:8px;overflow:hidden">
+            <div style="position:absolute;left:2%;width:12%;top:6px;height:15px;border-radius:3px;background:#B9A7D6"></div>
+            <div style="position:absolute;left:14%;width:26%;top:21px;height:15px;border-radius:3px;background:#D8CFE0"></div>
+            <div style="position:absolute;left:40%;width:14%;top:36px;height:15px;border-radius:3px;background:#A8455C"></div>
+            <div style="position:absolute;left:54%;width:22%;top:21px;height:15px;border-radius:3px;background:#D8CFE0"></div>
+            <div style="position:absolute;left:76%;width:10%;top:36px;height:15px;border-radius:3px;background:#A8455C"></div>
+            <div style="position:absolute;left:86%;width:12%;top:6px;height:15px;border-radius:3px;background:#B9A7D6"></div>
+          </div>
+          <div class="row" style="font-size:10.5px;color:var(--sub);margin-top:5px"><span>23:12 入睡</span><span>06:24 醒来</span></div>
+          <div style="margin-top:10px">
+            <div class="row" style="font-size:11.5px;color:var(--sub)"><span>深睡占比</span><span>你的 24% ｜ 参考区间 16–22%</span></div>
+            <div style="height:8px;border-radius:4px;background:var(--base);position:relative;margin:5px 0 9px">
+              <span style="position:absolute;left:46%;top:-3px;width:3px;height:14px;border-radius:2px;background:var(--brand)"></span>
+            </div>
+            <div class="row" style="font-size:11.5px;color:var(--sub)"><span>REM 占比</span><span>你的 21% ｜ 参考区间 18–25%</span></div>
+            <div style="height:8px;border-radius:4px;background:var(--base);position:relative;margin-top:5px">
+              <span style="position:absolute;left:60%;top:-3px;width:3px;height:14px;border-radius:2px;background:var(--brand)"></span>
+            </div>
+          </div>
+          <div class="sub" style="margin-top:10px;line-height:1.65">参考区间用于「你现在在什么位置」，不作为健康结论。</div>
+        </div>
+      </div>
+      <div style="height:14px"></div>
+    </div>
+
+    <!-- ========== 问卷（LemonBox 式） ========== -->
+    <div class="page hide" id="p-quiz">
+      <div class="pbar"><i id="pbar" style="width:20%"></i></div>
+      <div class="qstep" id="qstep">第 1 步 / 共 5 步 · 约 3 分钟</div>
+      <div class="quizcard" id="qcard"></div>
+      <div class="btn" id="qnext" onclick="quizNext()">下一步</div>
+      <div class="sub" style="padding:0 16px 20px;line-height:1.7">
+        问卷只用于了解你的需求与生活习惯，用于生成你的营养组合参考。<b>我们不提供医疗建议</b>。
+      </div>
+    </div>
+
+    <!-- ========== 个人营养报告 ========== -->
+    <div class="page hide" id="p-nutrition">
+      <div class="sec-t">你的营养组合报告</div>
+      <div class="card">
+        <div class="rep-h">① 你的需求画像</div>
+        <div class="sub" id="np-profile" style="line-height:1.75"></div>
+      </div>
+      <div class="card">
+        <div class="rep-h">② 你的状态快照（戒指采集）</div>
+        <div class="kv"><span>睡眠时长</span><span><b>7h 12m</b></span></div>
+        <div class="kv"><span>静息心率</span><span><b>58 bpm</b></span></div>
+        <div class="kv"><span>HRV</span><span><b>42 ms</b>（你的基线偏低区间）</span></div>
+        <div class="kv"><span>日均活动</span><span><b>6,842 步</b></span></div>
+        <div class="sub" style="margin-top:9px">数据仅用于趋势参考，非医疗用途。</div>
+      </div>
+      <div class="card">
+        <div class="rep-h">③ 为你匹配的组合</div>
+        <div id="np-combo"></div>
+        <div class="sub" style="margin-top:8px;line-height:1.7">
+          以上为<b>基于你的自述与状态数据所做的产品组合选择</b>，不构成健康或医疗建议。
+        </div>
+      </div>
+      <div class="card">
+        <div class="rep-h">④ 建议周期</div>
+        <div class="sub" style="line-height:1.75">
+          建议以 <b>21 天</b>为一个观察周期：21 天后我们会用你的戒指数据与一次简短复评，
+          看看这个组合是否适合你，再决定下一周期是否调整。
+        </div>
+      </div>
+      <div class="btn" onclick="note('报告底部是转化入口（LemonBox 的做法：报告后直接接购买）。确认：报告生成到下单之间是否要插入顾问确认？')">选择这个组合</div>
+      <div class="btn ghost" onclick="go('quiz')">重新填一次问卷</div>
+      <div style="height:14px"></div>
+    </div>
+
+    <!-- ========== 我的组合 / 产品库 ========== -->
+    <div class="page hide" id="p-plan">
+      <div class="sec-t">我的组合</div>
+      <div class="card">
+        <div class="row"><span style="font-weight:700">当前组合 · 3 款</span><span class="pill">21 天周期</span></div>
+        <div id="planCombo" style="margin-top:8px"></div>
+        <div class="btn warm" style="margin:12px 0 0" onclick="note('续购与组合调整：LemonBox 是周期末复填问卷调配方；我们改为「周期末数据复评 + 顾问确认」再调组合。确认自动还是人工确认。')">续订下一周期</div>
+      </div>
+
+      <div class="sec-t">21DAYS 全系列（11 款）<span class="note-dot" onclick="note('产品库是否首期就上全 11 款？还是先上 4–5 款聚焦？上全有利于组合推荐空间，但库存与教育成本更高。')">?</span></div>
+      <div class="card" style="padding:12px">
+        <div id="allSkus"></div>
+        <div class="sub" style="margin-top:6px">加拿大进口精准营养包 · 各款可单独购买，也可按组合装</div>
+      </div>
+      <div style="height:14px"></div>
+    </div>
+
+    <!-- ========== 21 天报告 ========== -->
+    <div class="page hide" id="p-report">
+      <div class="sec-t">21 天趋势报告</div>
+      <div class="card">
+        <div class="rep-h">① 这 21 天，数据发生了这些变化</div>
+        <div style="line-height:1.95;font-size:13.5px">
+          · 睡眠时长：平均 <b>7 小时 12 分</b>，较上周期 <b>+22 分钟</b><br>
+          · 静息心率：平均 <b>58 bpm</b>，较上周期 <b>−2 bpm</b><br>
+          · HRV：平均 <b>42 ms</b>，较上周期 <b>+3 ms</b><br>
+          · 每日活动：<b>6,842 步</b>，较上周期 <b>+640 步</b>
+        </div>
+        <div class="sub" style="margin-top:9px">以上为状态趋势描述，不代表健康结论或功效。</div>
+      </div>
+      <div class="card">
+        <div class="rep-h">② 与你自己的感受对照</div>
+        <div style="font-size:13.5px;line-height:1.85">
+          你在第 7 天记录过：<i style="color:var(--sub)">「最近感觉入睡快了些」</i><br>
+          数据上看，入睡时点确实比上周期平均提前约 <b>14 分钟</b>，和你的感受是一致的。
+        </div>
+      </div>
+      <div class="card" style="border:1px solid var(--warm)">
+        <div class="rep-h" style="color:#B87A1B">③ 一个和你日常习惯有关的规律</div>
+        <div style="font-size:13.5px;line-height:1.85">
+          <b>你按时服用的那些天，深睡时长平均多了 18 分钟。</b><br>
+          <span class="sub">这是「一同出现的规律」，不是因果结论，也不代表产品有任何功效。</span>
+        </div>
+      </div>
+      <!-- 新增：组合复评 -->
+      <div class="card" style="border:1px solid var(--brand)">
+        <div class="rep-h">④ 组合复评 · 下一周期怎么调</div>
+        <div style="font-size:13.5px;line-height:1.85">
+          本周期你的组合是：<b>07 睡眠 + 03 御炎 + 09 肝</b><br><br>
+          · <b>07 睡眠</b>：睡眠时长与入睡时点均改善，<b>建议保留</b><br>
+          · <b>03 御炎</b>：HRV 从 38 升到 42，方向一致，<b>建议保留</b><br>
+          · <b>09 肝</b>：你近两周熬夜减少，此项<b>可考虑暂停或减量</b><br><br>
+          <span class="sub">以上为基于数据与自述的组合建议，最终由顾问与你确认后生效。</span>
+        </div>
+        <span class="note-dot" style="position:absolute;right:12px;top:12px" onclick="note('这是 LemonBox「周期末复填问卷调方案」的合规版：用数据+自述复评，而不是用症状话术。确认：调组合是系统自动执行，还是必须顾问确认？')">?</span>
+      </div>
+      <div class="btn" onclick="go('plan')">查看并调整我的组合</div>
+      <div class="advisor">
+        <div class="nm">让顾问帮你看看这份报告</div>
+        <div class="ds">小林会在企微里和你聊 10 分钟</div>
+        <div class="go" onclick="note('报告可否分享？分享是否脱敏？Clue 只分享日历级信息，敏感记录不分享。')">预约顾问解读</div>
+      </div>
+      <div style="height:14px"></div>
+    </div>
+
+    <!-- ========== 我的 ========== -->
+    <div class="page hide" id="p-mine">
+      <div class="sec-t">我的</div>
+      <div class="card">
+        <div class="row" style="margin-bottom:7px"><div style="font-size:13.5px;font-weight:700">我的设备</div><span class="pill">已连接</span></div>
+        <div class="kv"><span>戒指电量</span><span>78%</span></div>
+        <div class="kv"><span>最近同步</span><span>今天 08:12</span></div>
+        <div class="kv"><span>圈号</span><span>9 号（已确认）</span></div>
+      </div>
+      <div class="advisor">
+        <div class="nm">营养顾问 · 小林</div>
+        <div class="ds">服务时间 09:00–21:00</div>
+        <div class="go" onclick="note('顾问入口与企微承接。确认顾问人效目标（1:300–500）与换顾问交接规则。')">在企微中对话</div>
+      </div>
+      <div class="li" onclick="go('nutrition')"><span>我的营养组合报告</span><span style="color:#C8C2CE">›</span></div>
+      <div class="li" onclick="go('quiz')"><span>问卷档案与复评</span><span style="color:#C8C2CE">›</span></div>
+      <div class="li" onclick="go('report')"><span>21 天趋势报告</span><span style="color:#C8C2CE">›</span></div>
+      <div class="li" onclick="go('activate')"><span>戒指圈号与激活</span><span style="color:#C8C2CE">›</span></div>
+      <div class="li" onclick="note('MOMOUX 建议：常驻隐私盾牌（已做）+「谁看过我的数据」审计页（顾问会查看数据，建议做）。')"><span>谁看过我的数据</span><span style="color:#C8C2CE">›</span></div>
+      <div class="li"><span>隐私与数据授权</span><span style="color:#C8C2CE">›</span></div>
+      <div class="sub" style="padding:16px;text-align:center">v1.2 · 20260926-1630<br>21DAYS WONDER · 加拿大本土在售</div>
+    </div>
+
+    <!-- ========== 激活（圈号三闸，保留 v1.1） ========== -->
+    <div class="page hide" id="p-activate">
+      <div class="sec-t">戒指激活与圈号确认</div>
+      <div class="card" style="background:var(--brand-soft);border:none">
+        <div style="font-size:12.5px;line-height:1.75">
+          <b>为什么不能直接发戒指：</b>戒指不合手用户就不会戴，后面所有数据与组合复评都落空。
+          所以把圈号确认前置成三道闸，<b>让用户在拿到正式戒指前先完成一次跨昼夜真实试戴</b>。
+        </div>
+      </div>
+      <div class="card"><div style="font-size:13.5px;font-weight:700">第一闸 · 随包寄出试戴戒圈</div><div class="sub" style="margin-top:5px">3–5 枚模拟戒圈，与首批营养包同箱发出</div></div>
+      <div class="card"><div style="font-size:13.5px;font-weight:700">第二闸 · 连续佩戴 ≥24 小时</div><div class="sub" style="margin-top:5px">须含一晚睡眠 + 洗手 + 日常活动；标准是「舒适、牢固、活动时不旋转」</div></div>
+      <div class="card"><div style="font-size:13.5px;font-weight:700">第三闸 · 小程序内选号提交</div><div class="sub" style="margin-top:5px">提交后才触发正式戒指发货</div></div>
+      <div class="card" style="background:var(--brand-soft);border:none">
+        <div style="font-size:12.5px;line-height:1.75">
+          <b>佩戴规范</b>：凸起传感器面朝手指内侧掌心方向 · 转动倾斜不超过 30° · 戴非主力手的中指或食指
+        </div>
+      </div>
+      <div class="btn">我已试戴 24 小时，提交 9 号</div>
+      <div class="sub" style="padding:0 16px 20px;line-height:1.7">激活率是第一指标（目标 ≥80%）。圈号不合可免费换码一次。</div>
+    </div>
+
+  </div>
+
+  <div id="notebox"><span class="close" onclick="closeNote()">✕</span><span id="notetext"></span></div>
+
+  <div class="tabbar">
+    <div class="tab on" data-p="home" onclick="tab('home')"><span class="ico">◎</span><span>今日</span></div>
+    <div class="tab" data-p="data" onclick="tab('data')"><span class="ico">◍</span><span>数据</span></div>
+    <div class="tab" data-p="plan" onclick="tab('plan')"><span class="ico">◆</span><span>组合</span></div>
+    <div class="tab" data-p="mine" onclick="tab('mine')"><span class="ico">○</span><span>我的</span></div>
+  </div>
+</div>
+
+<script>
+/* ============ 21DW 小程序原型 v1.2 · 20260926-1630 ============
+   双范式融合：LemonBox（问卷→报告→组合）+ RingConn（数据看板）
+   纯前端 Mock，零接口                                        */
+
+// ---------- 11 款 SKU（来自《21days 产品手册》）----------
+var SKUS = {
+  1:{cn:'免疫健康营养包', en:'IMMUNITY', claim:'免疫三重盾 换季不感冒', c:'#E8778E', ing:'专利PureWay-C® · 专利AlgaeD3® · 苹果酸二钙+专利K2 · 高活B族'},
+  2:{cn:'基础代谢营养包', en:'METABOLISM', claim:'代谢加速器 轻盈好状态', c:'#EF9A3D', ing:'专利BioPQQ® · 共轭亚油酸CLA · 专利Chromax® · 儿茶素+茶氨酸'},
+  3:{cn:'御炎营养包', en:'ANTI-INFLAMMATORY', claim:'身体没负担 状态自然轻', c:'#4E9AD6', ing:'专利CurcuRouge® · 专利PureWay-C® · 抗炎抗氧化双通路'},
+  4:{cn:'皮肤抗氧化营养包', en:'SKIN ANTI-OXIDANT', claim:'糖氧双对抗 透亮熬夜肌', c:'#D96A9B', ing:'LumiGlor 耀光丸'},
+  5:{cn:'抗衰老营养包', en:'ANTI-AGING', claim:'细胞焕活力 年轻看得见', c:'#9CC24A', ing:'麦角硫因 Ergothioneine · NucleoVita'},
+  6:{cn:'心脑健康营养包', en:'CARDIOVASCULAR', claim:'心脑双养护 畅通无负担', c:'#4FBFA8', ing:'二氢杨梅素 · 专利NattoK2'},
+  7:{cn:'睡眠健康营养包', en:'BRAIN&SLEEP', claim:'自然深睡力 醒后精神足', c:'#A87BD6', ing:'Omega Sup X · Calm Plus 晚安宝'},
+  8:{cn:'运动健康营养包', en:'SPORTS BONE', claim:'关节更灵活 运动更自在', c:'#3F86D6', ing:'JointGuard X · CalciMax 三钙'},
+  9:{cn:'肝健康营养包', en:'LIVER HEALTH', claim:'肝净人不累 熬夜也轻松', c:'#E4553B', ing:'ErgoThione X · Hepatox 护肝'},
+  10:{cn:'胃健康营养包', en:'STOMACH&INTESTINE', claim:'肠胃有活力 消化更顺畅', c:'#2FA84F', ing:'CurcuRouge® · GIs（AKK益生菌）'},
+  11:{cn:'眼健康营养包', en:'EYE HEALTH', claim:'双眼不干涩 看屏更舒适', c:'#2FB0D6', ing:'Visiomega X · Omega Sup 深海鱼油'}
+};
+// 关注方向 → SKU 映射
+var DIR2SKU = {
+  '免疫力':'1','代谢与体重管理':'2','睡眠':'7','皮肤状态':'4','关节与运动':'8',
+  '心脑健康':'6','肝脏与熬夜':'9','肠胃消化':'10','用眼疲劳':'11','抗衰':'5'
+};
+
+// ---------- 页面路由 ----------
+var TITLES={home:'今日',data:'数据',quiz:'问卷',nutrition:'营养组合报告',plan:'我的组合',
+            report:'21 天报告',mine:'我的',activate:'圈号与激活'};
+var TABS=['home','data','plan','mine'];
+var ALL=['home','data','quiz','nutrition','plan','report','mine','activate'];
+var stack=[];
+function show(id){
+  ALL.forEach(function(p){var el=document.getElementById('p-'+p); if(el) el.classList.add('hide');});
+  document.getElementById('p-'+id).classList.remove('hide');
+  document.getElementById('navtitle').textContent=TITLES[id]||'';
+  document.getElementById('back').classList.toggle('hide', TABS.indexOf(id)>=0);
+  document.querySelectorAll('.tabbar .tab').forEach(function(t){t.classList.toggle('on',t.dataset.p===id);});
+  closeNote();
+}
+function tab(id){stack=[];show(id);}
+function go(id){stack.push(cur());show(id);}
+function back(){show(stack.pop()||'home');}
+function cur(){for(var i=0;i<ALL.length;i++){var el=document.getElementById('p-'+ALL[i]);if(el&&!el.classList.contains('hide'))return ALL[i];}return 'home';}
+document.getElementById('back').onclick=back;
+
+// ---------- 21 天打卡日历 ----------
+function renderCal(){
+  var done=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17], miss=[9], today=18;
+  var h='';
+  for(var d=1;d<=21;d++){
+    var cls='';
+    if(done.indexOf(d)>=0) cls='on';
+    if(miss.indexOf(d)>=0) cls='miss';
+    if(d===today) cls+=' today';
+    h+='<i class="'+cls+'">'+(d===today?'今':d)+'</i>';
+  }
+  document.getElementById('cal').innerHTML=h;
+  var n=done.length;
+  document.getElementById('streakNum').textContent='11';
+  document.getElementById('adhRate').textContent=Math.round(n/21*100)+'%';
+}
+// 今日 / 当前组合渲染
+var CURRENT=[7,3,9];
+function skuRow(n, why, checked){
+  var s=SKUS[n];
+  return '<div class="prod">'+
+    '<div class="tag" style="background:'+s.c+'">'+String(n).padStart(2,'0')+'</div>'+
+    '<div class="bd"><div class="nm">'+s.cn+'</div><div class="en">'+s.en+'</div>'+
+    '<div class="cl">'+s.claim+'</div>'+
+    (why?'<div class="why">'+why+'</div>':'')+
+    '<div class="ing">'+s.ing+'</div></div></div>';
+}
+function renderToday(){
+  var h='';
+  CURRENT.forEach(function(n){
+    var s=SKUS[n];
+    h+='<div class="sku"><div class="no" style="background:'+s.c+'">'+String(n).padStart(2,'0')+'</div>'+
+       '<span>'+s.cn.replace('营养包','')+'</span>'+
+       '<div class="ck" onclick="ck(this)">✓</div></div>';
+  });
+  document.getElementById('todayCombo').innerHTML=h;
+}
+function ck(el){el.classList.toggle('done');}
+function renderPlan(){
+  document.getElementById('planCombo').innerHTML=
+    CURRENT.map(function(n){return skuRow(n);}).join('');
+  var h='';
+  for(var i=1;i<=11;i++)
+    h+='<div class="prod"><div class="tag" style="background:'+SKUS[i].c+'">'+String(i).padStart(2,'0')+'</div>'+
+       '<div class="bd"><div class="nm">'+SKUS[i].cn+'</div><div class="en">'+SKUS[i].en+'</div>'+
+       '<div class="cl">'+SKUS[i].claim+'</div><div class="ing">'+SKUS[i].ing+'</div></div></div>';
+  document.getElementById('allSkus').innerHTML=h;
+}
+
+// ---------- 问卷 ----------
+var QUIZ=[
+  {q:'你目前最关注的健康方向是？', hint:'可多选，建议 1–3 项', multi:true, multiMax:3,
+   opts:['免疫力','代谢与体重管理','睡眠','皮肤状态','关节与运动','心脑健康','肝脏与熬夜','肠胃消化','用眼疲劳','抗衰']},
+  {q:'你平时的作息大致是？', hint:'单选', opts:['23 点前入睡','23–24 点入睡','0–1 点入睡','1 点后入睡']},
+  {q:'你的睡眠质量自评是？', hint:'单选 · 自评即可', opts:['睡得沉，醒来精神','还可以','偏浅、容易醒','入睡需要较长时间']},
+  {q:'以下生活习惯，哪项更符合你？', hint:'单选', opts:['每天蔬果充足、少外食','外食较多（每周 3 次以上）','几乎每天外食','经常熬夜 + 喝咖啡提神']},
+  {q:'你的运动频率是？', hint:'单选', opts:['每周 3 次以上','每周 1–2 次','几乎不运动']}
+];
+var ans=[], qIdx=0;
+function renderQuiz(){
+  var s=QUIZ[qIdx];
+  document.getElementById('pbar').style.width=Math.round((qIdx+1)/QUIZ.length*100)+'%';
+  document.getElementById('qstep').textContent='第 '+(qIdx+1)+' 步 / 共 '+QUIZ.length+' 步 · 约 3 分钟';
+  var h='<div class="qt">'+s.q+'</div><div class="sub" style="margin-bottom:8px">'+s.hint+'</div>';
+  h+=s.opts.map(function(o,i){
+    var sel=(ans[qIdx]||[]).indexOf(o)>=0?' sel':'';
+    return '<div class="opt'+sel+'" onclick="pick('+i+',this)">'+o+'</div>';
+  }).join('');
+  document.getElementById('qcard').innerHTML=h;
+  document.getElementById('qnext').textContent=(qIdx===QUIZ.length-1)?'生成我的营养组合报告':'下一步';
+}
+function pick(i,el){
+  var s=QUIZ[qIdx], v=s.opts[i];
+  if(s.multi){
+    ans[qIdx]=ans[qIdx]||[];
+    var k=ans[qIdx].indexOf(v);
+    if(k>=0) ans[qIdx].splice(k,1);
+    else{
+      if(ans[qIdx].length>=s.multiMax){note('最多选 '+s.multiMax+' 项，先取消一项再选。');return;}
+      ans[qIdx].push(v);
+    }
+    renderQuiz();
+  }else{
+    ans[qIdx]=[v]; renderQuiz();
+  }
+}
+function quizNext(){
+  if(!ans[qIdx]||!ans[qIdx].length){note('请先选一项再继续。');return;}
+  if(qIdx<QUIZ.length-1){qIdx++;renderQuiz();return;}
+  buildNutritionReport();
+  show('nutrition');
+}
+
+// ---------- 生成个人营养报告（Mock 推荐逻辑）----------
+function buildNutritionReport(){
+  var dirs=ans[0]||['睡眠'];
+  var sleepTime=ans[1]?ans[1][0]:'23–24 点入睡';
+  var sleepQ=ans[2]?ans[2][0]:'还可以';
+  var life=ans[3]?ans[3][0]:'外食较多（每周 3 次以上）';
+  var sport=ans[4]?ans[4][0]:'每周 1–2 次';
+
+  // 主推荐：来自关注方向
+  var picks=[];
+  dirs.forEach(function(d){ if(DIR2SKU[d] && picks.indexOf(+DIR2SKU[d])<0) picks.push(+DIR2SKU[d]); });
+  // 数据/习惯补充建议
+  var extra=[];
+  if(sleepQ.indexOf('偏浅')>=0 || sleepQ.indexOf('入睡')>=0){ if(picks.indexOf(7)<0) extra.push({n:7,r:'你自评睡眠偏浅或入睡较慢，且戒指显示 HRV 处于你的基线偏低区间'}); }
+  if(sleepTime.indexOf('0–1')>=0 || sleepTime.indexOf('1 点后')>=0){ if(picks.indexOf(9)<0) extra.push({n:9,r:'你有较晚入睡的习惯'}); }
+  if(life.indexOf('几乎每天外食')>=0){ if(picks.indexOf(10)<0) extra.push({n:10,r:'你外食频率较高'}); }
+  if(sport.indexOf('3 次以上')>=0){ if(picks.indexOf(8)<0) extra.push({n:8,r:'你每周运动 3 次以上，关节负荷较高'}); }
+  if(dirs.indexOf('用眼疲劳')>=0 && picks.indexOf(11)<0) picks.push(11);
+
+  picks=picks.slice(0,3);
+  var total=picks.concat(extra.map(function(e){return e.n;})).slice(0,4);
+
+  // 画像文案
+  document.getElementById('np-profile').innerHTML=
+    '你关注 <b>'+dirs.join('、')+'</b>；'+
+    '习惯上属于「<b>'+sleepTime+'</b>、睡眠自评'+sleepQ+'、'+life+'、'+sport+'</b>。'+
+    '结合戒指采集的状态数据，我们为你匹配了下面这个组合。';
+
+  // 组合渲染
+  var h='';
+  picks.forEach(function(n){
+    h+=skuRow(n,'推荐依据：你选择了「'+dirs.filter(function(d){return +DIR2SKU[d]===n;}).join('')+'」');
+  });
+  extra.forEach(function(e){ h+=skuRow(e.n,'补充建议：'+e.r); });
+  document.getElementById('np-combo').innerHTML=h||skuRow(7,'推荐依据：综合你的自述与状态数据');
+}
+
+// ---------- 隐私盾牌 ----------
+function cycleShield(){
+  var el=document.querySelector('.shield'), t=document.getElementById('shieldtxt');
+  var seq=[['#4E9A6A','已加密同步'],['#9AA0A6','仅本地存储'],['#E8A33D','正在被读取']];
+  var i=0; seq.forEach(function(s,k){if(s[1]===t.textContent)i=k;});
+  var nx=seq[(i+1)%3];
+  el.querySelector('.dot').style.background=nx[0]; t.textContent=nx[1];
+  note('隐私三色（MOMOUX）：灰＝仅本地 / 绿＝已加密同步 / 橙＝正在被读取。顾问会查看数据，此图标是信任机制。');
+}
+function note(t){
+  document.getElementById('notetext').innerHTML='<b>待确认：</b>'+t;
+  document.getElementById('notebox').style.display='block';
+}
+function closeNote(){document.getElementById('notebox').style.display='none';}
+
+// ---------- 初始化 ----------
+renderCal(); renderToday(); renderPlan(); renderQuiz(); show('home');
+</script>
+</body>
+</html>
