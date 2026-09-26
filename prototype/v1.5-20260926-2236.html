@@ -1,0 +1,1440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>植悦 21DW 小程序原型 v1.5 · 20260926-2236</title>
+<style>
+  :root{
+    --brand:#A8455C; --brand-soft:#F6E8EB;
+    --warm:#E8A33D;  --warm-soft:#FDF3E3;
+    --ink:#3A3550; --sub:#8B8397;
+    --bg:#FAF6F0; --card:#FFFFFF; --line:#EDE6DE;
+    --ref:#C9C2B8; --base:#D8CFE0;
+    --p-local:#9AA0A6; --p-sync:#4E9A6A; --p-live:#E8A33D;
+    --note:#E8A33D;
+    --ai:#4B6BD6;            /* AI 营养师语义色（蓝紫，与真人莓果色区分） */
+    --ai-soft:#EDF1FD;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#E7E1DA;color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif;
+    display:flex;gap:26px;justify-content:center;padding:20px;flex-wrap:wrap;align-items:flex-start}
+
+  .doc{width:400px;font-size:12.5px;line-height:1.7}
+  .doc .vcard{background:#fff;border-radius:12px;padding:14px;margin-bottom:12px;border-left:4px solid var(--ai)}
+  .doc .vcard h1{font-size:16.5px;color:#2F4BC0;margin-bottom:5px}
+  .doc .vcard .meta{font-size:11.5px;color:var(--sub)}
+  .doc h2{font-size:13px;margin:14px 0 6px;color:#2F4BC0}
+  .doc table{width:100%;border-collapse:collapse;font-size:11.5px;background:#fff;border-radius:8px;overflow:hidden;margin-bottom:4px}
+  .doc th,.doc td{border-bottom:1px solid var(--line);padding:5px 7px;text-align:left;vertical-align:top}
+  .doc th{background:var(--ai-soft);color:#2F4BC0;font-weight:600}
+  .doc ul{margin-left:15px}.doc li{margin-bottom:3px}
+  .doc code{background:#EFEAE4;padding:1px 4px;border-radius:4px;font-size:11px}
+  .tip{background:var(--warm-soft);border-left:3px solid var(--warm);padding:8px 10px;border-radius:6px;margin-top:8px;font-size:12px}
+  .tip.blue{background:var(--ai-soft);border-left-color:var(--ai)}
+
+  .phone{width:390px;height:844px;background:#fff;border-radius:44px;position:relative;
+    box-shadow:0 20px 60px rgba(58,53,80,.28);overflow:hidden;border:8px solid #1a1a1a}
+  .status{height:42px;background:var(--bg);display:flex;align-items:center;justify-content:space-between;
+    padding:0 20px;font-size:12.5px;font-weight:600}
+  .nav{height:42px;background:var(--bg);display:flex;align-items:center;justify-content:center;
+    position:relative;font-size:16.5px;font-weight:600;border-bottom:1px solid var(--line)}
+  .nav .back{position:absolute;left:13px;font-size:20px;font-weight:400;cursor:pointer}
+  .topbar{position:absolute;top:42px;left:0;right:0;height:32px;background:var(--bg);
+    display:flex;align-items:center;justify-content:space-between;padding:0 16px;font-size:11.5px;color:var(--sub);z-index:15}
+  .shield{display:inline-flex;align-items:center;gap:4px;cursor:pointer}
+  .shield .dot{width:8px;height:8px;border-radius:50%;background:var(--p-sync)}
+  .screen{height:calc(844px - 42px - 42px - 32px - 60px);overflow-y:auto;background:var(--bg)}
+  .screen::-webkit-scrollbar{width:0}
+
+  /* AI 常驻悬浮入口（全部 Tab 可见） */
+  .ai-fab{position:absolute;right:14px;bottom:72px;z-index:40;cursor:pointer;
+    background:linear-gradient(135deg,#4B6BD6,#7A5BD6);color:#fff;border-radius:26px;
+    padding:10px 15px;font-size:13px;font-weight:600;display:flex;align-items:center;gap:7px;
+    box-shadow:0 8px 22px rgba(75,107,214,.42)}
+  .ai-fab .live{width:7px;height:7px;border-radius:50%;background:#7BE3A8;box-shadow:0 0 0 3px rgba(123,227,168,.25)}
+  .ai-fab:active{transform:scale(.97)}
+
+  .tabbar{height:60px;background:#FDFBF8;border-top:1px solid var(--line);display:flex;padding-bottom:5px}
+  .tabbar .tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    font-size:10.5px;color:var(--sub);cursor:pointer;gap:2px}
+  .tabbar .tab.on{color:var(--brand);font-weight:600}
+  .tabbar .ico{font-size:18px;line-height:1}
+
+  .card{background:var(--card);border-radius:14px;margin:12px;padding:14px;position:relative}
+  .sub{font-size:11.5px;color:var(--sub)}
+  .row{display:flex;justify-content:space-between;align-items:center}
+  .btn{background:var(--brand);color:#fff;border-radius:10px;padding:12px;text-align:center;
+    font-size:14.5px;font-weight:600;cursor:pointer;margin:12px}
+  .btn.ghost{background:#fff;color:var(--brand);border:1px solid var(--brand)}
+  .btn.warm{background:var(--warm)}
+  .btn.ai{background:var(--ai)}
+  .pill{display:inline-block;background:var(--brand-soft);color:var(--brand);font-size:10.5px;
+    padding:3px 8px;border-radius:20px;font-weight:600}
+  .pill.warm{background:var(--warm-soft);color:#B87A1B}
+  .pill.ai{background:var(--ai-soft);color:#2F4BC0}
+  .sec-t{font-size:13.5px;font-weight:700;padding:15px 16px 6px}
+  .hide{display:none!important}
+  .li{background:#fff;padding:12px 16px;border-bottom:1px solid var(--line);display:flex;
+    justify-content:space-between;align-items:center;font-size:13.5px;cursor:pointer}
+  svg{display:block}
+
+  .obi{margin:12px;background:var(--card);border-radius:16px;padding:17px;border:1px solid var(--line);position:relative}
+  .obi .lead{font-size:11.5px;color:var(--sub);margin-bottom:5px}
+  .obi .headline{font-size:21px;font-weight:700;line-height:1.35}
+  .obi .headline em{font-style:normal;color:var(--brand)}
+  .obi .act{margin-top:13px;background:var(--brand);color:#fff;border-radius:10px;padding:10px;
+    text-align:center;font-size:13.5px;font-weight:600;cursor:pointer}
+
+  .cal{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin-top:10px}
+  .cal i{aspect-ratio:1;border-radius:6px;background:var(--line);display:flex;align-items:center;
+    justify-content:center;font-size:10px;color:var(--sub);font-style:normal}
+  .cal i.on{background:var(--warm);color:#fff;font-weight:700}
+  .cal i.today{border:2px solid var(--brand)}
+  .cal i.miss{background:#F5F0EA;color:#C9C2B8}
+  .streak{margin-top:10px;font-size:11.5px;color:var(--sub)}
+  .streak b{color:var(--brand)}
+
+  .combo{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .sku{display:flex;align-items:center;gap:7px;background:#FBF8F4;border-radius:10px;
+    padding:8px 10px;font-size:12px;border:1px solid var(--line)}
+  .sku .no{width:22px;height:22px;border-radius:6px;color:#fff;font-size:11px;font-weight:700;
+    display:flex;align-items:center;justify-content:center;flex:none}
+  .sku .ck{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--brand);
+    display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--brand);cursor:pointer}
+  .sku .ck.done{background:var(--warm);border-color:var(--warm);color:#fff}
+
+  .strip{display:flex;gap:8px;padding:0 12px}
+  .st{flex:1;background:#fff;border-radius:12px;padding:10px 7px;text-align:center;cursor:pointer;border:1px solid var(--line)}
+  .st .lab{font-size:10px;color:var(--sub)}
+  .st .state{font-size:12.5px;font-weight:700;margin-top:5px}
+  .st .bar{height:5px;border-radius:3px;background:var(--line);margin-top:6px;overflow:hidden}
+  .st .bar i{display:block;height:100%;border-radius:3px;background:var(--brand)}
+
+  /* 真人顾问：重入口（不做常驻浮层） */
+  .human{margin:12px;background:#fff;border:1px dashed #D9CFC6;border-radius:14px;padding:14px}
+  .human .hd{display:flex;align-items:center;gap:8px}
+  .human .av{width:34px;height:34px;border-radius:50%;background:var(--brand);color:#fff;
+    display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;flex:none}
+  .human .nm{font-size:13.5px;font-weight:700}
+  .human .st{font-size:11px;color:var(--sub);margin-top:2px}
+  .human .desc{font-size:11.5px;color:var(--sub);line-height:1.7;margin-top:9px}
+  .human .go{margin-top:10px;border:1px solid var(--brand);color:var(--brand);background:#fff;
+    border-radius:9px;padding:9px;text-align:center;font-size:13.5px;font-weight:600;cursor:pointer}
+
+  .prod{background:#FBF8F4;border-radius:12px;padding:11px 12px;margin-bottom:9px;border:1px solid var(--line);
+    display:flex;gap:11px;align-items:flex-start}
+  .prod .tag{width:34px;height:34px;border-radius:9px;color:#fff;font-weight:700;font-size:14px;
+    display:flex;align-items:center;justify-content:center;flex:none}
+  .prod .bd{flex:1}
+  .prod .nm{font-size:13.5px;font-weight:700}
+  .prod .en{font-size:9.5px;color:var(--sub);letter-spacing:.5px;margin-top:1px}
+  .prod .cl{font-size:11.5px;color:var(--sub);margin-top:4px;line-height:1.55}
+  .prod .why{font-size:11.5px;color:var(--brand);margin-top:5px;line-height:1.55;
+    background:var(--brand-soft);border-radius:7px;padding:6px 8px}
+  .prod .ing{font-size:10.5px;color:#9C9188;margin-top:5px;line-height:1.5}
+
+  .pbar{height:6px;background:var(--line);border-radius:3px;margin:12px 16px 4px;overflow:hidden}
+  .pbar i{display:block;height:100%;background:var(--brand)}
+  .qstep{font-size:11.5px;color:var(--sub);padding:0 16px 6px}
+  .quizcard{margin:12px;background:#fff;border-radius:14px;padding:16px}
+  .quizcard .qt{font-size:15px;font-weight:700;margin-bottom:4px}
+  .opt{display:block;padding:11px 12px;border:1px solid var(--line);border-radius:10px;
+    margin:7px 0;font-size:13.5px;cursor:pointer}
+  .opt:hover{border-color:var(--brand);background:var(--brand-soft)}
+  .opt.sel{border-color:var(--brand);background:var(--brand-soft);font-weight:600}
+  .rep-h{font-size:13.5px;font-weight:700;color:var(--brand);margin-bottom:8px}
+  .kv{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;border-bottom:1px dashed var(--line)}
+  .kv:last-child{border-bottom:none}
+
+  /* ===== AI 对话 ===== */
+  .chat{display:flex;flex-direction:column;height:100%;background:#F7F5F2}
+  .chat .head{background:#fff;border-bottom:1px solid var(--line);padding:10px 14px;display:flex;
+    align-items:center;gap:9px;flex:none}
+  .chat .head .av{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,#4B6BD6,#7A5BD6);
+    color:#fff;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700}
+  .chat .head .nm{font-size:13.5px;font-weight:700}
+  .chat .head .st{font-size:10.5px;color:var(--sub)}
+  .chat .msgs{flex:1;overflow-y:auto;padding:14px 12px 6px}
+  .chat .msgs::-webkit-scrollbar{width:0}
+  .msg{display:flex;gap:8px;margin-bottom:12px;align-items:flex-start}
+  .msg .av{width:26px;height:26px;border-radius:8px;background:linear-gradient(135deg,#4B6BD6,#7A5BD6);
+    color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none}
+  .msg .bub{max-width:252px;background:#fff;border-radius:12px;padding:10px 12px;font-size:13px;
+    line-height:1.7;border:1px solid var(--line)}
+  .msg .bub b{color:#2F4BC0}
+  .msg.me{flex-direction:row-reverse}
+  .msg.me .bub{background:var(--ai);color:#fff;border-color:var(--ai)}
+  .msg.me .bub b{color:#fff}
+  .msg .src{font-size:10.5px;color:var(--sub);margin-top:6px;border-top:1px dashed var(--line);padding-top:5px}
+  .typing .bub{color:var(--sub);font-size:12.5px}
+  .chat .quick{display:flex;gap:6px;padding:6px 12px;flex-wrap:wrap;flex:none}
+  .qchip{background:#fff;border:1px solid var(--line);border-radius:16px;padding:6px 11px;
+    font-size:11.5px;cursor:pointer;color:#475467}
+  .qchip:hover{border-color:var(--ai);color:#2F4BC0}
+  .chat .inputbar{display:flex;gap:8px;padding:9px 12px 12px;background:#fff;border-top:1px solid var(--line);flex:none}
+  .chat .inputbar input{flex:1;border:1px solid var(--line);border-radius:10px;padding:10px 12px;
+    font-size:13px;font-family:inherit;outline:none}
+  .chat .inputbar .send{background:var(--ai);color:#fff;border:0;border-radius:10px;padding:0 15px;
+    font-size:13.5px;font-weight:600;cursor:pointer}
+
+  /* 转人工卡片（AI 对话内） */
+  .handoff{background:var(--warm-soft);border:1px solid #F0D9B5;border-radius:12px;
+    padding:11px 12px;margin:2px 0 12px 34px;font-size:12.5px;line-height:1.7}
+  .handoff .t{font-weight:700;color:#B87A1B;margin-bottom:4px}
+  .handoff .g{margin-top:8px;background:var(--brand);color:#fff;border-radius:8px;padding:8px;
+    text-align:center;font-size:13px;font-weight:600;cursor:pointer}
+
+  /* 记忆面板 */
+  .mem{display:flex;justify-content:space-between;align-items:flex-start;gap:10px;
+    padding:10px 0;border-bottom:1px dashed var(--line);font-size:12.5px}
+  .mem:last-child{border-bottom:none}
+  .mem .k{color:var(--sub);flex:none;width:74px}
+  .mem .v{flex:1;line-height:1.65}
+  .mem .del{color:#C8C2CE;cursor:pointer;font-size:11px;flex:none}
+
+  /* ===== v1.5 新增：周期进度环 / 时间轴 / 笔记 ===== */
+  .ringwrap{display:flex;gap:14px;align-items:center}
+  .ringwrap .rt{flex:1}
+  .ringwrap .rt .big{font-size:14px;font-weight:700}
+  .tl{position:relative;padding-left:56px}
+  .tl:before{content:'';position:absolute;left:42px;top:8px;bottom:8px;width:1px;background:var(--line)}
+  .tl-i{position:relative;padding-bottom:15px}
+  .tl-i:last-child{padding-bottom:0}
+  .tl-i .tm{position:absolute;left:-56px;top:1px;width:38px;text-align:right;font-size:10.5px;color:var(--sub)}
+  .tl-i:before{content:'';position:absolute;left:-18px;top:5px;width:7px;height:7px;border-radius:50%;
+    background:#fff;border:2px solid var(--brand)}
+  .tl-i.note:before{background:var(--warm);border-color:var(--warm)}
+  .tl-i.milestone:before{background:var(--brand);border-color:var(--brand)}
+  .tl-i .tx{font-size:13px;line-height:1.6}
+  .tl-i .ds{font-size:11px;color:var(--sub);margin-top:2px;line-height:1.55}
+  .chips{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+  .chip2{background:#fff;border:1px solid var(--line);border-radius:16px;padding:5px 10px;
+    font-size:11.5px;cursor:pointer;color:#475467}
+  .chip2:hover{border-color:var(--brand);color:var(--brand)}
+  .notebar{display:flex;gap:8px}
+  .notebar input{flex:1;border:1px solid var(--line);border-radius:10px;padding:10px 12px;
+    font-size:13px;font-family:inherit;outline:none}
+  .notebar .sv{background:var(--brand);color:#fff;border:0;border-radius:10px;padding:0 15px;
+    font-size:13px;font-weight:600;cursor:pointer}
+  /* ===== v1.4 新增：强制转场 / 历史 / 设置 / 后台看板 ===== */
+  .takeover{position:absolute;inset:0;background:#FDFBF8;z-index:50;display:flex;
+    flex-direction:column;padding:26px 20px;overflow-y:auto}
+  .takeover .ic{width:52px;height:52px;border-radius:16px;background:var(--warm-soft);
+    display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:14px}
+  .takeover h3{font-size:18px;margin-bottom:8px}
+  .takeover .why{font-size:13px;color:#6B7280;line-height:1.75;margin-bottom:14px}
+  .takeover .sum{background:#fff;border:1px solid var(--line);border-radius:12px;padding:13px;margin-bottom:12px}
+  .takeover .sum .t{font-size:12.5px;font-weight:700;color:var(--brand);margin-bottom:7px}
+  .takeover .sum .it{font-size:12px;color:#475467;line-height:1.8;padding-left:12px;position:relative}
+  .takeover .sum .it:before{content:'';position:absolute;left:0;top:9px;width:4px;height:4px;
+    border-radius:50%;background:var(--brand)}
+  .takeover .go{background:var(--brand);color:#fff;border-radius:10px;padding:13px;text-align:center;
+    font-size:14.5px;font-weight:600;cursor:pointer;margin-bottom:9px}
+  .takeover .back2{text-align:center;font-size:12.5px;color:var(--sub);cursor:pointer;padding:8px}
+  .takeover .note{font-size:11.5px;color:var(--sub);line-height:1.7;margin-top:10px}
+  .lock{background:#F1F3F7;border-radius:10px;padding:10px 12px;font-size:12px;color:#6B7280;line-height:1.7}
+
+  .hist{background:#fff;border-bottom:1px solid var(--line);padding:12px 16px;cursor:pointer}
+  .hist .d{font-size:11px;color:var(--sub)}
+  .hist .q{font-size:13.5px;font-weight:600;margin:4px 0}
+  .hist .a{font-size:12px;color:#6B7280;line-height:1.6;
+    display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .hist .tags{margin-top:6px;display:flex;gap:6px;flex-wrap:wrap}
+  .tg{font-size:10px;padding:2px 7px;border-radius:10px;background:#F1F3F7;color:#6B7280}
+  .tg.h{background:var(--warm-soft);color:#B87A1B}
+
+  .dash-card{background:#fff;border-radius:12px;margin:12px;padding:14px}
+  .dash-card .h{font-size:13.5px;font-weight:700;margin-bottom:11px}
+  .bar{display:flex;align-items:center;gap:9px;margin-bottom:9px;font-size:12px}
+  .bar .lb{width:106px;flex:none;color:#475467}
+  .bar .tr{flex:1;height:14px;background:#F1F3F7;border-radius:7px;overflow:hidden}
+  .bar .tr i{display:block;height:100%;border-radius:7px;background:var(--ai)}
+  .bar .vl{width:38px;text-align:right;flex:none;color:#6B7280;font-size:11.5px}
+  .insight{background:var(--ai-soft);border-left:3px solid var(--ai);border-radius:0 9px 9px 0;
+    padding:10px 12px;font-size:12.5px;line-height:1.75;margin-top:6px}
+  .insight b{color:#2F4BC0}
+
+  .sw{display:flex;justify-content:space-between;align-items:center;padding:11px 0;
+    border-bottom:1px dashed var(--line);font-size:13px}
+  .sw:last-child{border-bottom:none}
+  .sw .t{font-size:13px}
+  .sw .d{font-size:11px;color:var(--sub);margin-top:3px;line-height:1.6}
+  .toggle{width:44px;height:25px;border-radius:13px;background:var(--line);position:relative;
+    cursor:pointer;flex:none;transition:.18s}
+  .toggle.on{background:var(--ai)}
+  .toggle i{position:absolute;top:2.5px;left:2.5px;width:20px;height:20px;border-radius:50%;
+    background:#fff;transition:.18s}
+  .toggle.on i{left:21px}
+  .demo-msg{background:#fff;border:1px solid var(--line);border-radius:12px;padding:11px 12px;margin-top:9px}
+  .demo-msg .who{font-size:10.5px;color:var(--sub);margin-bottom:5px}
+  .demo-msg .tx{font-size:12.5px;line-height:1.7}
+  .demo-msg .btn2{margin-top:8px;background:var(--ai);color:#fff;border-radius:7px;
+    padding:6px;text-align:center;font-size:12px;font-weight:600}
+  .grp{font-size:11px;font-weight:700;color:#6B7280;margin:14px 0 4px;letter-spacing:.4px}
+  #notebox{position:absolute;left:14px;right:14px;bottom:70px;background:#3A3550;color:#fff;
+    border-radius:12px;padding:12px 14px;font-size:12.5px;line-height:1.6;display:none;z-index:60}
+  #notebox b{color:#F0C070}
+  #notebox .close{float:right;opacity:.7;cursor:pointer;margin-left:8px}
+  .note-dot{display:inline-flex;width:15px;height:15px;background:var(--note);color:#fff;
+    border-radius:50%;font-size:10px;align-items:center;justify-content:center;cursor:pointer;
+    margin-left:4px;font-weight:700;vertical-align:middle}
+</style>
+</head>
+<body>
+
+<!-- ============ 左：版本与边界设计 ============ -->
+<div class="doc">
+  <div class="vcard">
+    <h1>植悦 21DW 小程序原型 v1.3</h1>
+    <div class="meta">
+      版本 v1.5 ｜ 更新时间戳 <b>20260926-2236</b><br>
+      文件：植悦21DW_小程序原型_v1.5_20260926-2236.html<br>
+      本版主题：<b>补两处标杆缺失 —— 周期进度环 / Health Timeline + 笔记板 / 允许「不推荐」</b>
+    </div>
+  </div>
+
+  <h2>一、入口设计（一轻一重）</h2>
+  <table>
+    <tr><th></th><th>AI 营养师</th><th>真人营养师</th></tr>
+    <tr><td>入口位置</td><td><b>全部页面常驻悬浮</b>，随时可发起</td><td><b>不做常驻</b>；仅在「我的」、报告页、AI 对话的转交卡片出现</td></tr>
+    <tr><td>发起成本</td><td>点一下即聊（0 门槛）</td><td>需<b>主动添加企微</b>（约 3 步）</td></tr>
+    <tr><td>在线状态</td><td>24 小时可用</td><td><b>09:00–21:00</b>（文案如实告知，不做"24 小时在线"暗示）</td></tr>
+    <tr><td>语义色</td><td>蓝紫 #4B6BD6</td><td>品牌莓果 #A8455C</td></tr>
+  </table>
+
+  <h2>二、AI ↔ 真人 交接边界</h2>
+  <div class="tip blue">
+    判据三问 —— <b>命中任一条即应转真人</b>：<br>
+    ① 是否需要「人对人」的信任？<br>
+    ② 是否涉及商业决策或承诺？<br>
+    ③ 是否需要有人为结果负责？
+  </div>
+  <table>
+    <tr><th>节点</th><th>触发方</th><th>AI 做什么</th><th>真人做什么</th></tr>
+    <tr><td><b>首单 48h</b></td><td>系统</td><td>发问候 + 问卷/数据摘要</td><td>1 对 1 解读，建初始信任</td></tr>
+    <tr><td><b>第 21 天复盘</b></td><td>系统</td><td>生成报告 + 初读</td><td>深度解读 + 下周期建议（<b>续期主战场</b>）</td></tr>
+    <tr><td><b>周期末续期／组合调整</b></td><td>系统 + AI</td><td>出建议草案</td><td><b>确认后才生效</b>（涉及订单变更）</td></tr>
+    <tr><td><b>第 60/90 天里程碑</b></td><td>系统</td><td>汇总数据</td><td>回顾与长期关系维护</td></tr>
+    <tr><td><b>实时转交</b></td><td>AI 判断</td><td>判定 + 带摘要转企微</td><td>接手，无需用户重复说明</td></tr>
+  </table>
+  <div class="tip">
+    <b>AI 转真人的四个实时判据（硬编码进 agent）</b><br>
+    ① <b>越界</b>：提到症状／疾病／用药／诊断 → <b>强制转，AI 不做判断</b><br>
+    ② <b>情绪</b>：焦虑、失望、质疑、投诉倾向 → 转<br>
+    ③ <b>决策</b>：下单／退换／改组合／谈价 → 转（涉及承诺）<br>
+    ④ <b>连续失败</b>：AI 连续 2 轮未解决，或用户明说"要找人" → 转
+  </div>
+  <div class="tip">
+    <b>反向清单：绝对不许转给真人</b>（否则顾问被淹，1:300–500 人效模型崩塌）<br>
+    数据解释类 ｜ 产品信息类（11 款知识库）｜ 记录类（打卡/感受）｜ 常规提醒 → <b>AI 全包</b>
+  </div>
+
+  <h2>三、AI 营养师能力（本原型已演示）</h2>
+  <ul>
+    <li>引用<b>戒指数据</b>回答（"你这周睡眠平均 7h12m"）</li>
+    <li>引用<b>问卷档案</b>（"你关注睡眠与皮肤"）</li>
+    <li>引用 <b>11 款产品知识库</b>（成分、适配方向）</li>
+    <li><b>跨会话记忆</b>（"你第 7 天提到入睡快了"）</li>
+    <li><b>实时判断转人工</b>（越界/情绪/决策/连续失败）</li>
+    <li>回答标注<b>依据来源</b>（数据来源 / 知识库 / 档案）</li>
+  </ul>
+
+  <h2>四、记忆体系（已按你确认的两类落地）</h2>
+  <table>
+    <tr><th>类型</th><th>内容</th><th>存哪</th></tr>
+    <tr><td><b>静态配置</b></td><td>soul.md 人格 · agent.md/claude.md 边界与话术</td><td>代码库，版本化管理</td></tr>
+    <tr><td><b>动态记忆</b></td><td>user.md 画像 · memory.md 跨会话记忆</td><td>服务端，<b>按用户 ID 分片隔离</b></td></tr>
+  </table>
+  <div class="tip">界面已做「<b>AI 记得关于你的</b>」面板，逐条可删、可清空 —— 满足"用户可查看与删除自己的记忆"。</div>
+
+  <h2>怎么用</h2>
+  <ul>
+    <li>点右下角<b>蓝色悬浮按钮</b>「问 AI 营养师」→ 完整对话</li>
+    <li>对话里问「HRV 是什么」「我这周睡得怎么样」「我该吃哪几款」</li>
+    <li>试着说「<b>我最近胃有点疼</b>」或「<b>我要退订</b>」→ 触发<b>转人工卡片</b></li>
+    <li>「我的」→「AI 记得关于你的」看记忆面板</li>
+    <li>「我的」→「AI 与真人顾问能做什么」看边界说明</li>
+    <li>橙色 <b>?</b> 为待确认项</li>
+  </ul>
+
+  <h2>v1.4 已落实（你已确认）</h2>
+  <table>
+    <tr><th>项</th><th>决定</th><th>本版实现</th></tr>
+    <tr><td>转人工</td><td><b>强制跳转</b></td><td>全屏转场页，<b>不提供「继续问 AI」</b></td></tr>
+    <tr><td>对话历史</td><td><b>保留全部历史</b></td><td>新增「对话历史」页，可回看、可单条删</td></tr>
+    <tr><td>对话摘要</td><td><b>自动带出</b></td><td>转场页展示摘要卡（组合/数据/自述/本次要点）</td></tr>
+  </table>
+
+  <h2>v1.4 新增（我的建议，待你点头）</h2>
+  <ul>
+    <li><b>AI 主动发起</b> → 建议「要」，但必须<b>事件驱动 + 频率上限（每周≤2 条）+ 一键关闭</b>；通道走<b>企微</b>。看「主动提醒」页</li>
+    <li><b>记忆期限</b> → 建议<b>分层</b>：长期记忆永不过期；原始对话保留全部历史。看「AI 记忆」页</li>
+    <li><b>后台分析看板</b> → 做成「服务分析」页，里面用大白话标了"这个数字高说明什么"</li>
+  </ul>
+
+  <h2>怎么用</h2>
+  <ul>
+    <li>点右下角蓝色悬浮按钮 → 试着说「<b>我最近胃有点疼</b>」→ 看<b>强制转场页</b></li>
+    <li>「我的」→「对话历史」看完整记录</li>
+    <li>「我的」→「AI 记得关于你的」看<b>记忆分层</b></li>
+    <li>「我的」→「AI 主动提醒」看主动发起方案与示例消息</li>
+    <li>「我的」→「服务分析看板」看后台那一块长什么样</li>
+    <li>「今日」→「今天的时间轴」试<b>记一笔</b>（点快捷标签最快）</li>
+  </ul>
+
+  <h2>v1.5 新增（补两处标杆缺失）</h2>
+  <table>
+    <tr><th>项</th><th>来源</th><th>做法</th></tr>
+    <tr><td><b>周期进度环</b></td><td>两者的共性缺口</td><td>今日页新增环形进度（第 18/21 天）作为<b>视觉主元素</b>，打卡日历降为明细</td></tr>
+    <tr><td><b>Health Timeline</b></td><td>RingConn</td><td>新增「今天的时间轴」：<b>系统自动生成</b>当天里程碑（醒来/同步/服用/压力/达标），不是用户打卡</td></tr>
+    <tr><td><b>笔记板</b></td><td>RingConn（Note board）</td><td>时间轴内置「记一笔」：快捷标签 + 随手记，<b>与当天数据对齐显示</b></td></tr>
+    <tr><td><b>允许「不推荐」</b></td><td>LemonBox</td><td>当自述与数据都健康时，报告直接说「<b>这一周期暂不为你增加产品</b>」</td></tr>
+  </table>
+  <div class="tip blue" style="background:var(--ai-soft);border-left-color:var(--ai)">
+    <b>想看「不推荐」的样子</b>：走问卷时第 1 步<b>只选 1 项</b>，其余四步全选<b>最健康</b>的选项（23 点前入睡 / 睡得沉 / 蔬果充足少外食 / 每周 3 次以上）。
+  </div>
+
+  <h2>v1.4 待确认（3 条）</h2>
+  <ul>
+    <li>AI 主动发起：是否按「事件驱动 + 每周≤2 条 + 可关闭」执行</li>
+    <li>记忆分层：长期记忆不过期、原始对话全留 —— 是否认可</li>
+    <li>后台看板：四个模块（意图/转人工原因/高频问题/服务质量）够不够</li>
+  </ul>
+  <div class="tip">⚠️ 所有数字与对话为 Mock 演示，非真实 AI 输出。</div>
+</div>
+
+<!-- ============ 右：手机 ============ -->
+<div class="phone">
+  <div class="status"><span>9:41</span><span>●●● WiFi 🔋</span></div>
+  <div class="nav"><span class="back hide" id="back">‹</span><span id="navtitle">今日</span></div>
+  <div class="topbar">
+    <span class="pill" id="cyclepill">第 18 天 · 第 2 周期</span>
+    <span class="shield" onclick="cycleShield()"><span class="dot"></span><span id="shieldtxt">已加密同步</span></span>
+  </div>
+
+  <div class="screen">
+
+    <!-- ===== 今日 ===== -->
+    <div class="page" id="p-home">
+      <div class="obi">
+        <div class="lead">今天最值得看的一件事</div>
+        <div class="headline">你的静息心率 <em>58 bpm</em>，比上周期低了 <em>2</em></div>
+        <div class="act" onclick="go('report')">看看这 21 天的变化</div>
+      </div>
+
+      <div class="card">
+        <div class="ringwrap">
+          <svg width="92" height="92" viewBox="0 0 92 92">
+            <circle cx="46" cy="46" r="38" fill="none" stroke="#EFE9E2" stroke-width="9"/>
+            <circle cx="46" cy="46" r="38" fill="none" stroke="#E8A33D" stroke-width="9"
+              stroke-dasharray="238.8" stroke-dashoffset="35" stroke-linecap="round"
+              transform="rotate(-90 46 46)"/>
+            <text x="46" y="43" text-anchor="middle" font-size="21" font-weight="700" fill="#3A3550">18</text>
+            <text x="46" y="58" text-anchor="middle" font-size="9" fill="#8B8397">/ 21 天</text>
+          </svg>
+          <div class="rt">
+            <div class="big">本周期进度<span class="note-dot" onclick="note('RingConn / LemonBox 都以「周期」而非「月」为产品主时间单位，但都缺一个周期进度的视觉主元素——这是补上的那一块。')">?</span></div>
+            <div class="sub" style="margin-top:6px;line-height:1.8">
+              还有 <b style="color:var(--brand)">3 天</b>生成完整报告<br>
+              已连续 <b style="color:var(--brand)">11 天</b> · 依从率 <b>83%</b>
+            </div>
+          </div>
+        </div>
+        <div class="cal" id="cal"></div>
+        <div class="streak">漏一天不重置 · 点下方缩略格查看每日明细</div>
+      </div>
+
+      <div class="card">
+        <div class="row" style="margin-bottom:2px"><div style="font-size:14px;font-weight:700">今天要吃的组合</div><span class="pill">3 款</span></div>
+        <div class="combo" id="todayCombo"></div>
+        <div class="sub" style="margin-top:9px">全部勾选即完成今日服用</div>
+      </div>
+
+      <!-- 今天的时间轴入口（RingConn Health Timeline 手法的落地） -->
+      <div class="card" onclick="go('timeline')">
+        <div class="row">
+          <div>
+            <div style="font-size:14px;font-weight:700">今天的时间轴</div>
+            <div class="sub" style="margin-top:3px">把服用、数据和生活事件串成一条线</div>
+          </div>
+          <span style="color:#C8C2CE">›</span>
+        </div>
+        <div class="sub" style="margin-top:9px;line-height:1.7;color:#9C9188">
+          09:30 服用组合 A · 12:40 记录「外食」· 14:20 压力尖峰
+        </div>
+      </div>
+
+      <div class="sec-t">身体状态</div>
+      <div class="strip">
+        <div class="st" onclick="tab('data')"><div class="lab">睡眠</div><div class="state" style="color:var(--brand)">不错</div><div class="bar"><i style="width:82%"></i></div></div>
+        <div class="st" onclick="tab('data')"><div class="lab">静息心率</div><div class="state" style="color:var(--brand)">偏低</div><div class="bar"><i style="width:74%"></i></div></div>
+        <div class="st" onclick="tab('data')"><div class="lab">HRV</div><div class="state" style="color:var(--brand)">平稳</div><div class="bar"><i style="width:66%"></i></div></div>
+        <div class="st" onclick="tab('data')"><div class="lab">活动</div><div class="state" style="color:var(--warm)">达标</div><div class="bar"><i style="width:88%;background:var(--warm)"></i></div></div>
+      </div>
+
+      <!-- AI 入口（常驻悬浮之外，首页再放一张引导卡） -->
+      <div class="card" onclick="openAI('今天想了解点什么？我看了你的数据，睡眠和静息心率都有变化。')"
+           style="border:1px solid var(--ai);background:var(--ai-soft)">
+        <div class="row">
+          <div style="display:flex;align-items:center;gap:9px">
+            <div style="width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,#4B6BD6,#7A5BD6);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700">AI</div>
+            <div>
+              <div style="font-size:13.5px;font-weight:700;color:#2F4BC0">问 AI 营养师</div>
+              <div class="sub" style="margin-top:2px">随时可用 · 看得懂你的数据和组合</div>
+            </div>
+          </div>
+          <span style="color:#8FA3E8">›</span>
+        </div>
+      </div>
+
+      <div class="card" onclick="go('quiz')" style="border:1px solid var(--brand)">
+        <div class="row">
+          <div><div style="font-size:14px;font-weight:700">重新评估我的组合</div>
+          <div class="sub" style="margin-top:3px">5 步问卷 · 约 3 分钟</div></div>
+          <span style="color:#C8C2CE">›</span>
+        </div>
+      </div>
+
+      <!-- 真人顾问：重入口（虚线描边、非浮层、明示服务时间） -->
+      <div class="human">
+        <div class="hd">
+          <div class="av">林</div>
+          <div>
+            <div class="nm">真人营养顾问 · 小林</div>
+            <div class="st">需添加企微后才能对话 · 服务时间 09:00–21:00</div>
+          </div>
+        </div>
+        <div class="desc">适合需要做决策、或想找人聊聊的情况（如组合调整、续期、退换）。AI 营养师解决不了时，AI 会主动帮你转接。</div>
+        <div class="go" onclick="note('真人入口做得「重」是刻意的：需主动添加企微、明示非 24 小时在线，以此做用户预期管理，与 AI 的零门槛形成区分。')">添加企微 · 与顾问对话</div>
+      </div>
+      <div style="height:14px"></div>
+    </div>
+
+    <!-- ===== 数据 ===== -->
+    <div class="page hide" id="p-data">
+      <div class="sec-t">身心平衡</div>
+      <div class="card" style="text-align:center">
+        <svg width="230" height="200" viewBox="0 0 230 200">
+          <g transform="translate(115,100)">
+            <path d="M0,-8 C-30,-30 -34,-58 -18,-72 C-4,-84 12,-70 8,-46 C6,-30 2,-16 0,-8 Z" fill="#A8455C" opacity=".85"/>
+            <path d="M8,0 C30,-30 58,-34 72,-18 C84,-4 70,12 46,8 C30,6 16,2 8,0 Z" fill="#C4617A" opacity=".8"/>
+            <path d="M0,8 C30,30 34,58 18,72 C4,84 -12,70 -8,46 C-6,30 -2,16 0,8 Z" fill="#E8A33D" opacity=".85"/>
+            <path d="M-8,0 C-30,30 -58,34 -72,18 C-84,4 -70,-12 -46,-8 C-30,-6 -16,-2 -8,0 Z" fill="#D8CFE0" opacity=".95"/>
+            <circle r="15" fill="#fff"/>
+            <text y="-1" text-anchor="middle" font-size="11" font-weight="700" fill="#3A3550">良好</text>
+            <text y="11" text-anchor="middle" font-size="8" fill="#8B8397">综合</text>
+          </g>
+          <text x="115" y="14" text-anchor="middle" font-size="9.5" fill="#8B8397">睡眠</text>
+          <text x="212" y="103" text-anchor="middle" font-size="9.5" fill="#8B8397">活动</text>
+          <text x="115" y="194" text-anchor="middle" font-size="9.5" fill="#8B8397">压力</text>
+          <text x="18" y="103" text-anchor="middle" font-size="9.5" fill="#8B8397">生命体征</text>
+        </svg>
+        <div style="margin-top:2px"><span class="pill warm">良好</span> <span class="pill">可提升</span> <span class="pill">需关注</span></div>
+        <div class="sub" style="margin-top:8px;line-height:1.65">四项均在你的个人基线范围内，其中<b style="color:var(--warm)">活动</b>表现最好。</div>
+      </div>
+
+      <!-- 就地问答入口（AI 从页面带入上下文） -->
+      <div class="card" style="border:1px solid var(--ai);background:var(--ai-soft)"
+           onclick="openAI('你正在看「身心平衡」。四项都在你的基线范围内——想让我拆开讲讲哪一项？')">
+        <div class="sub" style="color:#2F4BC0;font-size:13px;font-weight:600">看不懂这里的哪一项？直接问 AI 营养师 ›</div>
+      </div>
+
+      <div class="sec-t">指标明细</div>
+      <div class="card">
+        <div class="kv"><span>睡眠时长</span><span><b>7h 12m</b> <span style="color:var(--brand);font-size:12px">+22 分钟</span></span></div>
+        <div class="kv"><span>静息心率</span><span><b>58 bpm</b> <span style="color:var(--brand);font-size:12px">−2</span></span></div>
+        <div class="kv"><span>HRV</span><span><b>42 ms</b> <span style="color:var(--brand);font-size:12px">+3</span></span></div>
+        <div class="kv"><span>活动步数</span><span><b>6,842</b> <span style="color:var(--brand);font-size:12px">+640</span></span></div>
+        <div class="kv"><span>皮温（P1）</span><span><b>36.4 ℃</b> <span style="color:var(--sub);font-size:12px">持平</span></span></div>
+      </div>
+
+      <div class="card">
+        <div style="font-size:13.5px;font-weight:700">昨夜睡眠结构</div>
+        <div style="position:relative;height:70px;background:#FBF8F4;border-radius:8px;overflow:hidden;margin-top:10px">
+          <div style="position:absolute;left:2%;width:12%;top:6px;height:15px;border-radius:3px;background:#B9A7D6"></div>
+          <div style="position:absolute;left:14%;width:26%;top:21px;height:15px;border-radius:3px;background:#D8CFE0"></div>
+          <div style="position:absolute;left:40%;width:14%;top:36px;height:15px;border-radius:3px;background:#A8455C"></div>
+          <div style="position:absolute;left:54%;width:22%;top:21px;height:15px;border-radius:3px;background:#D8CFE0"></div>
+          <div style="position:absolute;left:76%;width:10%;top:36px;height:15px;border-radius:3px;background:#A8455C"></div>
+          <div style="position:absolute;left:86%;width:12%;top:6px;height:15px;border-radius:3px;background:#B9A7D6"></div>
+        </div>
+        <div class="row" style="font-size:10.5px;color:var(--sub);margin-top:5px"><span>23:12 入睡</span><span>06:24 醒来</span></div>
+        <div style="margin-top:10px">
+          <div class="row" style="font-size:11.5px;color:var(--sub)"><span>深睡占比</span><span>你的 24% ｜ 参考区间 16–22%</span></div>
+          <div style="height:8px;border-radius:4px;background:var(--base);position:relative;margin:5px 0 9px">
+            <span style="position:absolute;left:46%;top:-3px;width:3px;height:14px;border-radius:2px;background:var(--brand)"></span></div>
+          <div class="row" style="font-size:11.5px;color:var(--sub)"><span>REM 占比</span><span>你的 21% ｜ 参考区间 18–25%</span></div>
+          <div style="height:8px;border-radius:4px;background:var(--base);position:relative;margin-top:5px">
+            <span style="position:absolute;left:60%;top:-3px;width:3px;height:14px;border-radius:2px;background:var(--brand)"></span></div>
+        </div>
+        <div class="sub" style="margin-top:10px;line-height:1.65">参考区间用于「你现在在什么位置」，不作为健康结论。</div>
+      </div>
+      <div style="height:14px"></div>
+    </div>
+
+    <!-- ===== AI 对话 ===== -->
+    <div class="page hide" id="p-ai" style="height:100%">
+      <div class="chat">
+        <div class="head">
+          <div class="av">AI</div>
+          <div style="flex:1">
+            <div class="nm">AI 营养师</div>
+            <div class="st">24 小时可用 · 有你的数据、问卷与产品知识库</div>
+          </div>
+          <div style="font-size:11.5px;color:#2F4BC0;cursor:pointer" onclick="go('memory')">记忆</div>
+        </div>
+        <div class="msgs" id="msgs"></div>
+        <div class="quick" id="quick"></div>
+        <div class="inputbar">
+          <input id="chatinput" placeholder="问点什么…（试试：我最近胃有点疼）" onkeydown="if(event.key==='Enter')sendMsg()">
+          <button class="send" onclick="sendMsg()">发送</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== AI 记忆面板 ===== -->
+    <div class="page hide" id="p-memory">
+      <div class="sec-t">AI 记得关于你的</div>
+      <div class="card">
+        <div class="grp">长期记忆 · 不过期（这是「它认识我」的部分）</div>
+        <div class="mem"><span class="k">关注方向</span><span class="v">睡眠、皮肤状态</span><span class="del" onclick="delMem(this)">删除</span></div>
+        <div class="mem"><span class="k">作息习惯</span><span class="v">习惯 23–24 点入睡</span><span class="del" onclick="delMem(this)">删除</span></div>
+        <div class="mem"><span class="k">当前组合</span><span class="v">07 睡眠 · 03 御炎 · 09 肝</span><span class="del" onclick="delMem(this)">删除</span></div>
+        <div class="mem"><span class="k">你的自述</span><span class="v">第 7 天：「最近感觉入睡快了些」</span><span class="del" onclick="delMem(this)">删除</span></div>
+        <div class="grp">原始对话记录 · 保留全部历史</div>
+        <div class="mem"><span class="k">近期提问</span><span class="v">「HRV 是什么」「我该吃哪几款」</span><span class="del" onclick="go('history')">查看</span></div>
+      </div>
+      <div class="tip blue" style="margin:0 12px 12px;background:var(--ai-soft);border-left:3px solid var(--ai);padding:10px 12px;border-radius:6px;font-size:12px;line-height:1.75">
+        <b>我的建议（待你确认）</b>：把「记忆」和「历史记录」分开——<br>
+        · <b>长期记忆</b>（关于你的事实）→ <b>不过期</b>，这就是关系本身<br>
+        · <b>原始对话</b>→ 保留全部历史，可回看、可单条删除<br>
+        <span style="color:#8B8397">理由：记忆不是越多越好，是越准越好。三年前的「我最近睡得不好」如果还混在上下文里，会污染 AI 当前的判断。</span>
+      </div>
+      <div class="card">
+        <div class="sub" style="line-height:1.75">
+          这些是为了让 AI 更像「认识你」而记住的信息。<b>你可以逐条删除，也可以全部清空</b>。<br>
+          记忆按你的账号隔离保存，不会与其他用户混用；仅用于你与 AI 的对话与服务。
+        </div>
+        <div class="btn ghost" style="margin:12px 0 0;border-color:#C8C2CE;color:#8B8397"
+             onclick="note('清空记忆为不可逆操作，正式版应二次确认。确认：记忆保留期限建议多久（90 天 / 与方案周期绑定 / 永久）？')">清空我的全部记忆</div>
+      </div>
+      <div class="sub" style="padding:0 16px 20px;line-height:1.7">
+        后台侧：对话会结构化落库（意图分类 / 是否转人工 / 转人工原因），用于服务改进分析。
+      </div>
+    </div>
+
+    <!-- ===== 边界说明 ===== -->
+    <div class="page hide" id="p-boundary">
+      <div class="sec-t">AI 与真人顾问，分别能做什么</div>
+      <div class="card">
+        <div class="rep-h" style="color:#2F4BC0">AI 营养师 · 随时可用</div>
+        <div class="sub" style="line-height:1.85">
+          · 解释你的数据（睡眠、HRV、静息心率等指标的读法）<br>
+          · 说明 11 款产品的成分与适配方向<br>
+          · 帮你回顾周期数据、解释报告<br>
+          · 记录你的感受与打卡<br>
+          · 常规提醒与答疑
+        </div>
+      </div>
+      <div class="card">
+        <div class="rep-h">真人营养顾问 · 需要添加企微 · 09:00–21:00</div>
+        <div class="sub" style="line-height:1.85">
+          · 做<b>组合调整</b>这类涉及你订单的决定<br>
+          · 涉及<b>续期与退换</b>的安排<br>
+          · 你有情绪、有顾虑、想找人聊聊时<br>
+          · 任何需要有人为结果负责的情况
+        </div>
+      </div>
+      <div class="card" style="background:var(--warm-soft);border:none">
+        <div class="sub" style="line-height:1.8">
+          <b>什么时候会帮你转接顾问？</b><br>
+          当你提到身体不适、正在用药，或者要处理订单、退换、有不满时，
+          AI 营养师会主动帮你把之前的对话摘要带过去，转给真人顾问接手 —— <b>你不用再重复说一遍</b>。
+        </div>
+      </div>
+      <div class="card">
+        <div class="sub" style="line-height:1.8">
+          <b>说明</b>：AI 营养师与真人顾问都不提供医疗诊断或治疗建议。
+          涉及身体状况的判断，请咨询医生。
+        </div>
+      </div>
+      <div style="height:14px"></div>
+    </div>
+
+    <!-- ===== 问卷 ===== -->
+    <div class="page hide" id="p-quiz">
+      <div class="pbar"><i id="pbar" style="width:20%"></i></div>
+      <div class="qstep" id="qstep">第 1 步 / 共 5 步 · 约 3 分钟</div>
+      <div class="quizcard" id="qcard"></div>
+      <div class="btn" id="qnext" onclick="quizNext()">下一步</div>
+      <div class="sub" style="padding:0 16px 20px;line-height:1.7">
+        问卷只用于了解你的需求与生活习惯，用于生成你的营养组合参考。<b>我们不提供医疗建议</b>。
+      </div>
+    </div>
+
+    <!-- ===== 营养组合报告 ===== -->
+    <div class="page hide" id="p-nutrition">
+      <div class="sec-t">你的营养组合报告</div>
+      <div class="card"><div class="rep-h">① 你的需求画像</div><div class="sub" id="np-profile" style="line-height:1.75"></div></div>
+      <div class="card">
+        <div class="rep-h">② 你的状态快照（戒指采集）</div>
+        <div class="kv"><span>睡眠时长</span><span><b>7h 12m</b></span></div>
+        <div class="kv"><span>静息心率</span><span><b>58 bpm</b></span></div>
+        <div class="kv"><span>HRV</span><span><b>42 ms</b>（你的基线偏低区间）</span></div>
+        <div class="kv"><span>日均活动</span><span><b>6,842 步</b></span></div>
+        <div class="sub" style="margin-top:9px">数据仅用于趋势参考，非医疗用途。</div>
+      </div>
+      <div class="card">
+        <div class="rep-h">③ 为你匹配的组合</div>
+        <div id="np-combo"></div>
+        <div class="sub" style="margin-top:8px;line-height:1.7">以上为<b>基于你的自述与状态数据所做的产品组合选择</b>，不构成健康或医疗建议。</div>
+      </div>
+      <div class="card">
+        <div class="rep-h">④ 建议周期</div>
+        <div class="sub" style="line-height:1.75">建议以 <b>21 天</b>为一个观察周期：21 天后我们会用你的戒指数据与一次简短复评，看看这个组合是否适合你。</div>
+      </div>
+      <div class="btn" onclick="note('报告底部是转化入口。确认：报告生成到下单之间是否要插入顾问确认？')">选择这个组合</div>
+      <div class="btn ghost ai" onclick="openAI('你的报告我给你讲讲？可以从「为什么推荐这几款」开始。')">让 AI 讲讲这份报告</div>
+      <div style="height:14px"></div>
+    </div>
+
+    <!-- ===== 我的组合 ===== -->
+    <div class="page hide" id="p-plan">
+      <div class="sec-t">我的组合</div>
+      <div class="card">
+        <div class="row"><span style="font-weight:700">当前组合 · 3 款</span><span class="pill">21 天周期</span></div>
+        <div id="planCombo" style="margin-top:8px"></div>
+        <div class="btn warm" style="margin:12px 0 0" onclick="note('组合调整涉及订单变更，属「决策类」，应转真人确认后生效。')">续订下一周期</div>
+      </div>
+      <div class="sec-t">21DAYS 全系列（11 款）</div>
+      <div class="card" style="padding:12px">
+        <div id="allSkus"></div>
+        <div class="sub" style="margin-top:6px">加拿大进口精准营养包 · 各款可单独购买，也可按组合装</div>
+      </div>
+      <div style="height:14px"></div>
+    </div>
+
+    <!-- ===== 21 天报告 ===== -->
+    <div class="page hide" id="p-report">
+      <div class="sec-t">21 天趋势报告</div>
+      <div class="card">
+        <div class="rep-h">① 这 21 天，数据发生了这些变化</div>
+        <div style="line-height:1.95;font-size:13.5px">
+          · 睡眠时长：平均 <b>7 小时 12 分</b>，较上周期 <b>+22 分钟</b><br>
+          · 静息心率：平均 <b>58 bpm</b>，较上周期 <b>−2 bpm</b><br>
+          · HRV：平均 <b>42 ms</b>，较上周期 <b>+3 ms</b><br>
+          · 每日活动：<b>6,842 步</b>，较上周期 <b>+640 步</b>
+        </div>
+        <div class="sub" style="margin-top:9px">以上为状态趋势描述，不代表健康结论或功效。</div>
+      </div>
+      <div class="card">
+        <div class="rep-h">② 与你自己的感受对照</div>
+        <div style="font-size:13.5px;line-height:1.85">
+          你在第 7 天记录过：<i style="color:var(--sub)">「最近感觉入睡快了些」</i><br>
+          数据上看，入睡时点确实比上周期平均提前约 <b>14 分钟</b>，和你的感受是一致的。
+        </div>
+      </div>
+      <div class="card" style="border:1px solid var(--warm)">
+        <div class="rep-h" style="color:#B87A1B">③ 一个和你日常习惯有关的规律</div>
+        <div style="font-size:13.5px;line-height:1.85">
+          <b>你按时服用的那些天，深睡时长平均多了 18 分钟。</b><br>
+          <span class="sub">这是「一同出现的规律」，不是因果结论，也不代表产品有任何功效。</span>
+        </div>
+      </div>
+      <div class="card" style="border:1px solid var(--brand)">
+        <div class="rep-h">④ 组合复评 · 下一周期怎么调</div>
+        <div style="font-size:13.5px;line-height:1.85">
+          本周期你的组合是：<b>07 睡眠 + 03 御炎 + 09 肝</b><br><br>
+          · <b>07 睡眠</b>：睡眠时长与入睡时点均改善，<b>建议保留</b><br>
+          · <b>03 御炎</b>：HRV 从 38 升到 42，方向一致，<b>建议保留</b><br>
+          · <b>09 肝</b>：你近两周熬夜减少，此项<b>可考虑暂停或减量</b><br><br>
+          <span class="sub">组合调整涉及你的订单，需要顾问与你确认后生效。</span>
+        </div>
+        <span class="note-dot" style="position:absolute;right:12px;top:12px"
+              onclick="note('组合调整属「决策类」→ 必须真人确认。这是 AI↔真人边界的关键落点之一。')">?</span>
+      </div>
+
+      <!-- 双入口并列：轻（AI）+ 重（真人） -->
+      <div class="btn ai" onclick="openAI('这份 21 天报告，我逐段给你讲讲？')">让 AI 解读这份报告</div>
+      <div class="human">
+        <div class="hd">
+          <div class="av">林</div>
+          <div><div class="nm">真人顾问深度解读</div>
+          <div class="st">需添加企微 · 09:00–21:00 · 涉及组合调整请找顾问</div></div>
+        </div>
+        <div class="go" onclick="note('报告页同时给 AI 与真人两个入口：AI 负责「讲明白」，真人负责「做决定」——这就是边界的直观呈现。')">预约顾问解读</div>
+      </div>
+      <div style="height:14px"></div>
+    </div>
+
+    <!-- ===== 我的 ===== -->
+    <div class="page hide" id="p-mine">
+      <div class="sec-t">我的</div>
+      <div class="card">
+        <div class="row" style="margin-bottom:7px"><div style="font-size:13.5px;font-weight:700">我的设备</div><span class="pill">已连接</span></div>
+        <div class="kv"><span>戒指电量</span><span>78%</span></div>
+        <div class="kv"><span>最近同步</span><span>今天 08:12</span></div>
+        <div class="kv"><span>圈号</span><span>9 号（已确认）</span></div>
+      </div>
+
+      <!-- 两个入口并列，轻/重对比明显 -->
+      <div class="card" onclick="openAI('有什么想问的？')" style="border:1px solid var(--ai);background:var(--ai-soft)">
+        <div class="row">
+          <div><div style="font-size:13.5px;font-weight:700;color:#2F4BC0">AI 营养师</div>
+          <div class="sub" style="margin-top:2px">24 小时可用 · 点开即聊</div></div>
+          <span style="color:#8FA3E8">›</span></div>
+      </div>
+      <div class="human" style="margin-top:0">
+        <div class="hd">
+          <div class="av">林</div>
+          <div><div class="nm">真人营养顾问 · 小林</div>
+            <div class="st">需添加企微 · 09:00–21:00</div></div>
+        </div>
+        <div class="go" onclick="note('真人入口需要用户主动动作（添加企微），刻意做重。')">添加企微 · 与顾问对话</div>
+      </div>
+
+      <div class="li" onclick="go('memory')"><span>AI 记得关于你的</span><span style="color:#C8C2CE">›</span></div>
+      <div class="li" onclick="go('boundary')"><span>AI 与真人顾问能做什么</span><span style="color:#C8C2CE">›</span></div>
+      <div class="li" onclick="go('nutrition')"><span>我的营养组合报告</span><span style="color:#C8C2CE">›</span></div>
+      <div class="li" onclick="go('report')"><span>21 天趋势报告</span><span style="color:#C8C2CE">›</span></div>
+      <div class="li" onclick="go('activate')"><span>戒指圈号与激活</span><span style="color:#C8C2CE">›</span></div>
+      <div class="li"><span>隐私与数据授权</span><span style="color:#C8C2CE">›</span></div>
+      <div class="sub" style="padding:16px;text-align:center">v1.5 · 20260926-2236<br>21DAYS WONDER · 加拿大本土在售</div>
+    </div>
+
+    <!-- ===== 激活 ===== -->
+    <div class="page hide" id="p-activate">
+      <div class="sec-t">戒指激活与圈号确认</div>
+      <div class="card" style="background:var(--brand-soft);border:none">
+        <div style="font-size:12.5px;line-height:1.75">
+          <b>为什么不能直接发戒指：</b>戒指不合手用户就不会戴，后面所有数据与组合复评都落空。
+          所以把圈号确认前置成三道闸。
+        </div>
+      </div>
+      <div class="card"><div style="font-size:13.5px;font-weight:700">第一闸 · 随包寄出试戴戒圈</div><div class="sub" style="margin-top:5px">3–5 枚模拟戒圈，与首批营养包同箱发出</div></div>
+      <div class="card"><div style="font-size:13.5px;font-weight:700">第二闸 · 连续佩戴 ≥24 小时</div><div class="sub" style="margin-top:5px">须含一晚睡眠；标准是「舒适、牢固、活动时不旋转」</div></div>
+      <div class="card"><div style="font-size:13.5px;font-weight:700">第三闸 · 小程序内选号提交</div><div class="sub" style="margin-top:5px">提交后才触发正式戒指发货</div></div>
+      <div class="btn">我已试戴 24 小时，提交 9 号</div>
+
+    <!-- ===== 强制转人工（全屏转场，无「继续问 AI」选项） ===== -->
+    <div class="page hide" id="p-transfer" style="height:100%">
+      <div class="takeover">
+        <div class="ic">🤝</div>
+        <h3>已为你转接真人顾问</h3>
+        <div class="why" id="tf-why">这类问题需要真人顾问来给你答复。</div>
+        <div class="sum">
+          <div class="t">已自动带出的对话摘要</div>
+          <div class="it">你的当前组合：07 睡眠 · 03 御炎 · 09 肝</div>
+          <div class="it">近 7 天数据：睡眠 7h12m（+22 分钟）· 静息心率 58（−2）· HRV 42（+3）</div>
+          <div class="it" id="tf-dialog">本次对话要点：见上</div>
+          <div class="it">你第 7 天的自述：「最近感觉入睡快了些」</div>
+          <div class="note" style="padding-left:0">摘要已随转接发送给顾问，<b>你不需要再重复说明</b>。</div>
+        </div>
+        <div class="go" onclick="note('正式版此处拉起企微会话（或用微信客服能力）。转接为强制：不提供「继续问 AI」选项，避免越界问题被 AI 继续作答。')">打开企微，与顾问对话 ›</div>
+        <div class="back2" onclick="tab('home')">先回首页，稍后再联系</div>
+        <div class="note">
+          说明：AI 营养师与真人顾问都不提供医疗诊断或治疗建议。涉及身体状况，请咨询医生。
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 对话历史（全部保留） ===== -->
+    <div class="page hide" id="p-history">
+      <div class="sec-t">对话历史<span class="note-dot" onclick="note('已按你的决定：对话历史全部保留、不设过期。正式版需提供按时间筛选与关键词搜索。')">?</span></div>
+      <div class="hist" onclick="note('点开可看该次会话的完整多轮记录。')">
+        <div class="d">今天 21:38 · 8 轮</div>
+        <div class="q">「我该吃哪几款？」</div>
+        <div class="a">你现在的组合是 07 睡眠 + 03 御炎 + 09 肝。07 因为你问卷里关注睡眠且自评偏浅；03 因为你的 HRV 处于自己基线的偏低区间……</div>
+        <div class="tags"><span class="tg">产品组合</span><span class="tg">已引用档案</span></div>
+      </div>
+      <div class="hist" onclick="note('点开可看该次会话的完整多轮记录。')">
+        <div class="d">今天 09:12 · 3 轮</div>
+        <div class="q">「我这周睡得怎么样？」</div>
+        <div class="a">你这 21 天睡眠平均 7 小时 12 分，比上周期多了 22 分钟。主要是入睡时点提前了约 14 分钟……</div>
+        <div class="tags"><span class="tg">数据解读</span></div>
+      </div>
+      <div class="hist" onclick="note('点开可看该次会话的完整多轮记录。')">
+        <div class="d">9 月 24 日 · 2 轮</div>
+        <div class="q">「HRV 是什么？」</div>
+        <div class="a">HRV（心率变异性）是心跳间隔的细微变化。数值偏高，通常说明身体恢复得比较好。你的 HRV 本周期平均 42 ms……</div>
+        <div class="tags"><span class="tg">指标解释</span></div>
+      </div>
+      <div class="hist" onclick="note('该次会话触发了转人工。')">
+        <div class="d">9 月 22 日 · 4 轮</div>
+        <div class="q">「最近肠胃不太舒服」</div>
+        <div class="a">听到你说身体不舒服，这个我不能也不该给判断 —— 涉及身体状况的部分需要专业医生。我先帮你把情况整理好……</div>
+        <div class="tags"><span class="tg h">已转人工 · 越界</span></div>
+      </div>
+      <div class="sub" style="padding:14px 16px 20px;line-height:1.7">
+        历史记录不设过期，你可以随时回看或删除单条。<br>
+        你与顾问在企微的对话，也会归到同一条时间线（需你授权同步）。
+      </div>
+    </div>
+
+    <!-- ===== 后台分析看板（运营团队视图） ===== -->
+    <div class="page hide" id="p-dash">
+      <div class="sec-t">AI 服务分析看板 · 近 30 天<span class="note-dot" onclick="note('这块是给植悦运营团队看的，不是给用户看的。作用：用对话数据反推「产品哪里该改」。')">?</span></div>
+      <div class="dash-card">
+        <div class="h">① 用户都在问什么（意图分类）</div>
+        <div class="bar"><span class="lb">数据怎么读</span><span class="tr"><i style="width:42%;background:#4B6BD6"></i></span><span class="vl">42%</span></div>
+        <div class="bar"><span class="lb">产品成分/怎么吃</span><span class="tr"><i style="width:28%;background:#7A5BD6"></i></span><span class="vl">28%</span></div>
+        <div class="bar"><span class="lb">订单/物流</span><span class="tr"><i style="width:15%;background:#9B8BE0"></i></span><span class="vl">15%</span></div>
+        <div class="bar"><span class="lb">身体问题(转人工)</span><span class="tr"><i style="width:10%;background:#E8A33D"></i></span><span class="vl">10%</span></div>
+        <div class="bar"><span class="lb">其他</span><span class="tr"><i style="width:5%;background:#C9CFD8"></i></span><span class="vl">5%</span></div>
+        <div class="insight"><b>洞察：</b>「数据怎么读」占了 42%，说明<b>我们的数据页没讲清楚</b> —— 该去改页面，而不是让 AI 一遍遍解释同一件事。</div>
+      </div>
+
+      <div class="dash-card">
+        <div class="h">② 为什么要转人工（转人工原因分布）</div>
+        <div class="bar"><span class="lb">越界(身体状况)</span><span class="tr"><i style="width:60%;background:#E8A33D"></i></span><span class="vl">60 次</span></div>
+        <div class="bar"><span class="lb">决策(订单/退换)</span><span class="tr"><i style="width:30%;background:#D9A24A"></i></span><span class="vl">30 次</span></div>
+        <div class="bar"><span class="lb">情绪(不满/疑虑)</span><span class="tr"><i style="width:8%;background:#C9CFD8"></i></span><span class="vl">8 次</span></div>
+        <div class="bar"><span class="lb">AI 答不上</span><span class="tr"><i style="width:2%;background:#C9CFD8"></i></span><span class="vl">2 次</span></div>
+        <div class="insight"><b>洞察：</b>「越界」占六成，说明<b>用户以为我们能解决健康问题</b> —— 是文案与用户教育的问题，要在更早的位置声明边界（如首页脚注、激活引导）。</div>
+      </div>
+
+      <div class="dash-card">
+        <div class="h">③ 高频问题 TOP 5（可直接指导知识库补充）</div>
+        <div class="sub" style="line-height:1.9">
+          1. HRV 是什么意思 · 386 次<br>
+          2. 参考区间是怎么来的 · 241 次<br>
+          3. 07 睡眠包有什么成分 · 198 次<br>
+          4. 为什么要吃 3 款 · 156 次<br>
+          5. 报告里的「深睡占比」怎么看 · 132 次
+        </div>
+        <div class="insight"><b>洞察：</b>前两条都指向<b>「算法与参考区间要可解释」</b> —— 与 Fitbit 研究的结论一致：分数不解释清楚，用户就会反复问。</div>
+      </div>
+
+      <div class="dash-card">
+        <div class="h">④ 服务质量</div>
+        <div class="kv"><span>对话量 / 活跃用户</span><span><b>2,847</b> 条 / 612 人</span></div>
+        <div class="kv"><span>平均对话轮次</span><span><b>3.4</b> 轮</span></div>
+        <div class="kv"><span>未解决率</span><span><b>4.1%</b></span></div>
+        <div class="kv"><span>转人工率</span><span><b>3.5%</b></span></div>
+        <div class="insight"><b>洞察：</b>转人工率 3.5% 落在健康区间 —— 低于 1% 说明 AI 可能在硬撑（该转不转），高于 10% 说明 AI 能力不足、顾问会被压垮。</div>
+      </div>
+      <div class="sub" style="padding:0 16px 20px;line-height:1.7">
+        数据来源：AI 对话结构化落库（意图标签、是否转人工、转人工原因）。<b>只存纯文本的聊天记录，是分析不出这些的。</b>
+      </div>
+    </div>
+
+    <!-- ===== 主动提醒设置 ===== -->
+    <div class="page hide" id="p-notify">
+      <div class="sec-t">AI 主动提醒<span class="note-dot" onclick="note('我的建议：支持主动发起，但必须「事件驱动 + 频率上限 + 一键关闭」。无理由的日常寒暄不要做。')">?</span></div>
+      <div class="dash-card">
+        <div class="sw"><div><div class="t">允许 AI 主动提醒我</div>
+          <div class="d">只在有明确触发条件时才发，不做无理由寒暄</div></div>
+          <div class="toggle on" onclick="tg(this)"><i></i></div></div>
+        <div class="sw"><div><div class="t">数据明显偏离我的基线时</div>
+          <div class="d">如静息心率高于自己的基线区间</div></div>
+          <div class="toggle on" onclick="tg(this)"><i></i></div></div>
+        <div class="sw"><div><div class="t">连续 2 天没打卡服用</div>
+          <div class="d">轻提醒，不催促</div></div>
+          <div class="toggle on" onclick="tg(this)"><i></i></div></div>
+        <div class="sw"><div><div class="t">21 天报告生成时</div>
+          <div class="d">AI 先给初读，顾问再做深度解读</div></div>
+          <div class="toggle on" onclick="tg(this)"><i></i></div></div>
+        <div class="sw"><div><div class="t">连续 3 天未同步数据</div>
+          <div class="d">数据断了 AI 看不到你的状态</div></div>
+          <div class="toggle on" onclick="tg(this)"><i></i></div></div>
+      </div>
+      <div class="dash-card">
+        <div class="h">频率与通道</div>
+        <div class="sub" style="line-height:1.85">
+          · 每用户每周最多 <b>2 条</b>非必要提醒（必要提醒＝报告生成、订单相关，不计入）<br>
+          · <b>通道走企微</b> —— 小程序没有主动触达能力（订阅消息需你逐次授权，很重）<br>
+          · 每条提醒都<b>可一键关闭这一类</b>，关闭后不再发
+        </div>
+        <div class="insight"><b>关键：</b>不主动触达＝放弃一半留存。而<b>不引导用户加企微，就等于没有主动触达</b> —— 这就是包裹卡与激活完成页强引导企微的价值所在。</div>
+      </div>
+      <div class="dash-card">
+        <div class="h">AI 主动提醒长这样</div>
+        <div class="demo-msg">
+          <div class="who">AI 营养师 · 企微 · 今天 09:05</div>
+          <div class="tx">你这周静息心率平均 63 bpm，比你自己的基线高了 5。要我帮你看看这一周的数据变化吗？</div>
+          <div class="btn2">打开小程序看这一周 ›</div>
+        </div>
+        <div class="sub" style="margin-top:9px;line-height:1.7">
+          格式＝<b>一句话结论 + 一个可点的入口</b>。主动消息里不写长文（没人读完），点进来才是对话。
+        </div>
+      </div>
+      <div class="sub" style="padding:0 16px 20px;line-height:1.7">
+        合规：主动消息里<b>不出现任何功效暗示</b>（"该吃 XX 了"可以；"吃了会更好"不可以）。
+      </div>
+    </div>
+      <div class="sub" style="padding:0 16px 20px;line-height:1.7">激活率是第一指标（目标 ≥80%）。圈号不合可免费换码一次。</div>
+    </div>
+
+    <!-- ===== 今天的时间轴 + 笔记板 ===== -->
+    <div class="page hide" id="p-timeline">
+      <div class="sec-t">今天的时间轴<span class="note-dot" onclick="note('对应 RingConn 的 Health Timeline + Note board：不是让用户打卡，而是系统自动生成「今天发生了什么」，用户只需随手标注生活事件。这样依从性与数据就落在同一条线上——正是第 21 天因果归因的原料。')">?</span></div>
+
+      <div class="card">
+        <div class="chips">
+          <span class="chip2" onclick="quickNote('喝了酒')">喝了酒</span>
+          <span class="chip2" onclick="quickNote('出差')">出差</span>
+          <span class="chip2" onclick="quickNote('熬夜')">熬夜</span>
+          <span class="chip2" onclick="quickNote('运动了')">运动了</span>
+          <span class="chip2" onclick="quickNote('外食')">外食</span>
+          <span class="chip2" onclick="quickNote('心情不错')">心情不错</span>
+        </div>
+        <div class="notebar">
+          <input id="noteinput" placeholder="随手记一笔，比如「今天出差」" onkeydown="if(event.key==='Enter')addNote()">
+          <button class="sv" onclick="addNote()">记录</button>
+        </div>
+        <div class="sub" style="margin-top:9px;line-height:1.7">
+          记下来的事会和你的数据对齐显示，帮你解释「为什么这周是这样」。
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="row" style="margin-bottom:12px">
+          <div style="font-size:13.5px;font-weight:700">2026 年 9 月 26 日 · 周六</div>
+          <span class="pill">第 18 天</span>
+        </div>
+        <div class="tl" id="tl-today">
+          <div class="tl-i milestone"><span class="tm">06:24</span>
+            <div class="tx">醒来</div>
+            <div class="ds">戒指自动记录 · 昨夜睡眠 7h 12m（深睡 24%）</div></div>
+          <div class="tl-i"><span class="tm">08:12</span>
+            <div class="tx">数据同步完成</div>
+            <div class="ds">戒指本地缓存 1 天数据已回传</div></div>
+          <div class="tl-i milestone"><span class="tm">09:30</span>
+            <div class="tx">服用组合 A</div>
+            <div class="ds">07 睡眠 · 03 御炎 · 09 肝（本周期第 11 次连续）</div></div>
+          <div class="tl-i note"><span class="tm">12:40</span>
+            <div class="tx">你记录了「外食」</div>
+            <div class="ds">你标注的生活事件</div></div>
+          <div class="tl-i"><span class="tm">14:20</span>
+            <div class="tx">压力短时升高</div>
+            <div class="ds">HRV 短时下降至 36 ms（低于你的基线）</div></div>
+          <div class="tl-i"><span class="tm">19:05</span>
+            <div class="tx">活动达标</div>
+            <div class="ds">累计 6,842 步，达到你自己的目标</div></div>
+          <div class="tl-i"><span class="tm">21:30</span>
+            <div class="tx">AI 营养师提示</div>
+            <div class="ds">今天已连续第 11 天，要不要看看这 11 天的数据变化？</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="row" style="margin-bottom:10px"><div style="font-size:13.5px;font-weight:700">昨天 · 9 月 25 日</div><span class="sub">2 条记录</span></div>
+        <div class="tl">
+          <div class="tl-i milestone"><span class="tm">09:15</span>
+            <div class="tx">服用组合 A</div></div>
+          <div class="tl-i note"><span class="tm">22:40</span>
+            <div class="tx">你记录了「熬夜」</div>
+            <div class="ds">当天入睡 00:52 · 睡眠 6h 05m</div></div>
+        </div>
+        <div class="sub" style="margin-top:11px;line-height:1.7">
+          这条最有用：<b>你记了「熬夜」，当晚睡眠就短了 1 小时</b> —— 数据和生活事件一旦对齐，规律自己就浮出来了。
+        </div>
+      </div>
+      <div style="height:14px"></div>
+    </div>
+
+
+  </div>
+
+  <!-- AI 常驻悬浮入口（所有 Tab 可见） -->
+  <div class="ai-fab" id="aifab" onclick="openAI()">
+    <span class="live"></span><span>问 AI 营养师</span>
+  </div>
+
+  <div id="notebox"><span class="close" onclick="closeNote()">✕</span><span id="notetext"></span></div>
+
+  <div class="tabbar">
+    <div class="tab on" data-p="home" onclick="tab('home')"><span class="ico">◎</span><span>今日</span></div>
+    <div class="tab" data-p="data" onclick="tab('data')"><span class="ico">◍</span><span>数据</span></div>
+    <div class="tab" data-p="plan" onclick="tab('plan')"><span class="ico">◆</span><span>组合</span></div>
+    <div class="tab" data-p="mine" onclick="tab('mine')"><span class="ico">○</span><span>我的</span></div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   21DW 小程序原型 v1.4 · 20260926-2206
+   本版主题：完整 AI 营养师对话 + AI／真人双入口 + 交接边界
+   ========================================================= */
+
+var SKUS = {
+  1:{cn:'免疫健康营养包', en:'IMMUNITY', claim:'免疫三重盾 换季不感冒', c:'#E8778E', ing:'专利PureWay-C® · 专利AlgaeD3® · 苹果酸二钙+专利K2 · 高活B族'},
+  2:{cn:'基础代谢营养包', en:'METABOLISM', claim:'代谢加速器 轻盈好状态', c:'#EF9A3D', ing:'专利BioPQQ® · 共轭亚油酸CLA · 专利Chromax® · 儿茶素+茶氨酸'},
+  3:{cn:'御炎营养包', en:'ANTI-INFLAMMATORY', claim:'身体没负担 状态自然轻', c:'#4E9AD6', ing:'专利CurcuRouge® · 专利PureWay-C® · 抗炎抗氧化双通路'},
+  4:{cn:'皮肤抗氧化营养包', en:'SKIN ANTI-OXIDANT', claim:'糖氧双对抗 透亮熬夜肌', c:'#D96A9B', ing:'LumiGlor 耀光丸'},
+  5:{cn:'抗衰老营养包', en:'ANTI-AGING', claim:'细胞焕活力 年轻看得见', c:'#9CC24A', ing:'麦角硫因 Ergothioneine · NucleoVita'},
+  6:{cn:'心脑健康营养包', en:'CARDIOVASCULAR', claim:'心脑双养护 畅通无负担', c:'#4FBFA8', ing:'二氢杨梅素 · 专利NattoK2'},
+  7:{cn:'睡眠健康营养包', en:'BRAIN&SLEEP', claim:'自然深睡力 醒后精神足', c:'#A87BD6', ing:'Omega Sup X · Calm Plus 晚安宝'},
+  8:{cn:'运动健康营养包', en:'SPORTS BONE', claim:'关节更灵活 运动更自在', c:'#3F86D6', ing:'JointGuard X · CalciMax 三钙'},
+  9:{cn:'肝健康营养包', en:'LIVER HEALTH', claim:'肝净人不累 熬夜也轻松', c:'#E4553B', ing:'ErgoThione X · Hepatox 护肝'},
+  10:{cn:'胃健康营养包', en:'STOMACH&INTESTINE', claim:'肠胃有活力 消化更顺畅', c:'#2FA84F', ing:'CurcuRouge® · GIs（AKK益生菌）'},
+  11:{cn:'眼健康营养包', en:'EYE HEALTH', claim:'双眼不干涩 看屏更舒适', c:'#2FB0D6', ing:'Visiomega X · Omega Sup 深海鱼油'}
+};
+var DIR2SKU = {'免疫力':'1','代谢与体重管理':'2','睡眠':'7','皮肤状态':'4','关节与运动':'8',
+  '心脑健康':'6','肝脏与熬夜':'9','肠胃消化':'10','用眼疲劳':'11','抗衰':'5'};
+
+var TITLES={home:'今日',data:'数据',ai:'AI 营养师',memory:'AI 记忆',boundary:'AI 与真人顾问',
+            transfer:'转接顾问',history:'对话历史',dash:'服务分析',notify:'主动提醒',timeline:'今天的时间轴',
+            quiz:'问卷',nutrition:'营养组合报告',plan:'我的组合',report:'21 天报告',
+            mine:'我的',activate:'圈号与激活'};
+var TABS=['home','data','plan','mine'];
+var ALL=['home','data','ai','memory','boundary','transfer','history','dash','notify','timeline','quiz','nutrition','plan','report','mine','activate'];
+var stack=[];
+
+function show(id){
+  ALL.forEach(function(p){var el=document.getElementById('p-'+p); if(el) el.classList.add('hide');});
+  document.getElementById('p-'+id).classList.remove('hide');
+  document.getElementById('navtitle').textContent=TITLES[id]||'';
+  document.getElementById('back').classList.toggle('hide', TABS.indexOf(id)>=0);
+  document.querySelectorAll('.tabbar .tab').forEach(function(t){t.classList.toggle('on',t.dataset.p===id);});
+  // AI 悬浮入口：对话页与记忆页隐藏，其余显示
+  var hideFab = (id==='ai'||id==='memory');
+  document.getElementById('aifab').classList.toggle('hide', hideFab);
+  if(id==='ai') setTimeout(function(){var m=document.getElementById('msgs'); if(m) m.scrollTop=m.scrollHeight;}, 60);
+  closeNote();
+}
+function tab(id){stack=[];show(id);}
+function go(id){stack.push(cur());show(id);}
+function back(){show(stack.pop()||'home');}
+function cur(){for(var i=0;i<ALL.length;i++){var el=document.getElementById('p-'+ALL[i]);if(el&&!el.classList.contains('hide'))return ALL[i];}return 'home';}
+document.getElementById('back').onclick=back;
+
+/* ---------- 打卡日历 ---------- */
+function renderCal(){
+  var done=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17], miss=[9], today=18, h='';
+  for(var d=1;d<=21;d++){
+    var cls='';
+    if(done.indexOf(d)>=0) cls='on';
+    if(miss.indexOf(d)>=0) cls='miss';
+    if(d===today) cls+=' today';
+    h+='<i class="'+cls+'">'+(d===today?'今':d)+'</i>';
+  }
+  document.getElementById('cal').innerHTML=h;
+}
+var CURRENT=[7,3,9];
+function skuRow(n,why){
+  var s=SKUS[n];
+  return '<div class="prod"><div class="tag" style="background:'+s.c+'">'+String(n).padStart(2,'0')+'</div>'+
+    '<div class="bd"><div class="nm">'+s.cn+'</div><div class="en">'+s.en+'</div>'+
+    '<div class="cl">'+s.claim+'</div>'+(why?'<div class="why">'+why+'</div>':'')+
+    '<div class="ing">'+s.ing+'</div></div></div>';
+}
+function renderToday(){
+  document.getElementById('todayCombo').innerHTML = CURRENT.map(function(n){
+    var s=SKUS[n];
+    return '<div class="sku"><div class="no" style="background:'+s.c+'">'+String(n).padStart(2,'0')+'</div>'+
+      '<span>'+s.cn.replace('营养包','')+'</span><div class="ck" onclick="ck(this)">✓</div></div>';
+  }).join('');
+}
+function ck(el){el.classList.toggle('done');}
+function renderPlan(){
+  document.getElementById('planCombo').innerHTML=CURRENT.map(function(n){return skuRow(n);}).join('');
+  var h='';
+  for(var i=1;i<=11;i++)
+    h+='<div class="prod"><div class="tag" style="background:'+SKUS[i].c+'">'+String(i).padStart(2,'0')+'</div>'+
+       '<div class="bd"><div class="nm">'+SKUS[i].cn+'</div><div class="en">'+SKUS[i].en+'</div>'+
+       '<div class="cl">'+SKUS[i].claim+'</div><div class="ing">'+SKUS[i].ing+'</div></div></div>';
+  document.getElementById('allSkus').innerHTML=h;
+}
+
+/* =========================================================
+   AI 营养师对话
+   - 关键词匹配 → 演示不同类型回答（引用数据 / 知识库 / 档案 / 记忆）
+   - 越界、情绪、决策、连续失败 → 触发转人工
+   ========================================================= */
+var MSGS = [];
+var failCount = 0;
+var QUICK = ['HRV 是什么？','我这周睡得怎么样？','我该吃哪几款？','帮我看看 21 天报告','产品里有啥成分？'];
+
+function bubble(role, html, src){
+  return '<div class="msg'+(role==='me'?' me':'')+'">'+
+    (role==='me'?'':'<div class="av">AI</div>')+
+    '<div class="bub">'+html+(src?'<div class="src">依据：'+src+'</div>':'')+'</div></div>';
+}
+function renderMsgs(){
+  document.getElementById('msgs').innerHTML = MSGS.join('');
+  document.getElementById('quick').innerHTML = QUICK.map(function(q){
+    return '<span class="qchip" onclick="ask(\''+q+'\')">'+q+'</span>';
+  }).join('');
+  var m=document.getElementById('msgs'); m.scrollTop=m.scrollHeight;
+}
+function openAI(greeting){
+  if(!MSGS.length){
+    MSGS.push(bubble('ai',
+      '你好，我是 <b>AI 营养师</b>。我看得到你的戒指数据、问卷档案和我们 11 款产品的资料。<br><br>'+
+      '今天想问点什么？<br><span style="color:#8B8397;font-size:11.5px">（涉及身体状况、用药，或要处理订单时，我会帮你转给真人顾问）</span>',
+      '你的档案 · 戒指数据 · 产品知识库'));
+  }
+  show('ai'); renderMsgs();
+  if(greeting){ /* 可从页面带入上下文（此处仅演示入口文案） */ }
+}
+function push(role, html, src){
+  MSGS.push(bubble(role, html, src));
+  renderMsgs();
+}
+function typing(cb){
+  MSGS.push('<div class="msg typing"><div class="av">AI</div><div class="bub">正在想…</div></div>');
+  renderMsgs();
+  setTimeout(function(){
+    MSGS.pop();
+    cb();
+  }, 620);
+}
+function ask(q){
+  document.getElementById('chatinput').value=q;
+  sendMsg();
+}
+function sendMsg(){
+  var el=document.getElementById('chatinput');
+  var t=(el.value||'').trim();
+  if(!t) return;
+  el.value='';
+  push('me', t); lastUserText=t;
+  typing(function(){ reply(t); });
+}
+
+/* 转人工卡片 */
+// v1.4：转人工改为「强制跳转」—— 不提供「继续问 AI」选项
+function handoff(reason, summary){
+  push('ai','这个需要真人顾问来给你答复，我这就帮你转接。');
+  // 摘要自动带出（顾问接手即可看到）
+  var d=document.getElementById('tf-dialog');
+  if(d) d.innerHTML='本次对话要点：'+(lastUserText||'见上');
+  var w=document.getElementById('tf-why');
+  if(w) w.innerHTML='<b>转接原因：</b>'+reason+'<br>这类问题不适合由 AI 作答，需由真人顾问接手处理。';
+  setTimeout(function(){ show('transfer'); }, 520);
+}
+var lastUserText='';
+
+/* 越界 / 情绪 / 决策 关键词 */
+var K_OVER   = ['疼','痛','病','症状','用药','吃药','药','医生','诊断','炎','不舒服','头晕','发烧','失眠症'];
+var K_EMO    = ['焦虑','烦','失望','投诉','生气','没用','骗','担心'];
+var K_DECIDE = ['退','退款','退订','取消','下单','买','改组合','换','便宜','优惠','价格','投诉'];
+
+function reply(t){
+  var s=t.toLowerCase();
+
+  // ① 越界 → 强制转（AI 不做判断）
+  for(var i=0;i<K_OVER.length;i++){
+    if(t.indexOf(K_OVER[i])>=0){
+      push('ai',
+        '听到你说身体不舒服，这个我<b>不能也不该</b>给判断 —— 涉及身体状况的部分需要专业医生。'+
+        '<br><br>我先帮你把情况整理好，转给真人顾问陪你一起看，需要的话也可以去医院看看。',
+        null);
+      handoff('你提到了身体状况（这类问题 AI 不做判断）','本次对话摘要 + 你近 7 天的睡眠与静息心率数据');
+      return;
+    }
+  }
+  // ② 决策 → 转（涉及承诺）
+  for(var j=0;j<K_DECIDE.length;j++){
+    if(t.indexOf(K_DECIDE[j])>=0){
+      push('ai','这类涉及你订单和账号的操作，<b>需要真人顾问来确认</b>，我不能替你决定。<br><br>我把你的组合和历史记录一起转过去。');
+      handoff('涉及订单／账号决策（需要有人为结果负责）','你的当前组合、下单记录与本次对话摘要');
+      return;
+    }
+  }
+  // ③ 情绪 → 转
+  for(var k=0;k<K_EMO.length;k++){
+    if(t.indexOf(K_EMO[k])>=0){
+      push('ai','你的顾虑我收到了。这种情况我想让真人顾问来跟你聊 —— 他能给你更确定的答复。');
+      handoff('你表达了顾虑或不满','你的使用记录与本次对话摘要');
+      return;
+    }
+  }
+
+  // ④ 正常回答：引用数据 / 知识库 / 档案 / 记忆
+  if(t.indexOf('HRV')>=0 || t.indexOf('hrv')>=0){
+    push('ai',
+      'HRV（心率变异性）是<b>心跳间隔的细微变化</b>。数值偏高，通常说明身体恢复得比较好。<br><br>'+
+      '你的 HRV 本周期平均 <b>42 ms</b>，比上周期 <b>+3 ms</b>；前 10 天波动大一些，后 11 天更稳。'+
+      '<br><br>我一般建议看<b>趋势</b>而不是某一天的数字——单日高或低都可能受睡眠、饮酒、运动影响。',
+      '戒指数据（近 21 天 HRV）· 指标说明');
+    return;
+  }
+  if(t.indexOf('睡')>=0){
+    push('ai',
+      '你这 21 天睡眠平均 <b>7 小时 12 分</b>，比上周期 <b>多了 22 分钟</b>。<br><br>'+
+      '主要是<b>入睡时点提前了约 14 分钟</b>；深睡占比 24%，略高于参考区间 16–22%。<br><br>'+
+      '你还记得吗——第 7 天你记录过「最近感觉入睡快了些」，和数据显示的一致。',
+      '戒指数据 · 你的第 7 天自述记录');
+    return;
+  }
+  if(t.indexOf('吃')>=0 || t.indexOf('哪几款')>=0 || t.indexOf('组合')>=0 || t.indexOf('推荐')>=0){
+    push('ai',
+      '你现在的组合是 <b>07 睡眠 + 03 御炎 + 09 肝</b>。<br><br>'+
+      '· <b>07 睡眠</b>：因为你问卷里关注睡眠，且自评偏浅<br>'+
+      '· <b>03 御炎</b>：你的 HRV 处于自己基线的偏低区间<br>'+
+      '· <b>09 肝</b>：你有较晚入睡的习惯<br><br>'+
+      '这是我基于你的问卷与数据做的<b>组合选择</b>。要不要改组合、要不要续订，属于要做决定的事，建议找真人顾问确认。',
+      '你的问卷档案 · 戒指数据 · 11 款产品库');
+    return;
+  }
+  if(t.indexOf('成分')>=0 || t.indexOf('成分')>=0 || t.indexOf('配方')>=0){
+    push('ai',
+      '我们 11 款都是加拿大进口的精准营养包。举两个你正在吃的：<br><br>'+
+      '· <b>07 睡眠</b>：Omega Sup X、Calm Plus（晚安宝）<br>'+
+      '· <b>03 御炎</b>：专利 CurcuRouge®、专利 PureWay-C®<br><br>'+
+      '想看某一款的全部成分，到「组合」页点开那一款就能看到。',
+      '产品知识库 · 21days 产品手册');
+    return;
+  }
+  if(t.indexOf('报告')>=0){
+    push('ai',
+      '你的 21 天报告有四段：<br>① 数据变化（睡眠 +22 分钟、静息心率 −2、HRV +3）<br>'+
+      '② 和你自己感受的对照<br>③ 一个和你日常习惯有关的规律<br>④ 下一周期怎么调组合<br><br>'+
+      '第 ④ 段涉及改你的订单，所以需要顾问和你确认。前三段我都可以随时给你展开讲。',
+      '你的 21 天报告 · 你的自述记录');
+    return;
+  }
+
+  // ⑤ 未命中 → 计数，连续两次转人工
+  failCount++;
+  if(failCount>=2){
+    push('ai','这个问题我可能说不清楚，不想让你将就。我帮你转给真人顾问，他来给你准确答复。');
+    handoff('AI 连续两轮未能解决','本次对话摘要');
+    failCount=0;
+    return;
+  }
+  push('ai',
+    '这个我还没把握答准。你可以换个说法，或者问我这些我比较在行：<br><br>'+
+    '· 你的睡眠、HRV、静息心率怎么读<br>'+
+    '· 11 款产品各自的成分与适配方向<br>'+
+    '· 你的报告里每一段是什么意思<br><br>'+
+    '<span style="color:#8B8397;font-size:11.5px">如果还是没解决，我会帮你转真人顾问。</span>');
+  return;
+}
+
+/* ---------- v1.5：笔记板 ---------- */
+var NOTES=[];
+function quickNote(tag){ addNoteRaw(tag); }
+function addNote(){
+  var el=document.getElementById('noteinput');
+  var t=(el.value||'').trim();
+  if(!t){ note('写点什么再记录，或者直接点上面的快捷标签。'); return; }
+  el.value=''; addNoteRaw(t);
+}
+function addNoteRaw(t){
+  NOTES.push(t);
+  var tl=document.getElementById('tl-today');
+  var d=new Date();
+  var hh=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');
+  var div=document.createElement('div');
+  div.className='tl-i note';
+  div.innerHTML='<span class="tm">'+hh+'</span><div class="tx">你记录了「'+t+'」</div>'+
+    '<div class="ds">你标注的生活事件 · 会与当天数据对齐显示</div>';
+  tl.appendChild(div);
+  note('已记录「'+t+'」。这类生活事件会与当天数据对齐，用于第 21 天报告里的「一同出现的规律」。'+
+       '注意：只用于描述，不作因果结论。');
+}
+
+/* ---------- v1.4：开关 / 记忆分层 ---------- */
+function tg(el){ el.classList.toggle('on');
+  note(el.classList.contains('on')?'已开启该类提醒。':'已关闭该类提醒 —— 关闭后不再发送这一类消息。'); }
+
+/* ---------- 记忆面板 ---------- */
+function delMem(el){
+  var row=el.parentNode;
+  row.style.transition='opacity .2s'; row.style.opacity='0';
+  setTimeout(function(){ row.style.display='none'; },200);
+  note('已删除该条记忆。正式版需同步删除服务端对应记忆片段，并写入操作日志。');
+}
+
+/* ---------- 问卷 ---------- */
+var QUIZ=[
+  {q:'你目前最关注的健康方向是？', hint:'可多选，建议 1–3 项', multi:true, multiMax:3,
+   opts:['免疫力','代谢与体重管理','睡眠','皮肤状态','关节与运动','心脑健康','肝脏与熬夜','肠胃消化','用眼疲劳','抗衰']},
+  {q:'你平时的作息大致是？', hint:'单选', opts:['23 点前入睡','23–24 点入睡','0–1 点入睡','1 点后入睡']},
+  {q:'你的睡眠质量自评是？', hint:'单选 · 自评即可', opts:['睡得沉，醒来精神','还可以','偏浅、容易醒','入睡需要较长时间']},
+  {q:'以下生活习惯，哪项更符合你？', hint:'单选', opts:['每天蔬果充足、少外食','外食较多（每周 3 次以上）','几乎每天外食','经常熬夜 + 喝咖啡提神']},
+  {q:'你的运动频率是？', hint:'单选', opts:['每周 3 次以上','每周 1–2 次','几乎不运动']}
+];
+var ans=[], qIdx=0;
+function renderQuiz(){
+  var s=QUIZ[qIdx];
+  document.getElementById('pbar').style.width=Math.round((qIdx+1)/QUIZ.length*100)+'%';
+  document.getElementById('qstep').textContent='第 '+(qIdx+1)+' 步 / 共 '+QUIZ.length+' 步 · 约 3 分钟';
+  var h='<div class="qt">'+s.q+'</div><div class="sub" style="margin-bottom:8px">'+s.hint+'</div>';
+  h+=s.opts.map(function(o,i){
+    var sel=(ans[qIdx]||[]).indexOf(o)>=0?' sel':'';
+    return '<div class="opt'+sel+'" onclick="pick('+i+')">'+o+'</div>';
+  }).join('');
+  document.getElementById('qcard').innerHTML=h;
+  document.getElementById('qnext').textContent=(qIdx===QUIZ.length-1)?'生成我的营养组合报告':'下一步';
+}
+function pick(i){
+  var s=QUIZ[qIdx], v=s.opts[i];
+  if(s.multi){
+    ans[qIdx]=ans[qIdx]||[];
+    var k=ans[qIdx].indexOf(v);
+    if(k>=0) ans[qIdx].splice(k,1);
+    else{ if(ans[qIdx].length>=s.multiMax){note('最多选 '+s.multiMax+' 项。');return;} ans[qIdx].push(v); }
+  }else ans[qIdx]=[v];
+  renderQuiz();
+}
+function quizNext(){
+  if(!ans[qIdx]||!ans[qIdx].length){note('请先选一项再继续。');return;}
+  if(qIdx<QUIZ.length-1){qIdx++;renderQuiz();return;}
+  buildNutritionReport(); show('nutrition');
+}
+function buildNutritionReport(){
+  var dirs=ans[0]||['睡眠'];
+  var sleepTime=ans[1]?ans[1][0]:'23–24 点入睡';
+  var sleepQ=ans[2]?ans[2][0]:'还可以';
+  var life=ans[3]?ans[3][0]:'外食较多（每周 3 次以上）';
+  var sport=ans[4]?ans[4][0]:'每周 1–2 次';
+  var picks=[];
+  dirs.forEach(function(d){ if(DIR2SKU[d] && picks.indexOf(+DIR2SKU[d])<0) picks.push(+DIR2SKU[d]); });
+  var extra=[];
+  if((sleepQ.indexOf('偏浅')>=0||sleepQ.indexOf('入睡')>=0) && picks.indexOf(7)<0) extra.push({n:7,r:'你自评睡眠偏浅或入睡较慢，且戒指显示 HRV 处于你基线偏低区间'});
+  if((sleepTime.indexOf('0–1')>=0||sleepTime.indexOf('1 点后')>=0) && picks.indexOf(9)<0) extra.push({n:9,r:'你有较晚入睡的习惯'});
+  if(life.indexOf('几乎每天外食')>=0 && picks.indexOf(10)<0) extra.push({n:10,r:'你外食频率较高'});
+  if(sport.indexOf('3 次以上')>=0 && picks.indexOf(8)<0) extra.push({n:8,r:'你每周运动 3 次以上'});
+  if(dirs.indexOf('用眼疲劳')>=0 && picks.indexOf(11)<0) picks.push(11);
+  // v1.5：允许「不推荐」—— 不是每一份问卷，都应该换成一张订单
+  var healthy = (sleepTime.indexOf('23 点前')>=0) && (sleepQ.indexOf('睡得沉')>=0)
+             && (life.indexOf('蔬果充足')>=0) && (sport.indexOf('3 次以上')>=0);
+  if(dirs.length<=1 && healthy){
+    document.getElementById('np-profile').innerHTML='你关注 <b>'+dirs.join('、')+'</b>；作息、饮食与运动习惯都保持得不错。';
+    document.getElementById('np-combo').innerHTML=
+      '<div style="background:#EDF1FD;border-radius:12px;padding:14px">'+
+      '<div style="font-size:14px;font-weight:700;color:#2F4BC0;margin-bottom:9px">这一周期，我们暂时不为你增加产品</div>'+
+      '<div class="sub" style="line-height:1.85">你的自述与戒指数据都显示，你目前的节奏与状态都不错，'+
+      '没有需要额外补充的地方。<br><br><b>不是每一份问卷，都应该换成一张订单。</b><br><br>'+
+      '你可以先继续观察 21 天，我们在下一个周期再一起看一次；也可以只保留一款作为日常基础。</div>'+
+      '<div class="btn ghost" style="margin:14px 0 0;border-color:#4B6BD6;color:#2F4BC0" '+
+      'onclick="note(\'这取自 LemonBox：其问卷结果中约 10% 不给推荐（结论是「你的生活方式已足够」。敢说不卖，是信任的最高级形式；对跨境产品也顺带化解了「卖货感」与合规压力。\')">为什么这么建议？</div>'+
+      '</div>';
+    return;
+  }
+  picks=picks.slice(0,3);
+  document.getElementById('np-profile').innerHTML='你关注 <b>'+dirs.join('、')+'</b>；习惯上属于「<b>'+sleepTime+'、睡眠自评'+sleepQ+'、'+life+'、'+sport+'</b>」。结合戒指数据，我们为你匹配了下面的组合。';
+  var h='';
+  picks.forEach(function(n){
+    h+=skuRow(n,'推荐依据：你选择了「'+dirs.filter(function(d){return +DIR2SKU[d]===n;}).join('')+'」');
+  });
+  extra.forEach(function(e){ h+=skuRow(e.n,'补充建议：'+e.r); });
+  document.getElementById('np-combo').innerHTML=h||skuRow(7,'推荐依据：综合你的自述与状态数据');
+}
+
+/* ---------- 隐私盾牌 ---------- */
+function cycleShield(){
+  var el=document.querySelector('.shield'), t=document.getElementById('shieldtxt');
+  var seq=[['#4E9A6A','已加密同步'],['#9AA0A6','仅本地存储'],['#E8A33D','正在被读取']];
+  var i=0; seq.forEach(function(s,k){if(s[1]===t.textContent)i=k;});
+  var nx=seq[(i+1)%3];
+  el.querySelector('.dot').style.background=nx[0]; t.textContent=nx[1];
+  note('隐私三色（MOMOUX）：灰＝仅本地 / 绿＝已加密同步 / 橙＝正在被读取。顾问会查看数据，此图标是信任机制。');
+}
+function note(t){
+  document.getElementById('notetext').innerHTML='<b>待确认：</b>'+t;
+  document.getElementById('notebox').style.display='block';
+}
+function closeNote(){document.getElementById('notebox').style.display='none';}
+
+/* ---------- 初始化 ---------- */
+renderCal(); renderToday(); renderPlan(); renderQuiz(); show('home');
+</script>
+</body>
+</html>
