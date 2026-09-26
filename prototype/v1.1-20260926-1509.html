@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>植悦 21DW 小程序原型 v1.1 · 20260926-1509</title>
+<style>
+  /* =========================================================
+     配色：一色一义（依据《小程序设计规范建议 v1.0》第五章）
+     暖调低饱和，避开临床医疗蓝与红黄绿风险灯语义
+     ========================================================= */
+  :root{
+    --brand:#A8455C;        /* 品牌暖莓果：品牌与正向变化 */
+    --brand-soft:#F6E8EB;
+    --warm:#E8A33D;         /* 激励色：达成 / 庆祝 / 正向趋势 */
+    --warm-soft:#FDF3E3;
+    --ink:#3A3550;          /* 正文：沉稳深蓝紫，保证可读 */
+    --sub:#8B8397;
+    --bg:#FAF6F0;           /* 底色：亚麻米白，避免纯白临床感 */
+    --card:#FFFFFF;
+    --line:#EDE6DE;
+    --ref:#C9C2B8;          /* 上周期参照（浅灰虚线） */
+    --base:#D8CFE0;         /* 基线带 */
+    /* 隐私三色（仅用于隐私图标，不复用为健康语义） */
+    --p-local:#9AA0A6;      /* 灰＝仅本地存储 */
+    --p-sync:#4E9A6A;       /* 绿＝已加密同步 */
+    --p-live:#E8A33D;       /* 橙＝正在被读取 */
+    --note:#E8A33D;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:#E7E1DA;color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Helvetica Neue",sans-serif;
+    display:flex;gap:28px;justify-content:center;padding:22px;flex-wrap:wrap;align-items:flex-start}
+
+  /* ===== 左侧：版本说明与规范落地 ===== */
+  .doc{width:360px;font-size:13px;line-height:1.7}
+  .doc .vcard{background:#fff;border-radius:12px;padding:14px;margin-bottom:14px;
+    border-left:4px solid var(--brand)}
+  .doc .vcard h1{font-size:17px;color:var(--brand);margin-bottom:4px}
+  .doc .vcard .meta{font-size:12px;color:var(--sub)}
+  .doc h2{font-size:13.5px;margin:16px 0 6px;color:var(--brand)}
+  .doc ul{margin-left:16px}
+  .doc li{margin-bottom:4px}
+  .doc table{width:100%;border-collapse:collapse;font-size:12px;background:#fff;border-radius:8px;overflow:hidden}
+  .doc th,.doc td{border-bottom:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top}
+  .doc th{background:var(--brand-soft);color:var(--brand);font-weight:600}
+  .doc code{background:#EFEAE4;padding:1px 5px;border-radius:4px;font-size:12px}
+  .tip{background:var(--warm-soft);border-left:3px solid var(--warm);padding:8px 10px;
+    border-radius:6px;margin-top:10px;font-size:12.5px}
+  .swatches{display:flex;gap:6px;margin-top:6px;flex-wrap:wrap}
+  .sw{flex:1;min-width:56px;border-radius:6px;padding:6px 4px;color:#fff;font-size:10px;text-align:center}
+
+  /* ===== 右侧：手机 ===== */
+  .phone{width:390px;height:844px;background:#fff;border-radius:44px;position:relative;
+    box-shadow:0 20px 60px rgba(58,53,80,.28);overflow:hidden;border:8px solid #1a1a1a}
+  .status{height:44px;background:var(--bg);display:flex;align-items:center;justify-content:space-between;
+    padding:0 20px;font-size:13px;font-weight:600}
+  .status .right{display:flex;gap:5px;align-items:center}
+  .nav{height:44px;background:var(--bg);display:flex;align-items:center;justify-content:center;
+    position:relative;font-size:17px;font-weight:600;border-bottom:1px solid var(--line)}
+  .nav .back{position:absolute;left:14px;font-size:20px;font-weight:400;cursor:pointer}
+  /* 状态条：隐私盾牌 + 顾问 常驻 */
+  .topbar{position:absolute;top:44px;left:0;right:0;height:34px;background:var(--bg);
+    display:flex;align-items:center;justify-content:space-between;padding:0 16px;font-size:12px;color:var(--sub);z-index:15}
+  .shield{display:inline-flex;align-items:center;gap:4px;cursor:pointer;font-size:12px}
+  .shield .dot{width:8px;height:8px;border-radius:50%;background:var(--p-local)}
+  .shield.s-local .dot{background:var(--p-local)}
+  .shield.s-sync .dot{background:var(--p-sync)}
+  .shield.s-live .dot{background:var(--p-live)}
+
+  .screen{height:calc(844px - 44px - 44px - 34px - 62px);overflow-y:auto;background:var(--bg);position:relative}
+  .screen::-webkit-scrollbar{width:0}
+  .tabbar{height:62px;background:#FDFBF8;border-top:1px solid var(--line);display:flex;padding-bottom:6px}
+  .tabbar .tab{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    font-size:11px;color:var(--sub);cursor:pointer;gap:3px}
+  .tabbar .tab.on{color:var(--brand);font-weight:600}
+  .tabbar .ico{font-size:19px;line-height:1}
+
+  /* ===== 通用 ===== */
+  .card{background:var(--card);border-radius:14px;margin:12px;padding:14px}
+  .sub{font-size:12px;color:var(--sub)}
+  .row{display:flex;justify-content:space-between;align-items:center}
+  .btn{background:var(--brand);color:#fff;border-radius:10px;padding:12px;text-align:center;
+    font-size:15px;font-weight:600;cursor:pointer;margin:12px}
+  .btn.ghost{background:#fff;color:var(--brand);border:1px solid var(--brand)}
+  .btn.warm{background:var(--warm)}
+  .btn:active{opacity:.85}
+  .pill{display:inline-block;background:var(--brand-soft);color:var(--brand);font-size:11px;
+    padding:3px 9px;border-radius:20px;font-weight:600}
+  .pill.warm{background:var(--warm-soft);color:#B87A1B}
+  .sec-t{font-size:14px;font-weight:700;padding:16px 16px 6px;color:var(--ink)}
+  .li{background:#fff;padding:13px 16px;border-bottom:1px solid var(--line);display:flex;
+    justify-content:space-between;align-items:center;font-size:14px;cursor:pointer}
+  .li .ar{color:#C8C2CE}
+  .hide{display:none!important}
+  svg{display:block}
+  .legend{display:flex;gap:14px;font-size:11px;color:var(--sub);padding:8px 0 0;flex-wrap:wrap}
+  .legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:4px;vertical-align:middle}
+
+  /* ===== One Big Thing（今日唯一焦点） ===== */
+  .obi{margin:12px;background:var(--card);border-radius:16px;padding:18px;border:1px solid var(--line)}
+  .obi .lead{font-size:12px;color:var(--sub);margin-bottom:6px}
+  .obi .headline{font-size:23px;font-weight:700;line-height:1.35;color:var(--ink)}
+  .obi .headline em{font-style:normal;color:var(--brand)}
+  .obi .act{margin-top:14px;background:var(--brand);color:#fff;border-radius:10px;
+    padding:11px;text-align:center;font-size:14px;font-weight:600;cursor:pointer}
+  .obi .act.ghost{background:#fff;color:var(--brand);border:1px solid var(--brand)}
+  .obi.base{background:linear-gradient(135deg,#FBF7F0,#F6EFF6);border-color:#EDE3EE}
+  .obi.base .headline{font-size:19px}
+
+  /* 指标简栏：概览层用状态，不用精确数字 */
+  .strip{display:flex;gap:8px;padding:0 12px;margin-top:2px}
+  .st{flex:1;background:#fff;border-radius:12px;padding:10px 8px;text-align:center;cursor:pointer;
+    border:1px solid var(--line)}
+  .st .lab{font-size:10.5px;color:var(--sub)}
+  .st .state{font-size:13px;font-weight:700;margin-top:5px}
+  .st .bar{height:5px;border-radius:3px;background:var(--line);margin-top:7px;overflow:hidden}
+  .st .bar i{display:block;height:100%;border-radius:3px;background:var(--brand)}
+  .st .bar i.warm{background:var(--warm)}
+
+  /* 依从性一行 */
+  .adh{margin:12px;background:var(--card);border-radius:14px;padding:13px 14px;
+    display:flex;justify-content:space-between;align-items:center;border:1px solid var(--line)}
+  .adh .ck{width:26px;height:26px;border-radius:50%;border:2px solid var(--brand);
+    display:flex;align-items:center;justify-content:center;color:var(--brand);font-size:14px;cursor:pointer}
+  .adh .ck.done{background:var(--warm);border-color:var(--warm);color:#fff}
+
+  /* 顾问卡 */
+  .advisor{margin:12px;background:linear-gradient(135deg,var(--brand),#C4617A);color:#fff;
+    border-radius:14px;padding:15px}
+  .advisor .nm{font-size:15px;font-weight:700}
+  .advisor .ds{font-size:12.5px;opacity:.92;margin-top:4px}
+  .advisor .go{background:#fff;color:var(--brand);margin-top:11px;padding:9px;
+    border-radius:9px;text-align:center;font-size:14px;font-weight:600;cursor:pointer}
+
+  /* 数据页：概览卡 */
+  .ov{margin:12px;background:var(--card);border-radius:14px;padding:14px;border:1px solid var(--line)}
+  .ovgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:10px}
+  .ovitem{background:#FBF8F4;border-radius:10px;padding:10px}
+  .ovitem .lb{font-size:11.5px;color:var(--sub)}
+  .ovitem .vv{font-size:19px;font-weight:700;margin-top:3px}
+  .ovitem .dd{font-size:11.5px;color:var(--brand);margin-top:2px}
+  .ovitem .dd.flat{color:var(--sub)}
+
+  /* 睡眠分期条带 + 参考区间并排 */
+  .stage{margin-top:12px}
+  .stagebox{position:relative;height:74px;background:#FBF8F4;border-radius:8px;overflow:hidden}
+  .stagebox .seg{position:absolute;height:16px;border-radius:3px}
+  .stagelab{display:flex;justify-content:space-between;font-size:10.5px;color:var(--sub);margin-top:5px}
+  .baserow{display:flex;align-items:center;gap:8px;margin-top:9px;font-size:11.5px;color:var(--sub)}
+  .baserow .track{flex:1;height:8px;border-radius:4px;background:var(--base);position:relative}
+  .baserow .track span{position:absolute;top:-3px;width:3px;height:14px;border-radius:2px;background:var(--brand)}
+
+  .note-dot{display:inline-flex;width:16px;height:16px;background:var(--note);color:#fff;
+    border-radius:50%;font-size:11px;align-items:center;justify-content:center;cursor:pointer;
+    margin-left:5px;font-weight:700;vertical-align:middle}
+  #notebox{position:absolute;left:14px;right:14px;bottom:74px;background:#3A3550;color:#fff;
+    border-radius:12px;padding:12px 14px;font-size:13px;line-height:1.6;display:none;z-index:30;
+    box-shadow:0 8px 24px rgba(0,0,0,.28)}
+  #notebox .close{float:right;opacity:.7;cursor:pointer;margin-left:8px}
+  #notebox b{color:#F0C070}
+
+  /* 圈号三闸 */
+  .gate{display:flex;gap:12px;padding:14px 16px;background:#fff;border-bottom:1px solid var(--line)}
+  .gate .no{width:30px;height:30px;border-radius:50%;background:var(--brand);color:#fff;flex:none;
+    display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700}
+  .gate.done .no{background:var(--warm)}
+  .gate.todo .no{background:#DCD6D0}
+  .gate .tx{font-size:14px;font-weight:600}
+  .gate .ds{font-size:12px;color:var(--sub);margin-top:3px;line-height:1.6}
+  .wearchk{margin:12px;background:var(--brand-soft);border-radius:12px;padding:13px;font-size:13px;line-height:1.75}
+  .wearchk b{color:var(--brand)}
+</style>
+</head>
+<body>
+
+<!-- ==================== 左：版本与规范落地 ==================== -->
+<div class="doc">
+  <div class="vcard">
+    <h1>植悦 21DW 小程序原型 v1.1</h1>
+    <div class="meta">
+      版本 v1.1 ｜ 更新时间戳 <b>20260926-1509</b><br>
+      文件：植悦21DW_小程序原型_v1.1_20260926-1509.html<br>
+      可交互 Demo ｜ 零数据对接 ｜ 全部为 Mock 数据
+    </div>
+  </div>
+
+  <h2>v1.1 本次改动（依据《小程序设计规范建议 v1.0》）</h2>
+  <table>
+    <tr><th>项</th><th>改动</th><th>依据</th></tr>
+    <tr><td>首页</td><td>改为「一天只推一件事」，删除 2×3 指标网格；指标退化为横排状态条</td><td>Oura One Big Thing</td></tr>
+    <tr><td>基线</td><td>新增三段式双轨基线（1–3 天静默建基 / 4–21 天双轨 / 22 天起个人基线）</td><td>我方解法</td></tr>
+    <tr><td>概览层</td><td>用状态条与色块承载状态，精确数字下沉到详情页</td><td>MOMOUX 三层架构</td></tr>
+    <tr><td>图表</td><td>可缩放折线 + 上周期浅灰虚线 + 基线带 + 归因文案</td><td>MOMOUX / D1</td></tr>
+    <tr><td>睡眠</td><td>分期条带图，参考区间与本人值并排</td><td>RingConn</td></tr>
+    <tr><td>分数</td><td>任何综合分与构成同屏</td><td>Fitbit 研究 PP#1</td></tr>
+    <tr><td>配色</td><td>改为暖调低饱和「一色一义」，取消红黄绿风险灯语义</td><td>Clue / H1</td></tr>
+    <tr><td>激活</td><td>改为圈号三道闸（寄试戴圈 → 连戴 24h 含睡眠 → 选号才发正式戒指）</td><td>RingConn</td></tr>
+    <tr><td>报告</td><td>新增第 21 天因果归因段落</td><td>Whoop Journal</td></tr>
+    <tr><td>隐私</td><td>新增常驻隐私状态盾牌（灰/绿/橙三态）</td><td>MOMOUX</td></tr>
+    <tr><td>提醒</td><td>文案改为情境化与正向锚定，漏一天不重置</td><td>MOMOUX / 规范第八章</td></tr>
+  </table>
+
+  <h2>配色语义（一色一义）</h2>
+  <div class="swatches">
+    <div class="sw" style="background:#A8455C">品牌<br>#A8455C</div>
+    <div class="sw" style="background:#E8A33D">激励<br>#E8A33D</div>
+    <div class="sw" style="background:#3A3550">正文<br>#3A3550</div>
+    <div class="sw" style="background:#FAF6F0;color:#3A3550">底色<br>#FAF6F0</div>
+    <div class="sw" style="background:#C9C2B8;color:#3A3550">参照<br>#C9C2B8</div>
+  </div>
+  <div class="tip">规则：暖莓果＝品牌与正向变化；暖橙＝达成与庆祝；浅灰虚线＝上周期／参考；<b>不用红黄绿承载身体数据状态</b>（我们是非医疗定位）。隐私三色（灰/绿/橙）独立成一套语义，只用于隐私图标。</div>
+
+  <h2>图表量化标准（可写进设计验收）</h2>
+  <ul>
+    <li>正文对比度 ≥ 4.5:1，大字 ≥ 3:1</li>
+    <li>折线多序列色相差 ΔH ≥ 45°；单序列用同色系深浅</li>
+    <li>参照线／基线带必须用独立色，不与数据线同色</li>
+    <li>颜色不可作为唯一区分手段（配合形状、标签）</li>
+    <li>灰度下仍可读；不用 3D／阴影／渐变</li>
+  </ul>
+
+  <h2>怎么用</h2>
+  <ul>
+    <li>底部导航切换：<b>今日 / 数据 / 方案 / 我的</b></li>
+    <li>点状态条或卡片进详情，左上角 <code>‹</code> 返回</li>
+    <li>右上角<b>盾牌图标</b>可点击，演示隐私三态</li>
+    <li>橙色 <b>?</b> 是<b>待确认项</b>，点开显示需团队拍板的问题</li>
+  </ul>
+
+  <h2>v1.1 待确认（9 条）</h2>
+  <ul>
+    <li>首屏「一天只推一件事」，团队能否接受信息量下降</li>
+    <li>参考区间是否要显示具体数值，还是只给「暂用参考区间」标签</li>
+    <li>基线期 3 天是否够（部分算法需 5–7 天）</li>
+    <li>因果归因段落的措辞边界（只说「一同出现的规律」够不够）</li>
+    <li>试戴戒圈的寄送与回收成本，套件数量定几枚</li>
+    <li>国标圈号档位与各档备货比例</li>
+    <li>隐私盾牌是否默认展示（还是仅首次引导时教育）</li>
+    <li>顾问入口是否保留悬浮按钮（v1.1 已改为卡内入口）</li>
+    <li>顺序购／连续购是否第一期就做</li>
+  </ul>
+  <div class="tip">⚠️ 本原型所有数字均为 Mock，仅用于确认「功能与效果」。</div>
+</div>
+
+<!-- ==================== 右：手机 ==================== -->
+<div class="phone">
+  <div class="status">
+    <span>9:41</span>
+    <span class="right"><span>●●●</span><span>WiFi</span><span>🔋</span></span>
+  </div>
+  <div class="nav">
+    <span class="back hide" id="back">‹</span>
+    <span id="navtitle">今日</span>
+  </div>
+  <!-- 常驻状态条：隐私盾牌 + 顾问 -->
+  <div class="topbar">
+    <span class="pill" id="cyclepill">第 18 天 · 第 2 周期</span>
+    <span class="shield s-sync" id="shield" onclick="cycleShield()">
+      <span class="dot"></span><span id="shieldtxt">已加密同步</span>
+    </span>
+  </div>
+
+  <div class="screen">
+
+    <!-- ============ 今日（One Big Thing） ============ -->
+    <div class="page" id="p-home">
+
+      <!-- 唯一焦点：主结论 -->
+      <div class="obi" id="obi">
+        <div class="lead">今天最值得看的一件事</div>
+        <div class="headline" id="obi-head">你的静息心率 <em>58 bpm</em>，比上周期低了 <em>2</em></div>
+        <div class="act" id="obi-act" onclick="obiAction()">看看这 21 天的变化</div>
+        <span class="note-dot abs" onclick="note('首屏只允许一个视觉焦点（One Big Thing）。团队需确认：能否接受把其余指标退化为下方横排状态条？这是信息量换清晰度的取舍。')" style="position:absolute;right:12px;top:12px">?</span>
+      </div>
+
+      <!-- 依从性一行 -->
+      <div class="adh">
+        <div>
+          <div style="font-size:14px;font-weight:600">今天服用了没</div>
+          <div class="sub" style="margin-top:3px">已连续 <b style="color:var(--brand)">11 天</b> · 漏一天不重置</div>
+        </div>
+        <div class="ck" id="ck" onclick="toggleCheck(this)">✓</div>
+      </div>
+
+      <!-- 指标状态条（概览层：状态而非精确数值） -->
+      <div class="sec-t">身体状态<span class="note-dot" onclick="note('概览层用状态条承载（MOMOUX 三层架构），精确数字下沉到数据页。确认：状态条显示 4 项还是 5 项？')">?</span></div>
+      <div class="strip">
+        <div class="st" onclick="go('detail','sleep')">
+          <div class="lab">睡眠</div><div class="state" style="color:var(--brand)">不错</div>
+          <div class="bar"><i style="width:82%"></i></div>
+        </div>
+        <div class="st" onclick="go('detail','rhr')">
+          <div class="lab">静息心率</div><div class="state" style="color:var(--brand)">偏低</div>
+          <div class="bar"><i style="width:74%"></i></div>
+        </div>
+        <div class="st" onclick="go('detail','hrv')">
+          <div class="lab">HRV</div><div class="state" style="color:var(--brand)">平稳</div>
+          <div class="bar"><i style="width:66%"></i></div>
+        </div>
+        <div class="st" onclick="go('detail','steps')">
+          <div class="lab">活动</div><div class="state" style="color:var(--warm)">达标</div>
+          <div class="bar"><i class="warm" style="width:88%"></i></div>
+        </div>
+      </div>
+
+      <!-- 21 天报告入口 -->
+      <div class="card" onclick="go('report')" style="margin-top:12px">
+        <div class="row">
+          <div>
+            <div style="font-size:15px;font-weight:700">21 天趋势报告</div>
+            <div class="sub" style="margin-top:3px">还剩 3 天生成完整报告</div>
+          </div>
+          <span class="ar" style="color:#C8C2CE">›</span>
+        </div>
+      </div>
+
+      <!-- 顾问入口（卡内，不用悬浮叠浮窗） -->
+      <div class="advisor">
+        <div class="nm">你的营养顾问 · 小林</div>
+        <div class="ds">关于这 21 天的变化，随时问我</div>
+        <div class="go" onclick="note('v1.1 已取消全屏悬浮按钮，顾问入口改为卡内入口 + 我的页面。确认：是否需要恢复悬浮？悬浮会遮挡状态条。')">在企微中咨询</div>
+      </div>
+
+      <div class="btn ghost" onclick="go('activate')">模拟：戒指激活与圈号三闸</div>
+      <div class="sub" style="text-align:center;padding:6px 16px 20px">
+        不是医嘱，只做状态记录 · 数据不用于任何诊断
+      </div>
+    </div>
+
+    <!-- ============ 数据页 ============ -->
+    <div class="page hide" id="p-data">
+      <div class="sec-t">概览</div>
+      <div class="ov">
+        <div class="row">
+          <div>
+            <div style="font-size:15px;font-weight:700">本周期 21 天综合状态</div>
+            <div class="sub" style="margin-top:3px">与上周期对比 · 基线已建立</div>
+          </div>
+          <span class="pill warm">第 2 周期</span>
+        </div>
+        <!-- 综合分与构成同屏（Fitbit 研究第一痛点） -->
+        <div style="display:flex;align-items:center;gap:14px;margin-top:12px">
+          <svg width="86" height="86" viewBox="0 0 86 86">
+            <circle cx="43" cy="43" r="34" fill="none" stroke="#EFE9E2" stroke-width="9"/>
+            <circle cx="43" cy="43" r="34" fill="none" stroke="#A8455C" stroke-width="9"
+              stroke-dasharray="213.6" stroke-dashoffset="52" stroke-linecap="round"
+              transform="rotate(-90 43 43)"/>
+            <text x="43" y="47" text-anchor="middle" font-size="20" font-weight="700" fill="#3A3550">76</text>
+          </svg>
+          <div style="flex:1">
+            <div class="sub" style="margin-bottom:6px">这个分数由 4 项构成</div>
+            <div style="display:flex;gap:4px;height:10px;border-radius:5px;overflow:hidden">
+              <i style="flex:34;background:#A8455C"></i>
+              <i style="flex:26;background:#C4617A"></i>
+              <i style="flex:22;background:#E8A33D"></i>
+              <i style="flex:18;background:#D8CFE0"></i>
+            </div>
+            <div class="sub" style="margin-top:6px;line-height:1.6">
+              睡眠 34% · 静息心率 26% · HRV 22% · 活动 18%
+              <span class="note-dot" onclick="note('分数必须与构成同屏，且要有权重说明入口。确认：我们是否真的要给「综合分」？若给，必须能解释算法，否则会重复 Fitbit 第一痛点。')">?</span>
+            </div>
+          </div>
+        </div>
+        <div class="ovgrid">
+          <div class="ovitem" onclick="go('detail','sleep')">
+            <div class="lb">睡眠时长</div><div class="vv">7h12m</div>
+            <div class="dd">较上周期 +22 分钟</div>
+          </div>
+          <div class="ovitem" onclick="go('detail','rhr')">
+            <div class="lb">静息心率</div><div class="vv">58</div>
+            <div class="dd">较上周期 −2 bpm</div>
+          </div>
+          <div class="ovitem" onclick="go('detail','hrv')">
+            <div class="lb">HRV</div><div class="vv">42 ms</div>
+            <div class="dd">较上周期 +3 ms</div>
+          </div>
+          <div class="ovitem" onclick="go('detail','steps')">
+            <div class="lb">活动</div><div class="vv">6,842</div>
+            <div class="dd">较上周期 +640 步</div>
+          </div>
+          <div class="ovitem" onclick="go('detail','temp')">
+            <div class="lb">皮温（P1）</div><div class="vv">36.4 ℃</div>
+            <div class="dd flat">与上周期持平</div>
+          </div>
+          <div class="ovitem">
+            <div class="lb">易孕窗预测</div><div class="vv">10–15 日</div>
+            <div class="dd flat">把握度 中 · 仅供参考</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 睡眠分期：参考区间与本人值并排 -->
+      <div class="card">
+        <div style="font-size:14px;font-weight:700">昨夜睡眠结构</div>
+        <div class="stage">
+          <div class="stagebox">
+            <div class="seg" style="left:2%;width:12%;top:6px;background:#B9A7D6"></div>
+            <div class="seg" style="left:14%;width:26%;top:22px;background:#D8CFE0"></div>
+            <div class="seg" style="left:40%;width:14%;top:38px;background:#A8455C"></div>
+            <div class="seg" style="left:54%;width:22%;top:22px;background:#D8CFE0"></div>
+            <div class="seg" style="left:76%;width:10%;top:38px;background:#A8455C"></div>
+            <div class="seg" style="left:86%;width:12%;top:6px;background:#B9A7D6"></div>
+          </div>
+          <div class="stagelab"><span>23:12 入睡</span><span>06:24 醒来</span></div>
+          <div class="baserow">
+            <span>深睡占比</span>
+            <div class="track"><span style="left:46%"></span></div>
+            <span>你的 24% ↕ 参考区间 16–22%</span>
+          </div>
+          <div class="baserow">
+            <span>REM 占比</span>
+            <div class="track"><span style="left:60%"></span></div>
+            <span>你的 21% ↕ 参考区间 18–25%</span>
+          </div>
+          <div class="sub" style="margin-top:8px;line-height:1.7">
+            参考区间用于「你现在在什么位置」，<b>不作为健康结论</b>。
+            <span class="note-dot" onclick="note('参考区间把「参考值」与「本人值」并排展示（RingConn 手法）。但 D1 要求「说明基准如何生成」——我们是否要公开参考区间的来源与算法？若公开，需有可引用的依据。')">?</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ============ 单指标详情 ============ -->
+    <div class="page hide" id="p-detail">
+      <div class="sec-t" id="d-title">睡眠时长</div>
+      <div class="card">
+        <div class="row" style="margin-bottom:4px">
+          <div>
+            <div style="font-size:30px;font-weight:700" id="d-value">7h 12m</div>
+            <div class="sub" style="margin-top:2px" id="d-sub2">本周期均值 · 最近更新 08:12</div>
+          </div>
+          <div style="text-align:right">
+            <div style="font-size:16px;font-weight:700;color:var(--brand)" id="d-delta">+22 分钟</div>
+            <div class="sub">较上周期</div>
+          </div>
+        </div>
+        <div id="chart"></div>
+        <div class="legend">
+          <span><i style="background:#A8455C"></i>本周期</span>
+          <span><i style="background:#C9C2B8"></i>上周期（虚线）</span>
+          <span><i style="background:#D8CFE0"></i>你的基线带</span>
+        </div>
+        <div class="sub" style="margin-top:8px">点图表任意位置查看当天数值与时间戳<span class="note-dot" onclick="note('按规范，详情页用「可缩放折线 + 自身基线 + 一句归因」三件套。确认：是否要保留缩放交互（开发成本）还是先做点按查看？')">?</span></div>
+        <div id="tip" class="sub" style="margin-top:6px;color:var(--brand);min-height:18px"></div>
+      </div>
+
+      <div class="card">
+        <div style="font-size:14px;font-weight:700;margin-bottom:6px">这意味着什么</div>
+        <div class="sub" id="d-attr" style="line-height:1.75"></div>
+      </div>
+      <div class="card">
+        <div style="font-size:14px;font-weight:700;margin-bottom:6px">这个指标是什么</div>
+        <div class="sub" id="d-desc" style="line-height:1.75"></div>
+        <div class="sub" style="margin-top:8px">数据由戒指采集，每天打开小程序同步一次<div style="margin-top:6px">何时该找医生：持续异常且伴随不适时，请咨询医生</div></div>
+      </div>
+    </div>
+
+    <!-- ============ 21 天报告 ============ -->
+    <div class="page hide" id="p-report">
+      <div class="sec-t">21 天趋势报告</div>
+      <div class="card">
+        <div style="font-size:14px;font-weight:700;color:var(--brand)">① 这 21 天，数据发生了这些变化</div>
+        <div style="margin-top:10px;line-height:1.95;font-size:14px">
+          · 睡眠时长：平均 <b>7 小时 12 分</b>，较上周期 <b>+22 分钟</b><br>
+          · 静息心率：平均 <b>58 bpm</b>，较上周期 <b>−2 bpm</b><br>
+          · HRV：平均 <b>42 ms</b>，较上周期 <b>+3 ms</b><br>
+          · 每日活动：<b>6,842 步</b>，较上周期 <b>+640 步</b>
+        </div>
+        <div class="sub" style="margin-top:10px">以上为状态趋势描述，不代表健康结论或功效。</div>
+      </div>
+
+      <div class="card">
+        <div style="font-size:14px;font-weight:700;color:var(--brand)">② 与你自己的感受对照</div>
+        <div style="margin-top:10px;font-size:14px;line-height:1.85">
+          你在第 7 天记录过：<i style="color:var(--sub)">「最近感觉入睡快了些」</i><br>
+          数据上看，入睡时点确实比上周期平均提前约 <b>14 分钟</b>，和你的感受是一致的。
+        </div>
+      </div>
+
+      <!-- 新增：因果归因段落（Whoop Journal 的 21 天适配） -->
+      <div class="card" style="border:1px solid var(--warm)">
+        <div style="font-size:14px;font-weight:700;color:#B87A1B">③ 一个和你日常习惯有关的规律</div>
+        <div style="margin-top:10px;font-size:14px;line-height:1.85">
+          <b>你按时服用的那些天，深睡时长平均多了 18 分钟。</b><br>
+          <span class="sub">这是「一同出现的规律」，不是因果结论，也不代表产品有任何功效。</span>
+        </div>
+        <span class="note-dot abs" onclick="note('因果归因是本报告最有价值的一段（Whoop 手法）。措辞边界请拍板：只说「一同出现的规律」是否足够？是否需要再加「不构成因果」的免责说明？')" style="position:absolute;right:12px;top:12px">?</span>
+      </div>
+
+      <div class="card">
+        <div style="font-size:14px;font-weight:700;color:var(--brand)">④ 下一周期可以试试</div>
+        <div style="margin-top:10px;font-size:14px;line-height:1.85">
+          · 保持当前的入睡时点，观察第 3 个周期是否稳定<br>
+          · 活动量还有余量，可以试着把晚饭后散步加到 20 分钟<br>
+          · 继续按周期服用，第 3 周期再对比一次
+        </div>
+      </div>
+
+      <div class="advisor">
+        <div class="nm">让顾问帮你看看这份报告</div>
+        <div class="ds">小林会在企微里和你聊 10 分钟</div>
+        <div class="go" onclick="note('报告是否允许分享？分享出去是否脱敏（隐去具体数值）？Clue 的做法是只分享日历级信息，敏感记录不分享。')">预约顾问解读</div>
+      </div>
+    </div>
+
+    <!-- ============ 方案 ============ -->
+    <div class="page hide" id="p-plan">
+      <div class="sec-t">选择方案</div>
+      <div class="card">
+        <div class="row"><span style="font-weight:700">7 天体验装</span><span style="font-size:19px;font-weight:700;color:var(--brand)">¥129</span></div>
+        <div class="sub" style="margin-top:8px;line-height:1.7">先试 7 天，感受一下节奏。<b>不含</b>智能戒指，不含试戴戒圈。</div>
+        <div class="btn ghost" style="margin:12px 0 0" onclick="note('体验装是否限制每人一次？结束后是否自动推送转 90 天方案装的权益？')">选择</div>
+      </div>
+
+      <div class="card" style="border:2px solid var(--brand)">
+        <div class="row"><span style="font-weight:700">90 天方案装 <span class="pill">推荐</span></span>
+          <span style="font-size:19px;font-weight:700;color:var(--brand)">¥1,299<span style="font-size:12px;color:var(--sub)">起</span></span></div>
+        <div class="sub" style="margin-top:8px;line-height:1.85">
+          · 90 天营养包（分 3 批发货）<br>
+          · <b>含智能戒指 1 枚</b> + <b>试戴戒圈 3–5 枚</b><br>
+          · 含营养顾问服务（企微 1 对 1）<br>
+          · 含 3 份 21 天趋势报告
+        </div>
+        <div class="btn" style="margin:12px 0 0" onclick="note('试戴戒圈随首批发货、确认圈号后才发正式戒指（RingConn 三闸）。确认：试戴圈的寄送与回收成本谁承担？是否要求寄回？')">选择并开始圈号确认</div>
+      </div>
+
+      <div class="card">
+        <div class="row"><span style="font-weight:700">顺序购 / 连续购</span><span class="pill warm">第二期评估</span></div>
+        <div class="sub" style="margin-top:8px;line-height:1.8">
+          90 天结束后可续下一季，<b>随时可暂停或取消</b>。<br>
+          合规要求：明示同意、不默认勾选、<b>每次扣费前 5 日显著提醒</b>、提供一键退订。
+        </div>
+        <div class="btn ghost" style="margin:12px 0 0" onclick="note('自动续费在国内有硬性合规要求（北京三中院判决 + 广州互联网法院司法建议 + 消保条例）。确认：第一期就做，还是先用「手动续购」规避？')">了解合规方案</div>
+      </div>
+
+      <div class="sub" style="padding:0 16px 20px;line-height:1.7">
+        产品为跨境营养补充剂，不作功效宣称。单盒 21 天装 ¥459（不附赠戒指，供老客补货）。
+      </div>
+    </div>
+
+    <!-- ============ 激活：圈号三闸 ============ -->
+    <div class="page hide" id="p-activate">
+      <div class="sec-t">戒指激活与圈号确认</div>
+      <div class="card" style="background:var(--brand-soft);border:none">
+        <div style="font-size:13px;line-height:1.75">
+          <b>为什么不能直接发戒指：</b>戒指不合手，用户就不会戴 —— 后面所有数据与服务都落空。
+          所以我们把「圈号确认」前置成三道闸，<b>让用户在拿到正式戒指前，先完成一次跨昼夜的真实试戴</b>。
+        </div>
+      </div>
+
+      <div class="gate done">
+        <div class="no">✓</div>
+        <div><div class="tx">第一闸 · 随包寄出试戴戒圈</div>
+        <div class="ds">3–5 枚模拟戒圈，与首批营养包同箱发出</div></div>
+      </div>
+      <div class="gate done">
+        <div class="no">✓</div>
+        <div><div class="tx">第二闸 · 连续佩戴 ≥24 小时</div>
+        <div class="ds">必须包含一晚睡眠 + 洗手 + 日常活动；标准是「舒适、牢固、活动时不旋转」</div></div>
+      </div>
+      <div class="gate" id="gate3">
+        <div class="no">3</div>
+        <div><div class="tx">第三闸 · 在小程序内选号提交</div>
+        <div class="ds">提交后才触发正式戒指发货</div></div>
+      </div>
+      <div class="gate todo">
+        <div class="no">4</div>
+        <div><div class="tx">正式戒指发货并配对</div>
+        <div class="ds">配对时自动校准戒指时间，无需手动设置</div></div>
+      </div>
+
+      <div class="wearchk">
+        <b>佩戴规范</b>（将做成图文卡 + 30 秒短视频）<br>
+        · 带凸起传感器的一面朝<b>手指内侧掌心方向</b><br>
+        · 戒指转动<b>倾斜不超过 30°</b><br>
+        · 戴在<b>非主力手</b>的中指 / 食指
+        <span class="note-dot" onclick="note('RingConn 的尺码是美标 6–14，不适用中国女性客群。需确定国标（港号/内地号）档位与各档备货比例，预计整体向小号偏移。')">?</span>
+      </div>
+
+      <div class="btn" onclick="submitSize(this)">我已试戴 24 小时，提交 9 号</div>
+      <div class="sub" style="padding:0 16px 20px;line-height:1.7">
+        激活率是第一指标（目标 ≥80%），首批 100 单即实测。若圈号不合，可免费换码一次。
+      </div>
+    </div>
+
+    <!-- ============ 我的 ============ -->
+    <div class="page hide" id="p-mine">
+      <div class="sec-t">我的</div>
+      <div class="card">
+        <div class="row" style="margin-bottom:8px">
+          <div style="font-size:14px;font-weight:700">我的设备</div>
+          <span class="pill">已连接</span>
+        </div>
+        <div class="row"><span class="sub">戒指电量</span><span>78%</span></div>
+        <div class="row" style="margin-top:6px"><span class="sub">最近同步</span><span>今天 08:12</span></div>
+        <div class="row" style="margin-top:6px"><span class="sub">固件版本</span><span>v1.2.3</span></div>
+        <div class="row" style="margin-top:6px"><span class="sub">圈号</span><span>9 号（已确认）</span></div>
+      </div>
+
+      <div class="advisor">
+        <div class="nm">营养顾问 · 小林</div>
+        <div class="ds">服务时间 09:00–21:00</div>
+        <div class="go" onclick="note('顾问入口：已添加 → 拉起企微会话；未添加 → 展示企微二维码。确认顾问人效目标（1:300–500）与换顾问交接规则。')">在企微中对话</div>
+      </div>
+
+      <div class="li" onclick="go('order')"><span>我的订单</span><span class="ar">›</span></div>
+      <div class="li" onclick="go('activate')"><span>戒指圈号与激活</span><span class="ar">›</span></div>
+      <div class="li" onclick="note('MOMOUX 建议的隐私机制：常驻盾牌图标（已做）+「谁看过我的数据」30 天审计页。我们顾问会查看用户数据，建议做审计页。')">
+        <span>谁看过我的数据</span><span class="ar">›</span></div>
+      <div class="li"><span>隐私与数据授权</span><span class="ar">›</span></div>
+      <div class="li"><span>佩戴与使用指南</span><span class="ar">›</span></div>
+      <div class="li"><span>帮助与反馈</span><span class="ar">›</span></div>
+      <div class="sub" style="padding:16px;text-align:center">
+        v1.1 · 20260926-1509<br>21DAYS WONDER · 加拿大本土在售
+      </div>
+    </div>
+
+    <!-- ============ 订单 ============ -->
+    <div class="page hide" id="p-order">
+      <div class="sec-t">我的订单</div>
+      <div class="card">
+        <div class="row"><span style="font-weight:700">90 天方案装</span><span class="pill">第 2 批待发货</span></div>
+        <div class="sub" style="margin-top:8px">订单号 21DW20260912001</div>
+        <div class="row" style="margin-top:8px"><span class="sub">下单时间</span><span>2026-09-12</span></div>
+        <div class="row" style="margin-top:6px"><span class="sub">金额</span><span>¥1,299</span></div>
+        <div class="row" style="margin-top:6px"><span class="sub">圈号</span><span>9 号（已确认）</span></div>
+      </div>
+      <div class="card">
+        <div style="font-size:14px;font-weight:700">进度</div>
+        <div class="sub" style="margin-top:8px;line-height:1.85">
+          试戴戒圈 已寄出并确认<br>
+          第 1 批（1–30 天）+ 正式戒指 已签收<br>
+          第 2 批（31–60 天）待发货<br>
+          第 3 批（61–90 天）未开始
+        </div>
+        <span class="note-dot abs" onclick="note('分 3 批发货能配合顾问节点但增加物流成本；试戴戒圈是否随第 1 批发、要不要回收，需要财务测算。')" style="position:absolute;right:12px;top:12px">?</span>
+      </div>
+      <div class="btn ghost" onclick="note('续期提醒计划在第 75–80 天通过企微主动触达（企微有频控、无 48h 硬窗）。确认：提醒几次、是否给续期权益？')">查看续期选项</div>
+    </div>
+
+  </div>
+
+  <!-- 待确认气泡 -->
+  <div id="notebox"><span class="close" onclick="closeNote()">✕</span><span id="notetext"></span></div>
+
+  <!-- tabBar -->
+  <div class="tabbar">
+    <div class="tab on" data-p="home" onclick="tab('home')"><span class="ico">◎</span><span>今日</span></div>
+    <div class="tab" data-p="data" onclick="tab('data')"><span class="ico">◍</span><span>数据</span></div>
+    <div class="tab" data-p="plan" onclick="tab('plan')"><span class="ico">◇</span><span>方案</span></div>
+    <div class="tab" data-p="mine" onclick="tab('mine')"><span class="ico">○</span><span>我的</span></div>
+  </div>
+</div>
+
+<script>
+/* =========================================================
+   植悦 21DW 小程序原型 v1.1 · 20260926-1509
+   纯前端 Mock，零接口。落地方案见《小程序设计规范建议 v1.0》
+   ========================================================= */
+
+var METRICS = {
+  sleep:{ title:'睡眠时长', value:'7h 12m', delta:'+22 分钟', p0:true,
+    desc:'每晚实际睡着的总时长，以及入睡与醒来的时点。这是 21 天里最容易看出变化的指标。',
+    attr:'比上周期平均多了 22 分钟，主要来自入睡时点提前约 14 分钟。',
+    cur:[6.6,6.9,7.0,6.8,7.2,7.4,7.1,6.9,7.3,7.5,7.2,7.0,7.3,7.6,7.4,7.1,7.4,7.2,7.5,7.3,7.2],
+    prev:[6.5,6.7,6.6,6.8,6.9,6.7,7.0,6.8,6.9,7.1,6.8,6.9,7.0,6.9,7.1,6.8,7.0,6.9,7.0,6.8,6.9] },
+  rhr:{ title:'静息心率', value:'58 bpm', delta:'−2 bpm', p0:true,
+    desc:'夜里安静状态下的每分钟心跳次数，反映身体恢复得怎么样，比白天心率稳定得多。',
+    attr:'整体低于上周期，波动也更小，说明夜间恢复节奏比上周期平稳。',
+    cur:[60,60,59,59,58,58,59,58,57,58,57,58,57,56,57,58,57,58,57,58,58],
+    prev:[61,60,61,60,60,59,60,60,59,60,59,59,60,59,59,60,59,60,59,60,60] },
+  hrv:{ title:'HRV（心率变异性）', value:'42 ms', delta:'+3 ms', p0:true,
+    desc:'心跳间隔的细微变化。数值偏高通常说明身体恢复得较好，是判断「今天状态如何」的常用参考。',
+    attr:'比上周期略高，且后 10 天比前 10 天更稳定，方向是一致的。',
+    cur:[38,39,40,39,41,42,41,40,42,43,42,41,43,44,42,41,43,42,43,42,42],
+    prev:[37,38,38,39,38,39,40,39,39,40,39,40,40,41,40,39,40,40,41,40,39] },
+  steps:{ title:'活动（步数）', value:'6,842 步', delta:'+640 步', p0:true,
+    desc:'每天走动的步数与活动量。白天动得多不多，会反过来影响晚上的睡眠。',
+    attr:'比上周期平均多了 640 步，与睡眠时长同向变化。',
+    cur:[6200,6500,6800,5900,7100,7400,6900,6400,7200,7600,7000,6600,7300,7800,7200,6800,7100,6900,7400,7000,6842],
+    prev:[5800,6000,6200,5600,6400,6600,6100,5900,6300,6700,6200,6000,6500,6800,6300,6100,6400,6200,6500,6300,6200] },
+  temp:{ title:'皮温趋势（P1 强建议项）', value:'36.4 ℃', delta:'持平', p0:false,
+    desc:'手指皮肤的体温趋势，属于强建议但非必备项。若最终供应商不含皮温，本页会移除。',
+    attr:'与上周期基本一致，没有明显偏移。',
+    cur:[36.3,36.4,36.4,36.5,36.4,36.3,36.4,36.4,36.5,36.4,36.4,36.3,36.4,36.5,36.4,36.4,36.3,36.4,36.4,36.5,36.4],
+    prev:[36.4,36.4,36.5,36.4,36.4,36.5,36.4,36.4,36.4,36.5,36.4,36.4,36.5,36.4,36.4,36.4,36.4,36.5,36.4,36.4,36.4] }
+};
+
+var TITLES = { home:'今日', data:'数据', detail:'数据详情', report:'21 天报告',
+               plan:'方案', mine:'我的', activate:'圈号与激活', order:'我的订单' };
+var TABS = ['home','data','plan','mine'];
+var stack = [];
+
+function show(id){
+  ['home','data','detail','report','plan','mine','activate','order'].forEach(function(p){
+    var el = document.getElementById('p-'+p);
+    if(el) el.classList.add('hide');
+  });
+  document.getElementById('p-'+id).classList.remove('hide');
+  document.getElementById('navtitle').textContent = TITLES[id] || '';
+  document.getElementById('back').classList.toggle('hide', TABS.indexOf(id) >= 0);
+  document.querySelectorAll('.tabbar .tab').forEach(function(t){
+    t.classList.toggle('on', t.dataset.p === id);
+  });
+  closeNote();
+}
+function tab(id){ stack = []; show(id); }
+function go(id, key){
+  stack.push(cur());
+  if(id === 'detail') renderDetail(key || 'sleep');
+  show(id);
+}
+function back(){ show(stack.pop() || 'home'); }
+function cur(){
+  var ids = ['home','data','detail','report','plan','mine','activate','order'];
+  for(var i=0;i<ids.length;i++){
+    var el = document.getElementById('p-'+ids[i]);
+    if(el && !el.classList.contains('hide')) return ids[i];
+  }
+  return 'home';
+}
+document.getElementById('back').onclick = back;
+
+/* ---------- 详情页：折线 + 上周期虚线 + 基线带 + 点按取值 ---------- */
+var CH = { data:null };
+function renderDetail(key){
+  var m = METRICS[key];
+  if(!m){ m = METRICS.sleep; key = 'sleep'; }
+  CH.data = m.cur;
+  document.getElementById('d-title').textContent = m.title;
+  document.getElementById('d-value').textContent = m.value;
+  document.getElementById('d-delta').textContent = m.delta;
+  document.getElementById('d-desc').textContent = m.desc;
+  document.getElementById('d-attr').textContent = m.attr;
+  document.getElementById('tip').textContent = '';
+  drawChart(m.cur, m.prev);
+}
+function drawChart(cur, prev){
+  var W = 326, H = 148, PL = 30, PR = 8, PT = 12, PB = 20;
+  var all = cur.concat(prev);
+  var min = Math.min.apply(null, all), max = Math.max.apply(null, all);
+  var span = (max - min) || 1;
+  min -= span * 0.15; max += span * 0.15;
+  span = max - min;
+  function px(i){ return PL + i * (W - PL - PR) / 20; }
+  function py(v){ return H - PB - (v - min) / span * (H - PT - PB); }
+  function path(a){ return a.map(function(v,i){ return px(i).toFixed(1)+','+py(v).toFixed(1); }).join(' '); }
+  // 基线带（用本人前 7 天均值 ± 范围，独立色，不与数据线同色）
+  var head = cur.slice(0,7);
+  var hmin = Math.min.apply(null,head), hmax = Math.max.apply(null,head);
+  var bandY = py(hmax), bandH = Math.max(4, py(hmin) - py(hmax));
+  var mean = cur.reduce(function(a,b){return a+b;},0)/cur.length;
+  var svg =
+    '<svg width="'+W+'" height="'+H+'" viewBox="0 0 '+W+' '+H+'" id="svgchart">' +
+      '<rect x="'+PL+'" y="'+bandY.toFixed(1)+'" width="'+(W-PL-PR)+'" height="'+bandH.toFixed(1)+
+        '" fill="#D8CFE0" opacity="0.35" rx="3"/>' +
+      '<line x1="'+PL+'" y1="'+py(mean).toFixed(1)+'" x2="'+(W-PR)+'" y2="'+py(mean).toFixed(1)+
+        '" stroke="#C9C2B8" stroke-width="1.5" stroke-dasharray="5 4"/>' +
+      '<polyline points="'+path(prev)+'" fill="none" stroke="#C9C2B8" stroke-width="2" stroke-dasharray="4 3"/>' +
+      '<polyline points="'+path(cur)+'" fill="none" stroke="#A8455C" stroke-width="2.5" stroke-linejoin="round"/>' +
+      cur.map(function(v,i){
+        return '<circle cx="'+px(i).toFixed(1)+'" cy="'+py(v).toFixed(1)+'" r="2.4" fill="#A8455C"/>';
+      }).join('') +
+      '<rect x="'+PL+'" y="'+PT+'" width="'+(W-PL-PR)+'" height="'+(H-PT-PB)+'" fill="transparent" id="hit"/>' +
+    '</svg>';
+  document.getElementById('chart').innerHTML = svg;
+  var hit = document.getElementById('hit');
+  hit.addEventListener('click', function(e){
+    var rect = hit.getBoundingClientRect();
+    var ratio = (e.clientX - rect.left) / rect.width;
+    var idx = Math.max(0, Math.min(20, Math.round(ratio * 20)));
+    var d = new Date(2026, 8, 8 + idx);
+    var ds = (d.getMonth()+1) + '月' + d.getDate() + '日';
+    document.getElementById('tip').textContent =
+      ds + '　数值 ' + cur[idx] + '　·　采集时间戳 03:4' + (idx % 10) + '　·　来自戒指 · 连续监测';
+  });
+}
+
+/* ---------- 交互 ---------- */
+function obiAction(){ go('report'); }
+function toggleCheck(el){
+  el.classList.toggle('done');
+  if(el.classList.contains('done')) note('打卡成功。规范要求：正向锚定（用「已连续 N 天」而非「还差 N 天」），漏一天不重置。');
+}
+function submitSize(el){
+  el.textContent = '已提交 · 正式戒指将随后发出';
+  el.style.background = '#E8A33D';
+  var g = document.getElementById('gate3');
+  g.classList.add('done'); g.querySelector('.no').textContent = '✓';
+  note('圈号已提交，触发正式戒指发货。这是圈号三闸的最后一步——在此之前不发正式戒指，从流程上压住弃戴率。');
+}
+function cycleShield(){
+  var el = document.getElementById('shield'), t = document.getElementById('shieldtxt');
+  var order = [['s-local','仅本地存储'],['s-sync','已加密同步'],['s-live','正在被读取']];
+  var idx = 0;
+  order.forEach(function(o,i){ if(el.classList.contains(o[0])) idx = i; });
+  var next = (idx + 1) % 3;
+  order.forEach(function(o){ el.classList.remove(o[0]); });
+  el.classList.add(order[next][0]);
+  t.textContent = order[next][1];
+  note('隐私三色状态（MOMOUX）：灰＝仅本地存储 / 绿＝已加密同步 / 橙＝正在被读取。我们顾问会查看用户数据，这个图标是信任机制的一部分。');
+}
+function note(t){
+  document.getElementById('notetext').innerHTML = '<b>待确认：</b>' + t;
+  document.getElementById('notebox').style.display = 'block';
+}
+function closeNote(){ document.getElementById('notebox').style.display = 'none'; }
+
+/* ---------- 初始化 ---------- */
+renderDetail('sleep');
+show('home');
+</script>
+</body>
+</html>
