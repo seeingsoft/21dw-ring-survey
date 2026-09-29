@@ -3,34 +3,46 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>植悦 21DW 智能戒指 · 供应商技术与商务问卷</title>
+<title>植悦 21DW 智能戒指 · 供应商技术与商务尽调清单 v4.3</title>
 <style>
   :root{
-    --bg:#f5f6f8;--card:#ffffff;--ink:#1f2329;--sub:#6b7280;
-    --brand:#002FA7;--brand2:#3457c4;--line:#e5e7eb;--req:#d93025;--ok:#002FA7;
+    --bg:#f5f6f8;--card:#fff;--ink:#1f2329;--sub:#6b7280;
+    --brand:#002FA7;--brand2:#3457c4;--line:#e5e7eb;
+    --req:#d93025;--warn:#B54708;--warnbg:#FFFAEB;
   }
   *{box-sizing:border-box}
   body{margin:0;background:var(--bg);color:var(--ink);
     font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;
-    line-height:1.6;font-size:15px}
-  .wrap{max-width:760px;margin:0 auto;padding:18px 16px 60px}
-  header{background:linear-gradient(135deg,var(--brand),var(--brand2));color:#fff;
-    border-radius:14px;padding:22px 20px;margin-bottom:18px}
+    line-height:1.62;font-size:15px}
+  .wrap{max-width:780px;margin:0 auto;padding:18px 16px 80px}
+  header{background:linear-gradient(135deg,var(--brand),#3457c4);color:#fff;
+    border-radius:14px;padding:22px 20px;margin-bottom:16px}
   header h1{margin:0 0 6px;font-size:20px}
-  header p{margin:0;font-size:13px;opacity:.92}
+  header p{margin:0;font-size:13px;opacity:.93}
   .bg{background:var(--card);border:1px solid var(--line);border-radius:12px;
-    padding:16px;margin-bottom:16px;font-size:13.5px;color:#374151}
+    padding:16px;margin-bottom:8px;font-size:13.5px;color:#374151}
   .bg b{color:var(--brand)}
-  .sec{margin:26px 0 14px;background:var(--brand);color:#fff;border-radius:10px;
-    padding:12px 16px;font-size:17px;font-weight:700;letter-spacing:.5px}
-  .sec small{display:block;font-size:12px;font-weight:400;opacity:.9;margin-top:3px;letter-spacing:0}
+  .sec{margin:28px 0 6px;background:var(--brand);color:#fff;border-radius:10px;
+    padding:12px 16px;font-size:17px;font-weight:700;letter-spacing:.4px}
+  .sec small{display:block;font-size:12px;font-weight:400;opacity:.92;margin-top:3px;letter-spacing:0}
+  .note{background:#FFF7E6;border:1px solid #F0D9A8;border-radius:10px;
+    padding:12px 14px;margin:10px 0 14px;font-size:13px;color:#5a3f10;line-height:1.65}
   .q{background:var(--card);border:1px solid var(--line);border-radius:12px;
     padding:16px;margin-bottom:14px}
+  .q.cond{border-left:4px solid var(--brand2)}
+  .q.cond.hide{display:none}
+  .subq{margin:14px 0 0;padding:11px 13px;background:#f8fafd;
+    border:1px solid var(--line);border-radius:9px}
+  .subq.subcond{border-left:3px solid var(--brand2)}
+  .subq.subcond.hide{display:none}
+  .subq .subtitle{font-weight:600;font-size:14px;margin-bottom:7px;color:var(--ink)}
+  .subq label.opt{padding:6px 9px;margin-bottom:6px;font-size:14px}
+  .q.miss{border-color:var(--req);box-shadow:0 0 0 3px rgba(217,48,37,.09)}
   .q .no{display:inline-block;background:var(--brand);color:#fff;font-size:12px;
     font-weight:700;border-radius:6px;padding:2px 8px;margin-right:8px}
   .q .title{font-weight:600;font-size:15px;margin-bottom:4px}
   .q .hint{color:var(--sub);font-size:12.5px;margin-bottom:10px}
-  .req{color:var(--req);font-weight:700}
+  .mtipt{font-size:12.5px;color:var(--brand);font-weight:600;margin-bottom:4px}
   .tag-req{display:inline-block;background:var(--req);color:#fff;font-size:11px;
     border-radius:5px;padding:1px 6px;margin-left:6px;font-weight:600;vertical-align:middle}
   .tag-opt{display:inline-block;background:#9ca3af;color:#fff;font-size:11px;
@@ -38,16 +50,16 @@
   label.opt{display:block;padding:8px 10px;border:1px solid var(--line);border-radius:8px;
     margin:6px 0;cursor:pointer;font-size:14px}
   label.opt:hover{border-color:var(--brand2);background:#eef2fb}
+  label.opt.sel{border-color:var(--brand);background:#eef2fb}
   label.opt input{margin-right:8px}
-  textarea,input.txt{width:100%;border:1px solid var(--line);border-radius:8px;
-    padding:10px;font-size:14px;font-family:inherit;margin-top:6px;resize:vertical}
-  textarea{min-height:78px}
-  input.txt{min-height:auto}
-  .otherbox{display:none;margin:6px 0 4px 26px}
-  .otherbox.show{display:block}
-  .otherbox input.txt{background:#fbfcff}
-  .chkgrp{border:1px dashed var(--line);border-radius:8px;padding:8px 10px;margin:8px 0}
-  .chkgrp .ct{font-size:12.5px;font-weight:600;color:var(--brand);margin-bottom:4px}
+  .ta{width:100%;border:1px solid var(--line);border-radius:8px;padding:10px;
+    font-size:14px;font-family:inherit;margin-top:6px;resize:vertical;min-height:82px}
+  input.txt{width:100%;border:1px solid var(--line);border-radius:8px;padding:10px;
+    font-size:14px;font-family:inherit;margin-top:6px}
+  input.txt.sub{margin:2px 0 8px 26px;width:calc(100% - 26px);background:#fbfcff}
+  .warnbox{display:none;background:var(--warnbg);border:1px solid #F0C68A;
+    border-radius:8px;padding:9px 12px;margin-top:8px;font-size:13px;color:var(--warn)}
+  .warnbox.show{display:block}
   .submit{position:sticky;bottom:0;background:#fff;border-top:1px solid var(--line);
     padding:14px 0;margin-top:8px}
   button.go{width:100%;background:var(--brand);color:#fff;border:0;border-radius:10px;
@@ -58,870 +70,960 @@
   .okbox.show{display:block}
   .copybtn{background:#fff;border:1px solid var(--brand);color:var(--brand);
     border-radius:8px;padding:8px 12px;cursor:pointer;font-size:13px;margin-top:10px}
-  footer{color:var(--sub);font-size:12px;text-align:center;margin-top:24px}
+  .missbar{display:none;background:#FDECEA;border:1px solid #F3B4AE;border-radius:10px;
+    padding:12px 14px;margin-bottom:12px;font-size:13.5px;color:#8f2018}
+  .missbar.show{display:block}
+  .missbar b{color:#8f2018}
+  footer{color:var(--sub);font-size:12px;text-align:center;margin-top:24px;line-height:1.7}
+  .report{background:var(--card);border:1px solid var(--line);border-radius:12px;
+    padding:16px;margin-top:16px;display:none}
+  .report.show{display:block}
+  .rp-sec{background:var(--brand);color:#fff;border-radius:8px;padding:9px 12px;
+    margin:16px 0 6px;font-size:14.5px;font-weight:700}
+  .rp-sec:first-child{margin-top:0}
+  table.rp-tb{width:100%;border-collapse:collapse;background:#fff}
+  table.rp-tb td{border-bottom:1px solid var(--line);padding:8px 10px;
+    vertical-align:top;font-size:13.5px}
+  .rp-no{width:46px;color:var(--brand);font-weight:700;white-space:nowrap}
+  .rp-q{width:40%;color:#4b5563}
+  .rp-a{font-weight:600}
+  .rp-blank{color:#b0b6be;font-weight:400;font-style:italic}
+  .btnrow{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+  .btnrow .copybtn{margin-top:0}
+  @media print{
+    header,.bg,.sec,.note,.q,.submit,#missbar,footer{display:none!important}
+    .report{display:block!important;border:0;padding:0}
+    body{background:#fff}
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
   <header>
-    <h1>植悦 21DW 智能戒指 · 供应商技术与商务问卷</h1>
-    <p>本问卷用于智能戒指硬件与 SDK 方案的横向选型评估 · 标注 <span style="color:#d93025;font-weight:700">（必答）</span> 的题目须全部填写后方可提交；标注「（选答）」的可留空</p>
+    <h1>植悦 21DW 智能戒指 · 供应商技术与商务尽调清单</h1>
+    <p>v4.3 · 仅「基本信息」4 项需手动填写，其余全部选择作答 · 技术侧 T1–T22 ／ 商务侧 B1–B17 ·
+       <span style="font-weight:700">（必答）</span> 题须全部填写后方可提交；
+       <span style="opacity:.85">（选答）</span> 可留空</p>
   </header>
 
   <div class="bg">
     <b>项目背景（供贵司理解语境）</b><br>
-    植悦运营跨境营养包品牌 <b>21DAYS WONDER（21DW）</b>，加拿大本土在售。智能戒指作为营养包方案的<b>长期附赠硬件</b>（不单独销售、不作医疗用途）。客户端形态含微信小程序及原生 iOS / Android App，无论开发先后顺序，<b>三端 SDK 均须由贵司提供</b>。数据用于用户 21 天周期的陪伴式趋势呈现，<b>不做任何功效或医疗宣称</b>。我们仅采购<b>非医疗宣称</b>的健康趋势款。品牌授权地域范围含中国大陆及加拿大 / 全球。<br>
-    <b>能力分级口径（请据此作答）</b>：我方按 <b>P0 必备</b>（睡眠时长与结构 · 静息心率 RHR · HRV · 心率 PPG · 活动/步数）／<b>P1 强建议</b>（皮温趋势、SpO₂ 血氧、呼吸率）／<b>P2 可选</b>（睡眠评分、恢复指数等复合指数）三档评估；含 <b>ECG 心电 / 血压 / 血糖 / 血脂</b> 等医疗宣称功能者与我方定位冲突。
+    植悦运营跨境营养包品牌 <b>21DAYS WONDER（21DW）</b>，加拿大本土在售。智能戒指作为营养包方案的
+    <b>长期附赠硬件</b>（不单独销售、不作医疗用途）。客户端形态含微信小程序及原生 iOS / Android App，
+    无论开发先后顺序，<b>三端 SDK 均须由贵司提供</b>。数据用于用户 21 天周期的陪伴式趋势呈现，
+    <b>不做任何功效或医疗宣称</b>。品牌授权地域范围含中国大陆及加拿大 / 全球。<br><br>
+    <b>填写须知</b>：本清单共 <b>39 题</b>（技术侧 T1–T22 共 22 题、商务侧 B1–B17 共 17 题），并含 <b>3 组条件题</b>及 <b>3 组题内子问</b> —— 仅当您在先前题目选择了特定选项时，后续关联题目才会出现，
+    未出现的题目无需作答。请按屏幕实际显示内容填写。
   </div>
+
+  <div class="missbar" id="missbar"></div>
 
   <form id="f" novalidate>
-    <!-- 开头三项 -->
-    <div class="q">
-      <div class="title"><span class="no">0</span>供应商公司名称 <span class="tag-req">（必答）</span></div>
-      <input class="txt" name="company" required placeholder="请填写贵司全称">
-    </div>
-    <div class="q">
-      <div class="title"><span class="no">0</span>联系人 <span class="tag-req">（必答）</span></div>
-      <input class="txt" name="contact" required placeholder="姓名 / 职务">
-    </div>
-    <div class="q">
-      <div class="title"><span class="no">0</span>联系手机 <span class="tag-req">（必答）</span></div>
-      <input class="txt" name="phone" required placeholder="用于技术对接联系">
-    </div>
-    <div class="q">
-      <div class="title"><span class="no">0</span>公司地址 <span class="tag-req">（必答）</span></div>
-      <input class="txt" name="address" required placeholder="用于实地拜访考察（省 / 市 / 区 + 详细地址）">
-    </div>
-
-    <!-- ============ 技术评估 ============ -->
-    <div class="sec">技术评估 · Technical<small>硬件能力 / SDK 数据粒度 / 连接兼容 / 合规 — 决定技术选型能否成立</small></div>
-
-    <!-- T1 -->
-    <div class="q">
-      <div class="title"><span class="no">T1</span>SDK 返回的数据粒度 <span class="tag-req">（必答）</span></div>
-      <div class="hint">贵司 SDK 返回的是哪一层数据？</div>
-      <label class="opt"><input type="radio" name="t1" value="原始传感器数据流" required>原始传感器数据流（PPG 波形、三轴加速度原始采样、温度传感器原始读数）</label>
-      <label class="opt"><input type="radio" name="t1" value="已计算好的体征指标">已计算好的体征指标（心率 / 静息心率 / HRV / 血氧 / 皮温等数值）</label>
-      <label class="opt"><input type="radio" name="t1" value="两者都提供">两者都提供</label>
-    </div>
-
-    <!-- T1.1 条件追问 -->
-    <div class="q">
-      <div class="title"><span class="no">T1.1</span>若仅提供计算结果，是否可额外暴露原始数据流？ <span class="tag-opt">（选答）</span></div>
-      <div class="hint">仅当 T1 选择"已计算好的体征指标"时请回答；若 T1 选"原始"或"两者都提供"可不答。</div>
-      <label class="opt"><input type="radio" name="t1b" value="可额外暴露原始流">可额外暴露原始数据流（无需额外授权 / 费用）</label>
-      <label class="opt"><input type="radio" name="t1b" value="需授权或收费才暴露">需额外授权或费用方可暴露</label>
-      <label class="opt"><input type="radio" name="t1b" value="不可暴露原始流">不可暴露原始数据流</label>
-      <textarea name="t1b_note" placeholder="补充说明（选答）…"></textarea>
-    </div>
-
-    <!-- T1.3 数据底座 -->
-    <div class="q">
-      <div class="title"><span class="no">T1.3</span>数据底座要求（P0 级硬条件） <span class="tag-req">（必答）</span> <span style="color:var(--brand);font-weight:600">（可多选）</span></div>
-      <div class="hint">趋势数据须可复算、可校验，否则我方无法向用户解释"数据为何变化"。请勾选贵司可满足项。</div>
-      <div class="chkgrp">
-        <label class="opt"><input type="checkbox" name="t1_base" value="PPG采样质量可校验">PPG 采样质量可校验（可提供采样率 / 信噪比或原始波形）</label>
-        <label class="opt"><input type="checkbox" name="t1_base" value="三轴加速度原始可回溯">三轴加速度原始数据可回溯</label>
-        <label class="opt"><input type="checkbox" name="t1_base" value="采样连续性与佩戴率可查">采样连续性与佩戴率可查（可输出佩戴率 / 有效时长）</label>
-        <label class="opt"><input type="checkbox" name="t1_base" value="以上均不满足">以上均不满足（请说明）</label>
-      </div>
-      <div class="otherbox" data-other="t1_base" data-trigger="以上均不满足"><input class="txt" name="t1_base_other" placeholder="请说明数据底座无法满足的具体原因"></div>
-    </div>
-
-    <!-- T2.1 -->
-    <div class="q">
-      <div class="title"><span class="no">T2.1</span>本地直连支持程度 <span class="tag-req">（必答）</span></div>
-      <div class="hint">贵司 SDK 是否支持植悦客户端经 BLE 与设备本地直连、不经供应商云端？</div>
-      <label class="opt"><input type="radio" name="t2_local" value="完全支持本地直连" required>完全支持本地直连（数据不经供应商云）</label>
-      <label class="opt"><input type="radio" name="t2_local" value="部分支持（部分功能需过云）">部分支持（部分功能需经供应商云，请于 T2.2 说明）</label>
-      <label class="opt"><input type="radio" name="t2_local" value="不支持本地直连">不支持本地直连（强制走供应商云）</label>
-    </div>
-
-    <!-- T2.2 -->
-    <div class="q">
-      <div class="title"><span class="no">T2.2</span>是否存在必须调用供应商云的功能？ <span class="tag-req">（必答）</span></div>
-      <div class="hint">若 T2.1 选"部分支持"或"不支持"，请如实说明。</div>
-      <label class="opt"><input type="radio" name="t2_cloud" value="无任何功能必须过云" required>无任何功能必须过云</label>
-      <label class="opt"><input type="radio" name="t2_cloud" value="有功能必须过云">有功能必须过云（请下方说明）</label>
-      <textarea name="t2_note" placeholder="必须过云的功能及条款说明（选答）…"></textarea>
-    </div>
-
-    <!-- T3.1 -->
-    <div class="q">
-      <div class="title"><span class="no">T3.1</span>推荐型号是否<b>同时具备全部 P0 级能力</b>？ <span class="tag-req">（必答）</span></div>
-      <div class="hint">P0 五项＝睡眠 · 静息心率 RHR · HRV · 心率 PPG · 活动/步数。<b>若贵司有多个型号，请就主推型号作答</b>，其余型号请列于 T3.3。</div>
-      <label class="opt"><input type="radio" name="t3_has" value="P0五项全部具备" required>是，P0 五项全部具备（请于 T3.3 列出型号）</label>
-      <label class="opt"><input type="radio" name="t3_has" value="P0部分具备">否，仅部分具备（请于 T3.1a 勾选缺失项）</label>
-    </div>
-
-    <!-- T3.1a 条件追问 -->
-    <div class="q">
-      <div class="title"><span class="no">T3.1a</span>若 P0 仅部分具备，请勾选缺失项 <span style="color:var(--brand);font-weight:600">（可多选，无缺失可不答）</span></div>
-      <div class="chkgrp" data-optional="1">
-        <label class="opt"><input type="checkbox" name="t3_p0miss" value="缺-睡眠">缺：睡眠（时长 / 结构）</label>
-        <label class="opt"><input type="checkbox" name="t3_p0miss" value="缺-RHR">缺：静息心率 RHR</label>
-        <label class="opt"><input type="checkbox" name="t3_p0miss" value="缺-HRV">缺：HRV</label>
-        <label class="opt"><input type="checkbox" name="t3_p0miss" value="缺-PPG心率">缺：心率 PPG</label>
-        <label class="opt"><input type="checkbox" name="t3_p0miss" value="缺-活动步数">缺：活动 / 步数</label>
-      </div>
-    </div>
-
-    <!-- T3.2 多选（按 P0/P1/P2 分级） -->
-    <div class="q">
-      <div class="title"><span class="no">T3.2</span>可提供的体征 / 传感器能力（按我方分级勾选） <span class="tag-req">（必答）</span> <span style="color:var(--brand);font-weight:600">（可多选）</span></div>
-      <div class="hint">请按 P0 / P1 / P2 三档分别勾选贵司可提供项；<b>睡眠相关共三项，具备几项勾几项</b>。勾选应与 T3.1 / T3.1a 一致。</div>
-      <div class="chkgrp">
-        <div class="ct" style="color:var(--req)">P0 · 必备</div>
-        <label class="opt"><input type="checkbox" name="t3_cap" value="P0-睡眠总时长">睡眠总时长</label>
-        <label class="opt"><input type="checkbox" name="t3_cap" value="P0-入睡醒来时点">入睡 / 醒来时点</label>
-        <label class="opt"><input type="checkbox" name="t3_cap" value="P0-睡眠分期">睡眠分期（深睡 / 浅睡 / REM）</label>
-        <label class="opt"><input type="checkbox" name="t3_cap" value="P0-静息心率RHR">静息心率 RHR（夜间）</label>
-        <label class="opt"><input type="checkbox" name="t3_cap" value="P0-HRV">HRV（夜间 RMSSD / SDNN）</label>
-        <label class="opt"><input type="checkbox" name="t3_cap" value="P0-心率PPG">心率 PPG</label>
-        <label class="opt"><input type="checkbox" name="t3_cap" value="P0-活动步数">活动 / 步数（三轴加速度）</label>
-        <div class="ct">P1 · 强建议</div>
-        <label class="opt"><input type="checkbox" name="t3_cap" value="P1-皮温体温趋势">皮温 / 体温趋势</label>
-        <label class="opt"><input type="checkbox" name="t3_cap" value="P1-SpO2血氧">SpO₂ 血氧（我方仅采集，不做用户提示）</label>
-        <label class="opt"><input type="checkbox" name="t3_cap" value="P1-RR呼吸率">RR 呼吸率</label>
-        <div class="ct">P2 · 可选</div>
-        <label class="opt"><input type="checkbox" name="t3_cap" value="P2-睡眠评分">睡眠评分</label>
-        <label class="opt"><input type="checkbox" name="t3_cap" value="P2-恢复就绪指数">恢复 / 就绪指数（Readiness 等复合指数）</label>
-        <label class="opt"><input type="checkbox" name="t3_cap" value="其他能力">其他（请说明）</label>
-      </div>
-      <div class="otherbox" data-other="t3_cap" data-trigger="其他能力"><input class="txt" name="t3_cap_other" placeholder="请填写其他可提供的能力"></div>
-    </div>
-
-    <!-- T3.3 -->
-    <div class="q">
-      <div class="title"><span class="no">T3.3</span>推荐型号明细 <span class="tag-req">（必答）</span></div>
-      <div class="hint">请列出推荐型号及：续航（定义监测频率）/ 重量 / 防水等级（具体）/ 充电仓是否标配，<b>并注明各型号覆盖了哪些 P0 / P1 能力</b>。</div>
-      <textarea name="t3_models" required placeholder="型号 | 覆盖能力(P0/P1) | 续航 | 重量 | 防水 | 充电仓&#10;健康款（P0全 + 皮温） | …&#10;基础款（仅P0五项） | …"></textarea>
-    </div>
-
-    <!-- T3.4 医疗宣称反向排除 -->
-    <div class="q">
-      <div class="title"><span class="no">T3.4</span>推荐型号是否含医疗宣称功能？ <span class="tag-req">（必答）</span></div>
-      <div class="hint">我方仅采购非医疗趋势款。含 ECG 心电 / 血压 / 血糖 / 血脂者与我方定位不符。</div>
-      <label class="opt"><input type="radio" name="t3_med" value="不含任何医疗宣称功能" required>不含任何医疗宣称功能（符合我方定位）</label>
-      <label class="opt"><input type="radio" name="t3_med" value="含部分医疗宣称功能">含其中部分功能（请说明）</label>
-      <div class="otherbox" data-other="t3_med" data-trigger="含部分医疗宣称功能"><input class="txt" name="t3_med_other" placeholder="请说明含哪些医疗宣称功能（如 ECG / 血压 / 血糖 / 血脂）"></div>
-      <label class="opt"><input type="radio" name="t3_med" value="主推即为医疗宣称款">主推型号即为医疗宣称款</label>
-    </div>
-
-    <!-- T3.5 圈号 -->
-    <div class="q">
-      <div class="title"><span class="no">T3.5</span>戒指圈号规格 <span class="tag-req">（必答）</span></div>
-      <div class="hint">戒指须贴合用户手指，圈号不合将直接导致用户不佩戴。请说明可提供的圈号档位。</div>
-      <label class="opt"><input type="radio" name="t3_size" value="6档以上含半码" required>6 档以上（含半码）</label>
-      <label class="opt"><input type="radio" name="t3_size" value="4-5档">4–5 档</label>
-      <label class="opt"><input type="radio" name="t3_size" value="2-3档">2–3 档</label>
-      <label class="opt"><input type="radio" name="t3_size" value="单一尺寸">单一尺寸（弹性 / 开口设计）</label>
-      <textarea name="t3_size_note" placeholder="具体圈号范围与内径尺寸（选答）…"></textarea>
-    </div>
-
-    <!-- T3.6 试戴与混装 -->
-    <div class="q">
-      <div class="title"><span class="no">T3.6</span>是否提供试戴套装（sizing kit）及按指定比例混装？ <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="t3_sizing" value="提供试戴且可按比例混装" required>提供试戴套装，且量产权可<b>按我方指定比例</b>混装各码</label>
-      <label class="opt"><input type="radio" name="t3_sizing" value="提供试戴但固定比例">提供试戴套装，但量产权按固定比例出货</label>
-      <label class="opt"><input type="radio" name="t3_sizing" value="不提供试戴套装">不提供试戴套装（需我方自测圈号后下单）</label>
-    </div>
-
-    <!-- T3.7 尺码退换 -->
-    <div class="q">
-      <div class="title"><span class="no">T3.7</span>尺码不合适是否可退换？ <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="t3_return" value="尺码可退换" required>可退换（未激活 / 不影响二次销售）</label>
-      <label class="opt"><input type="radio" name="t3_return" value="尺码仅换不退">仅可换货，不可退货</label>
-      <label class="opt"><input type="radio" name="t3_return" value="尺码不可退换">不可退换（由我方自行承担）</label>
-    </div>
-
-    <!-- T3.8 充电 -->
-    <div class="q">
-      <div class="title"><span class="no">T3.8</span>单次充满所需时间 <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="t3_charge" value="充电≤1小时" required>≤ 1 小时</label>
-      <label class="opt"><input type="radio" name="t3_charge" value="充电1-2小时">1–2 小时</label>
-      <label class="opt"><input type="radio" name="t3_charge" value="充电2-3小时">2–3 小时</label>
-      <label class="opt"><input type="radio" name="t3_charge" value="充电>3小时">&gt; 3 小时</label>
-    </div>
-
-    <!-- T3.9 电池寿命 -->
-    <div class="q">
-      <div class="title"><span class="no">T3.9</span>电池循环寿命与可更换性 <span class="tag-req">（必答）</span></div>
-      <div class="hint">戒指为长期佩戴赠品，电池衰减将直接产生售后成本。</div>
-      <label class="opt"><input type="radio" name="t3_battery" value="循环≥500次" required>循环寿命 ≥ 500 次（约 2 年以上）</label>
-      <label class="opt"><input type="radio" name="t3_battery" value="循环300-499次">300–499 次</label>
-      <label class="opt"><input type="radio" name="t3_battery" value="循环<300次">&lt; 300 次</label>
-      <label class="opt"><input type="radio" name="t3_battery" value="无标称不可更换">无标称且不可更换</label>
-      <textarea name="t3_battery_note" placeholder="电池规格 / 是否可更换说明（选答）…"></textarea>
-    </div>
-
-    <!-- T4.1 -->
-    <div class="q">
-      <div class="title"><span class="no">T4.1</span>微信小程序端 SDK 提供方式 <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="t4_wx" value="已有现成小程序SDK" required>已有现成小程序 SDK（JS，基于微信 BLE API）</label>
-      <label class="opt"><input type="radio" name="t4_wx" value="需植悦基于贵司协议自适配">未提供现成小程序 SDK，但支持植悦基于贵司通信协议自适配</label>
-      <label class="opt"><input type="radio" name="t4_wx" value="暂不支持">暂不支持</label>
-    </div>
-
-    <!-- T4.1.1 -->
-    <div class="q">
-      <div class="title"><span class="no">T4.1a</span>小程序同步机制说明 <span class="tag-opt">（选答）</span></div>
-      <div class="hint">受小程序无后台实时采集限制，请说明推荐同步机制（每日打开同步、戒指本地存储容量与回传策略）。</div>
-      <textarea name="t4_wx_note" placeholder="同步机制说明（选答）…"></textarea>
-    </div>
-
-    <!-- T4.1b 本地存储 -->
-    <div class="q">
-      <div class="title"><span class="no">T4.1b</span>戒指本地存储容量 <span class="tag-req">（必答）</span></div>
-      <div class="hint">小程序无后台实时连接，数据需先暂存在戒指本地、待用户打开时再同步。请按贵司常规采样频率说明戒指可暂存多少天数据。</div>
-      <label class="opt"><input type="radio" name="t4_store" value="本地存储≥14天" required>≥ 14 天</label>
-      <label class="opt"><input type="radio" name="t4_store" value="本地存储7-13天">7–13 天</label>
-      <label class="opt"><input type="radio" name="t4_store" value="本地存储<7天">&lt; 7 天</label>
-      <label class="opt"><input type="radio" name="t4_store" value="无本地存储">无本地存储（必须实时连接）</label>
-      <textarea name="t4_store_note" placeholder="采样频率与存储规格说明（选答）…"></textarea>
-    </div>
-
-    <!-- T4.1c 断连续采 -->
-    <div class="q">
-      <div class="title"><span class="no">T4.1c</span>与手机断连后，戒指是否继续采集并自动补传？ <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="t4_offline" value="断连继续采集且自动补传" required>继续采集，重连后<b>自动补传</b>（无数据丢失）</label>
-      <label class="opt"><input type="radio" name="t4_offline" value="断连继续采集但需手动补传">继续采集，但需手动触发补传</label>
-      <label class="opt"><input type="radio" name="t4_offline" value="断连后停止采集">断连后停止采集</label>
-      <textarea name="t4_offline_note" placeholder="同步一次（含 7 天数据）的大致耗时（选答）…"></textarea>
-    </div>
-
-    <!-- T4.1d 时间戳 -->
-    <div class="q">
-      <div class="title"><span class="no">T4.1d</span>戒指回传的数据是否带时间戳？ <span class="tag-req">（必答）</span></div>
-      <div class="hint">非实时同步方案下，数据先存戒指本地、再批量回传；若不带时间戳，服务端将无法还原各指标的发生时点。</div>
-      <label class="opt"><input type="radio" name="t4_ts" value="均带分钟级时间戳" required>所有数据均带时间戳（可精确到分钟）</label>
-      <label class="opt"><input type="radio" name="t4_ts" value="仅按天聚合无分钟级时间戳">仅按天聚合，无分钟级时间戳</label>
-      <label class="opt"><input type="radio" name="t4_ts" value="不带时间戳">不带时间戳</label>
-    </div>
-
-    <!-- T4.1e 时钟校准 -->
-    <div class="q">
-      <div class="title"><span class="no">T4.1e</span>戒指是否支持由手机端校准时钟？ <span class="tag-req">（必答）</span></div>
-      <div class="hint">戒指本地时钟存在漂移，需由手机在同步时校准，否则回传数据的时间会错乱。</div>
-      <label class="opt"><input type="radio" name="t4_clock" value="每次同步自动校时" required>支持，每次同步<b>自动校时</b></label>
-      <label class="opt"><input type="radio" name="t4_clock" value="校时需手动触发">支持，但需手动触发</label>
-      <label class="opt"><input type="radio" name="t4_clock" value="不支持校时">不支持校时（依赖戒指自带时钟）</label>
-      <textarea name="t4_clock_note" placeholder="时钟漂移范围、跨时区／夏令时处理方式（选答）…"></textarea>
-    </div>
-
-    <!-- T4.2 -->
-    <div class="q">
-      <div class="title"><span class="no">T4.2</span>iOS 原生端 SDK 提供方式 <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="t4_ios" value="提供iOS原生SDK" required>提供 iOS 原生 SDK（Swift / Objective-C，封装 CoreBluetooth），BLE 5.x</label>
-      <label class="opt"><input type="radio" name="t4_ios" value="暂不支持iOS原生SDK">暂不支持</label>
-    </div>
-
-    <!-- T4.3 -->
-    <div class="q">
-      <div class="title"><span class="no">T4.3</span>Android 原生端 SDK 提供方式 <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="t4_and" value="提供Android原生SDK" required>提供 Android 原生 SDK（Java / Kotlin，封装 Bluetooth GATT），BLE 5.x</label>
-      <label class="opt"><input type="radio" name="t4_and" value="暂不支持Android原生SDK">暂不支持</label>
-    </div>
-
-    <!-- T4.4 -->
-    <div class="q">
-      <div class="title"><span class="no">T4.4</span>三端 SDK 授权 / 收费 / 稳定性 / 鸿蒙兼容 <span class="tag-opt">（选答）</span></div>
-      <div class="hint">三端 SDK 授权方式与是否收费？单设备连接稳定性、断连重连机制？对鸿蒙的兼容性？</div>
-      <textarea name="t4_note" placeholder="授权 / 收费 / 稳定性 / 鸿蒙兼容（选答）…"></textarea>
-    </div>
-
-    <!-- T5.1 -->
-    <div class="q">
-      <div class="title"><span class="no">T5.1</span>PPG 派生算法来源 <span class="tag-req">（必答）</span></div>
-      <div class="hint">若 T1 选「原始传感器数据流」，本项通常应为「需植悦自行开发」。</div>
-      <label class="opt"><input type="radio" name="t5_algo" value="贵司提供算法" required>PPG 派生的 HRV / SpO₂ 算法由贵司提供（固件 / SDK 内）</label>
-      <label class="opt"><input type="radio" name="t5_algo" value="植悦自行开发（提供原始PPG）">需植悦自行开发（贵司提供原始 PPG）</label>
-      <label class="opt"><input type="radio" name="t5_algo" value="第三方算法">由第三方算法提供</label>
-    </div>
-
-    <!-- T5.2 -->
-    <div class="q">
-      <div class="title"><span class="no">T5.2</span>是否支持现场标定 / 校准？ <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="t5_calib" value="支持现场标定" required>支持现场标定 / 校准</label>
-      <label class="opt"><input type="radio" name="t5_calib" value="不支持现场标定">不支持现场标定</label>
-    </div>
-
-    <!-- T5.3 -->
-    <div class="q">
-      <div class="title"><span class="no">T5.3</span>是否可提供精度测试报告？ <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="t5_report" value="可提供精度测试报告" required>可提供精度测试报告（如心率误差 ±__ bpm）</label>
-      <label class="opt"><input type="radio" name="t5_report" value="暂不可提供精度测试报告">暂不可提供精度测试报告</label>
-      <textarea name="t5_note" placeholder="精度范围 / 报告样本说明（选答）…"></textarea>
-    </div>
-
-    <!-- T6.1 -->
-    <div class="q">
-      <div class="title"><span class="no">T6.1</span>OTA 固件升级方式 <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="t6_ota" value="支持且OTA不依赖供应商云" required>支持 OTA 固件升级，且 OTA 不依赖供应商云</label>
-      <label class="opt"><input type="radio" name="t6_ota" value="支持但OTA依赖供应商云">支持 OTA，但 OTA 依赖供应商云</label>
-      <label class="opt"><input type="radio" name="t6_ota" value="不支持OTA">不支持 OTA</label>
-    </div>
-
-    <!-- T6.2 -->
-    <div class="q">
-      <div class="title"><span class="no">T6.2</span>SDK 授权是否收费？ <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="t6_sdkfee" value="SDK免费" required>SDK 授权免费</label>
-      <label class="opt"><input type="radio" name="t6_sdkfee" value="SDK收费">SDK 授权收费（请说明）</label>
-      <div class="otherbox" data-other="t6_sdkfee" data-trigger="SDK收费"><input class="txt" name="t6_sdkfee_other" placeholder="请说明 SDK 授权收费方式与金额"></div>
-      <label class="opt"><input type="radio" name="t6_sdkfee" value="随硬件量产权免费">随硬件量产权免费</label>
-    </div>
-
-    <!-- T6.3 -->
-    <div class="q">
-      <div class="title"><span class="no">T6.3</span>技术对接支持方式 <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="t6_support" value="工单系统" required>工单系统</label>
-      <label class="opt"><input type="radio" name="t6_support" value="专属对接群">专属对接群</label>
-      <label class="opt"><input type="radio" name="t6_support" value="驻场支持">驻场支持</label>
-      <label class="opt"><input type="radio" name="t6_support" value="文档自助">文档自助</label>
-      <textarea name="t6_note" placeholder="SDK 版本迭代承诺 / 文档完整度（选答）…"></textarea>
-    </div>
-
-    <!-- T6.4 换机迁移 -->
-    <div class="q">
-      <div class="title"><span class="no">T6.4</span>用户更换手机后，重新配对与历史数据如何处理？ <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="t6_migrate" value="可重新配对且数据可迁移" required>支持重新配对，戒指内未同步数据可完整迁移</label>
-      <label class="opt"><input type="radio" name="t6_migrate" value="可重新配对但部分丢失">支持重新配对，但戒指内未同步数据会丢失</label>
-      <label class="opt"><input type="radio" name="t6_migrate" value="需恢复出厂数据清空">需恢复出厂设置，历史数据清空</label>
-    </div>
-
-    <!-- T6.5 解绑与绑定限制 -->
-    <div class="q">
-      <div class="title"><span class="no">T6.5</span>设备解绑与账号绑定限制 <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="t6_bind" value="可解绑且支持多账号" required>支持解绑并重新绑定，一个戒指可切换绑定多账号</label>
-      <label class="opt"><input type="radio" name="t6_bind" value="可解绑但单账号">支持解绑，但一个戒指同时仅可绑定一个账号</label>
-      <label class="opt"><input type="radio" name="t6_bind" value="不支持解绑">不支持解绑（绑定后不可更换）</label>
-    </div>
-
-    <!-- T6.6 固件与数据可比性 -->
-    <div class="q">
-      <div class="title"><span class="no">T6.6</span>固件 / 算法升级是否影响历史数据可比性？ <span class="tag-req">（必答）</span></div>
-      <div class="hint">我方服务基于 21 天周期的趋势对比；若升级改变算法口径，前后数据将不可比。</div>
-      <label class="opt"><input type="radio" name="t6_fwdata" value="不影响历史可比性" required>不影响，升级前后数据口径一致</label>
-      <label class="opt"><input type="radio" name="t6_fwdata" value="影响但提前通知">可能影响，但升级前会<b>提前通知并说明口径变化</b></label>
-      <label class="opt"><input type="radio" name="t6_fwdata" value="可能改变且不通知">可能改变算法口径且不另行通知</label>
-    </div>
-
-    <!-- T7.1 -->
-    <div class="q">
-      <div class="title"><span class="no">T7.1</span>硬件是否可白标镭雕？ <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="t7_laser" value="可镭雕/定制标识" required>戒指外壳 / 内壁可镭雕或定制 21DAYS WONDER 标识</label>
-      <label class="opt"><input type="radio" name="t7_laser" value="不可定制（仅裸机）">不可定制（仅提供裸机）</label>
-    </div>
-
-    <!-- T7.2 -->
-    <div class="q">
-      <div class="title"><span class="no">T7.2</span>白标 MOQ 与功能 MOQ 是否相同？ <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="t7_moq" value="白标MOQ与功能MOQ相同" required>白标最小起订量（MOQ）与功能 MOQ 相同</label>
-      <label class="opt"><input type="radio" name="t7_moq" value="白标MOQ与功能MOQ不同">白标 MOQ 与功能 MOQ 不同（请说明）</label>
-      <textarea name="t7_note" placeholder="定制费 / 白标起订量差异说明（选答）…"></textarea>
-    </div>
-
-    <!-- T7.3 -->
-    <div class="q">
-      <div class="title"><span class="no">T7.3</span>SDK 是否强制绑定贵司自有 App？ <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="t7_bind" value="不绑定贵司App" required>SDK 不强制绑定贵司自有 App（可纯对接植悦系统）</label>
-      <label class="opt"><input type="radio" name="t7_bind" value="绑定贵司App">SDK 强制绑定贵司自有 App</label>
-    </div>
-
-    <!-- T8.1 -->
-    <div class="q">
-      <div class="title"><span class="no">T8.1</span>是否可在签约前提供样品？ <span class="tag-req">（必答）</span></div>
-      <div class="hint">正式签约 / 量产前，贵司是否可提供 5–10 台样品供植悦做佩戴率 / SDK 对接 / 数据质量实测？</div>
-      <label class="opt"><input type="radio" name="t8_pre" value="可在签约前提供样品" required>可以（签约前即可提供，未承诺量产权先做技术评估）</label>
-      <label class="opt"><input type="radio" name="t8_pre" value="需先签NDA/样品协议">需先签 NDA / 样品协议方可提供</label>
-      <label class="opt"><input type="radio" name="t8_pre" value="不可在签约前提供样品">不可在签约前提供</label>
-    </div>
-
-    <!-- T8.2 -->
-    <div class="q">
-      <div class="title"><span class="no">T8.2</span>样品费用如何？ <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="t8_fee" value="样品免费" required>样品费用：免费提供</label>
-      <label class="opt"><input type="radio" name="t8_fee" value="收样品费">收样品费（请说明）</label>
-      <div class="otherbox" data-other="t8_fee" data-trigger="收样品费"><input class="txt" name="t8_fee_other" placeholder="请说明样品费金额与计费方式"></div>
-      <label class="opt"><input type="radio" name="t8_fee" value="样品费可抵量产权">样品费可抵后续量产权</label>
-    </div>
-
-    <!-- T8.3 -->
-    <div class="q">
-      <div class="title"><span class="no">T8.3</span>样品阶段是否需先签 NDA？ <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="t8_nda" value="样品阶段需先签NDA" required>样品阶段需先签 NDA</label>
-      <label class="opt"><input type="radio" name="t8_nda" value="样品阶段不需NDA">样品阶段不需 NDA</label>
-      <textarea name="t8_note" placeholder="样品物流提供方式（选答）…"></textarea>
-    </div>
-
-    <!-- T9.0 通信协议文档 -->
-    <div class="q">
-      <div class="title"><span class="no">T9.0</span>是否提供完整 BLE 通信协议文档？ <span class="tag-req">（必答）</span></div>
-      <div class="hint">协议文档指：GATT 服务与特征值 UUID、数据包字节格式、指令集、认证／绑定方式。植悦需据此评估自主开发与多端扩展能力。</div>
-      <label class="opt"><input type="radio" name="t9_proto" value="提供完整协议文档" required>提供完整协议文档（可作为技术交付物列入合同）</label>
-      <label class="opt"><input type="radio" name="t9_proto" value="仅提供SDK不含协议文档">仅提供 SDK，不提供协议文档</label>
-      <label class="opt"><input type="radio" name="t9_proto" value="协议文档需额外授权或收费">需额外授权或收费方可提供</label>
-      <label class="opt"><input type="radio" name="t9_proto" value="不提供协议文档">不提供协议文档</label>
-      <textarea name="t9_proto_note" placeholder="协议文档范围／授权／费用说明（选答）…"></textarea>
-    </div>
-
-    <!-- T9.1 多选 -->
-    <div class="q">
-      <div class="title"><span class="no">T9.1</span>SDK 交付物包含哪些？ <span class="tag-req">（必答）</span> <span style="color:var(--brand);font-weight:600">（可多选）</span></div>
-      <div class="chkgrp">
-        <label class="opt"><input type="checkbox" name="t9_deliver" value="数据字段格式说明">数据字段格式说明</label>
-        <label class="opt"><input type="checkbox" name="t9_deliver" value="Demo工程-微信小程序端">Demo 工程 — 微信小程序端</label>
-        <label class="opt"><input type="checkbox" name="t9_deliver" value="Demo工程-iOS原生端">Demo 工程 — iOS 原生端</label>
-        <label class="opt"><input type="checkbox" name="t9_deliver" value="Demo工程-Android原生端">Demo 工程 — Android 原生端</label>
-        <label class="opt"><input type="checkbox" name="t9_deliver" value="原始数据解析示例">原始数据解析示例</label>
-      </div>
-    </div>
-
-    <!-- T9.2 -->
-    <div class="q">
-      <div class="title"><span class="no">T9.2</span>文档语言 <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="t9_lang" value="中文" required>中文</label>
-      <label class="opt"><input type="radio" name="t9_lang" value="英文">英文</label>
-      <label class="opt"><input type="radio" name="t9_lang" value="中英文均可">中英文均可</label>
-      <textarea name="t9_note" placeholder="其他交付物或说明（选答）…"></textarea>
-    </div>
-
-    <!-- T10.1 -->
-    <div class="q">
-      <div class="title"><span class="no">T10.1</span>是否支持数据不出境？ <span class="tag-req">（必答）</span></div>
-      <div class="hint">因 21DW 含加拿大及全球业务，请确认数据合规能力。</div>
-      <label class="opt"><input type="radio" name="t10_dataout" value="支持数据不出境" required>支持数据不出境 / 仅在植悦自有服务端处理</label>
-      <label class="opt"><input type="radio" name="t10_dataout" value="不支持数据不出境">不支持数据不出境</label>
-      <label class="opt"><input type="radio" name="t10_dataout" value="部分支持数据不出境">部分支持（请说明）</label>
-    </div>
-
-    <!-- T10.2 -->
-    <div class="q">
-      <div class="title"><span class="no">T10.2</span>是否提供隐私合规材料（DPA）？ <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="t10_dpa" value="提供DPA模板" required>提供符合个保法及境外法规的隐私合规材料（如 DPA 模板）</label>
-      <label class="opt"><input type="radio" name="t10_dpa" value="不提供DPA但可协助">不提供模板，但可协助出具</label>
-      <label class="opt"><input type="radio" name="t10_dpa" value="不提供DPA支持">不提供</label>
-      <textarea name="t10_note" placeholder="数据出境方案补充（选答）…"></textarea>
-    </div>
-
-    <!-- T11.1 材质（选答） -->
-    <div class="q">
-      <div class="title"><span class="no">T11.1</span>外壳材质与皮肤接触安全性 <span class="tag-opt">（选答）</span></div>
-      <div class="hint">戒指长期贴身佩戴，请说明材质与是否做过皮肤接触安全测试。</div>
-      <textarea name="t11_material" placeholder="外壳材质（钛 / 陶瓷 / 不锈钢等）、是否通过镍释放或皮肤刺激性测试…"></textarea>
-    </div>
-
-    <!-- ============ 商务条款 ============ -->
-    <div class="sec">商务条款 · Commercial<small>报价 / 授权 / 交期 / 认证 / 付款 / 合作方式 — 决定商务可行性与配合度</small></div>
-
-    <!-- B1.1 -->
-    <div class="q">
-      <div class="title"><span class="no">B1.1</span>报价方式 <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="b1_ladder" value="支持分档与阶梯报价" required>支持按型号分档报价及长期采购阶梯（多档 / 迭代）</label>
-      <label class="opt"><input type="radio" name="b1_ladder" value="仅单一报价">仅提供单一报价</label>
-    </div>
-
-    <!-- B1.2 -->
-    <div class="q">
-      <div class="title"><span class="no">B1.2</span>各型号报价表 <span class="tag-req">（必答）</span></div>
-      <div class="hint">请按贵司型号分档填写（建议列：型号 | 能力定位 | 不含充电仓单价 | 含充电仓单价 | 功能 MOQ | 长期采购阶梯价 1k/5k/1w 枚 | 样品价 5–10 台）。</div>
-      <textarea name="b1" required placeholder="型号 | 覆盖能力(P0/P1) | 不含仓单价 | 含仓单价 | MOQ | 阶梯价 | 样品价&#10;健康款（P0全 + 皮温） | …&#10;基础款（仅P0） | …"></textarea>
-    </div>
-
-    <!-- B2.1 -->
-    <div class="q">
-      <div class="title"><span class="no">B2.1</span>品牌授权形式 <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="b2_auth" value="可出具书面授权" required>可出具书面授权，允许以 21DAYS WONDER 品牌随营养包赠品在全球范围交付</label>
-      <label class="opt"><input type="radio" name="b2_auth" value="仅口头/合同授权">仅口头 / 合同授权（无独立授权书）</label>
-      <label class="opt"><input type="radio" name="b2_auth" value="不可授权">不可授权（需保留贵司品牌）</label>
-    </div>
-
-    <!-- B2.2 -->
-    <div class="q">
-      <div class="title"><span class="no">B2.2</span>品牌授权是否收费？ <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="b2_fee" value="授权免费" required>品牌授权免费</label>
-      <label class="opt"><input type="radio" name="b2_fee" value="授权收费">品牌授权收费（请说明）</label>
-      <div class="otherbox" data-other="b2_fee" data-trigger="授权收费"><input class="txt" name="b2_fee_other" placeholder="请说明品牌授权收费方式与金额"></div>
-      <textarea name="b2_note" placeholder="授权范围 / 期限 / 地域限制说明（选答）…"></textarea>
-    </div>
-
-    <!-- B2.3 包装与说明书 -->
-    <div class="q">
-      <div class="title"><span class="no">B2.3</span>白标是否含包装与说明书定制？ <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="b2_pack" value="含包装与说明书定制" required>含包装与说明书定制，语言可指定（中文／英文）</label>
-      <label class="opt"><input type="radio" name="b2_pack" value="含包装定制说明书仅英文">含包装定制，说明书仅英文</label>
-      <label class="opt"><input type="radio" name="b2_pack" value="仅裸机通用包装">仅裸机与通用包装，不可定制</label>
-      <textarea name="b2_pack_note" placeholder="包装形态 / 语言 / 最小订量说明（选答）…"></textarea>
-    </div>
-
-    <!-- B3.1 -->
-    <div class="q">
-      <div class="title"><span class="no">B3.1</span>样品交期（5–10 台） <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="b3_samp" value="样品≤7天" required>≤ 7 天</label>
-      <label class="opt"><input type="radio" name="b3_samp" value="样品8-15天">8–15 天</label>
-      <label class="opt"><input type="radio" name="b3_samp" value="样品16-30天">16–30 天</label>
-      <label class="opt"><input type="radio" name="b3_samp" value="样品>30天">> 30 天</label>
-    </div>
-
-    <!-- B3.2 -->
-    <div class="q">
-      <div class="title"><span class="no">B3.2</span>首批量交期（500 / 1000 枚） <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="b3_bulk" value="首批量≤30天" required>≤ 30 天</label>
-      <label class="opt"><input type="radio" name="b3_bulk" value="首批量31-60天">31–60 天</label>
-      <label class="opt"><input type="radio" name="b3_bulk" value="首批量61-90天">61–90 天</label>
-      <label class="opt"><input type="radio" name="b3_bulk" value="首批量>90天">> 90 天</label>
-    </div>
-
-    <!-- B3.3 -->
-    <div class="q">
-      <div class="title"><span class="no">B3.3</span>月产能上限 <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="b3_cap" value="月产能<1万" required>< 1 万枚</label>
-      <label class="opt"><input type="radio" name="b3_cap" value="月产能1-5万">1–5 万枚</label>
-      <label class="opt"><input type="radio" name="b3_cap" value="月产能5-10万">5–10 万枚</label>
-      <label class="opt"><input type="radio" name="b3_cap" value="月产能>10万">> 10 万枚</label>
-      <textarea name="b3_note" placeholder="具体交期 / 爬产计划（选答）…"></textarea>
-    </div>
-
-    <!-- B4.1 -->
-    <div class="q">
-      <div class="title"><span class="no">B4.1</span>出厂不良率标准（AQL） <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="b4_aql" value="AQL1.0" required>AQL 1.0</label>
-      <label class="opt"><input type="radio" name="b4_aql" value="AQL2.5">AQL 2.5</label>
-      <label class="opt"><input type="radio" name="b4_aql" value="AQL4.0">AQL 4.0</label>
-      <label class="opt"><input type="radio" name="b4_aql" value="其他AQL">其他（请说明）</label>
-      <div class="otherbox" data-other="b4_aql" data-trigger="其他AQL"><input class="txt" name="b4_aql_other" placeholder="请填写具体 AQL 标准（如 AQL 0.65）"></div>
-    </div>
-
-    <!-- B4.2 -->
-    <div class="q">
-      <div class="title"><span class="no">B4.2</span>保修期 <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="b4_warr" value="保修3个月" required>3 个月</label>
-      <label class="opt"><input type="radio" name="b4_warr" value="保修6个月">6 个月</label>
-      <label class="opt"><input type="radio" name="b4_warr" value="保修12个月">12 个月</label>
-      <label class="opt"><input type="radio" name="b4_warr" value="其他保修期">其他（请说明）</label>
-      <div class="otherbox" data-other="b4_warr" data-trigger="其他保修期"><input class="txt" name="b4_warr_other" placeholder="请填写具体保修期（如 18 个月）"></div>
-    </div>
-
-    <!-- B4.3 -->
-    <div class="q">
-      <div class="title"><span class="no">B4.3</span>返修 / 补损时效 <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="b4_repair" value="返修≤7天" required>≤ 7 天</label>
-      <label class="opt"><input type="radio" name="b4_repair" value="返修8-15天">8–15 天</label>
-      <label class="opt"><input type="radio" name="b4_repair" value="其他返修时效">其他（请说明）</label>
-      <div class="otherbox" data-other="b4_repair" data-trigger="其他返修时效"><input class="txt" name="b4_repair_other" placeholder="请填写具体返修 / 补损时效"></div>
-      <textarea name="b4_note" placeholder="售后流程补充（选答）…"></textarea>
-    </div>
-
-    <!-- B4.4 批量召回 -->
-    <div class="q">
-      <div class="title"><span class="no">B4.4</span>某批次不良率超标时的处理机制 <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="b4_recall" value="无条件召回补货" required>无条件召回并补货，相关费用由贵司承担</label>
-      <label class="opt"><input type="radio" name="b4_recall" value="可换货我方承担运费">可换货，但退回运费由我方承担</label>
-      <label class="opt"><input type="radio" name="b4_recall" value="仅单件保修无批量机制">仅按单件保修处理，无批量机制</label>
-    </div>
-
-    <!-- B5.1 多选 -->
-    <div class="q">
-      <div class="title"><span class="no">B5.1</span>已具备哪些认证？ <span class="tag-req">（必答）</span> <span style="color:var(--brand);font-weight:600">（可多选）</span></div>
-      <div class="chkgrp">
-        <label class="opt"><input type="checkbox" name="b5_cert" value="CE">CE</label>
-        <label class="opt"><input type="checkbox" name="b5_cert" value="FCC">FCC</label>
-        <label class="opt"><input type="checkbox" name="b5_cert" value="RoHS">RoHS</label>
-        <label class="opt"><input type="checkbox" name="b5_cert" value="加拿大ISED">加拿大 ISED</label>
-        <label class="opt"><input type="checkbox" name="b5_cert" value="中国无线电合规">中国无线电合规（SRRC 型号核准／微功率豁免，请注明）</label>
-        <label class="opt"><input type="checkbox" name="b5_cert" value="电池UN38.3">电池 UN38.3</label>
-        <label class="opt"><input type="checkbox" name="b5_cert" value="Bluetooth SIG">Bluetooth SIG</label>
-        <label class="opt"><input type="checkbox" name="b5_cert" value="其他认证">其他（请说明）</label>
-      </div>
-      <div class="otherbox" data-other="b5_cert" data-trigger="其他认证"><input class="txt" name="b5_cert_other" placeholder="请填写其他认证名称"></div>
-    </div>
-
-    <!-- B5.2 -->
-    <div class="q">
-      <div class="title"><span class="no">B5.2</span>跨境清关文件提供能力 <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="b5_customs" value="可提供清关文件" required>跨境发货至加拿大时，可提供清关与运输合规文件</label>
-      <label class="opt"><input type="radio" name="b5_customs" value="不可提供清关文件">不可提供清关文件</label>
-    </div>
-
-    <!-- B5.3 -->
-    <div class="q">
-      <div class="title"><span class="no">B5.3</span>非医疗型号清单提供能力 <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="b5_medlist" value="可明确非医疗型号清单" required>可明确提供不含医疗宣称的型号清单（含 ECG / 血压 / 血糖 / 血脂者不纳入）</label>
-      <label class="opt"><input type="radio" name="b5_medlist" value="不纳入医疗但无清单">不纳入医疗型号，但无独立清单</label>
-      <textarea name="b5_note" placeholder="其他认证 / 清关说明（选答）…"></textarea>
-    </div>
-
-    <!-- B5.4 停产政策 -->
-    <div class="q">
-      <div class="title"><span class="no">B5.4</span>型号停产（EOL）政策 <span class="tag-req">（必答）</span></div>
-      <div class="hint">戒指与我方 90 天方案装绑定交付，型号突然停产将直接影响我方履约。</div>
-      <label class="opt"><input type="radio" name="b5_eol" value="停产提前≥6个月且提供替代" required>提前 ≥ 6 个月通知，并<b>提供替代型号</b></label>
-      <label class="opt"><input type="radio" name="b5_eol" value="停产提前3-6个月">提前 3–6 个月通知</label>
-      <label class="opt"><input type="radio" name="b5_eol" value="停产提前<3个月或不承诺">提前 &lt; 3 个月通知，或不作承诺</label>
-    </div>
-
-    <!-- B5.5 保供承诺 -->
-    <div class="q">
-      <div class="title"><span class="no">B5.5</span>关键物料保供承诺年限 <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="b5_supply" value="保供≥3年" required>量产起 ≥ 3 年持续供货</label>
-      <label class="opt"><input type="radio" name="b5_supply" value="保供≥2年">≥ 2 年</label>
-      <label class="opt"><input type="radio" name="b5_supply" value="保供≥1年">≥ 1 年</label>
-      <label class="opt"><input type="radio" name="b5_supply" value="无保供承诺">无保供承诺</label>
-    </div>
-
-    <!-- B6.1 -->
-    <div class="q">
-      <div class="title"><span class="no">B6.1</span>付款方式 <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="b6_pay" value="电汇TT" required>电汇 TT</label>
-      <label class="opt"><input type="radio" name="b6_pay" value="信用证LC">信用证 LC</label>
-      <label class="opt"><input type="radio" name="b6_pay" value="线上支付">线上支付</label>
-      <label class="opt"><input type="radio" name="b6_pay" value="其他付款方式">其他（请说明）</label>
-      <div class="otherbox" data-other="b6_pay" data-trigger="其他付款方式"><input class="txt" name="b6_pay_other" placeholder="请填写具体付款方式"></div>
-    </div>
-
-    <!-- B6.2 -->
-    <div class="q">
-      <div class="title"><span class="no">B6.2</span>首付款比例 <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="b6_deposit" value="首付0%" required>0%（款到发货）</label>
-      <label class="opt"><input type="radio" name="b6_deposit" value="首付30%">30%</label>
-      <label class="opt"><input type="radio" name="b6_deposit" value="首付50%">50%</label>
-      <label class="opt"><input type="radio" name="b6_deposit" value="其他首付比例">其他（请说明）</label>
-      <div class="otherbox" data-other="b6_deposit" data-trigger="其他首付比例"><input class="txt" name="b6_deposit_other" placeholder="请填写具体首付款比例"></div>
-    </div>
-
-    <!-- B6.3 -->
-    <div class="q">
-      <div class="title"><span class="no">B6.3</span>账期政策 <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="b6_term" value="无账期" required>无账期（先款后货）</label>
-      <label class="opt"><input type="radio" name="b6_term" value="月结30天">月结 30 天</label>
-      <label class="opt"><input type="radio" name="b6_term" value="月结60天">月结 60 天</label>
-      <label class="opt"><input type="radio" name="b6_term" value="其他账期">其他（请说明）</label>
-      <div class="otherbox" data-other="b6_term" data-trigger="其他账期"><input class="txt" name="b6_term_other" placeholder="请填写具体账期政策"></div>
-    </div>
-
-    <!-- B6.4 -->
-    <div class="q">
-      <div class="title"><span class="no">B6.4</span>样品款可否抵扣量产权？ <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="b6_samplefee" value="样品款可抵扣" required>样品款可抵扣量产权</label>
-      <label class="opt"><input type="radio" name="b6_samplefee" value="样品款不可抵扣">样品款不可抵扣</label>
-      <textarea name="b6_note" placeholder="付款条件补充（选答）…"></textarea>
-    </div>
-
-    <!-- B7.1 -->
-    <div class="q">
-      <div class="title"><span class="no">B7.1</span>是否接受"先评估后签约"？ <span class="tag-req">（必答）</span></div>
-      <div class="hint">植悦将在回收本问卷、对比多家供应商技术方案与 SDK 后，再确定终选与合作。</div>
-      <label class="opt"><input type="radio" name="b7_accept" value="接受先评估后签约" required>接受"先样品实测 + 技术方案评估，后签约"</label>
-      <label class="opt"><input type="radio" name="b7_accept" value="需先签框架协议再评估">需先签框架协议再评估</label>
-      <label class="opt"><input type="radio" name="b7_accept" value="不接受先评估后签约">不接受先评估后签约</label>
-    </div>
-
-    <!-- B7.2 多选 -->
-    <div class="q">
-      <div class="title"><span class="no">B7.2</span>签约前可提供哪些配合？ <span class="tag-req">（必答）</span> <span style="color:var(--brand);font-weight:600">（可多选）</span></div>
-      <div class="chkgrp">
-        <label class="opt"><input type="checkbox" name="b7_support" value="寄样">寄样</label>
-        <label class="opt"><input type="checkbox" name="b7_support" value="SDK对接支持">SDK 对接支持</label>
-        <label class="opt"><input type="checkbox" name="b7_support" value="技术答疑">技术答疑</label>
-        <label class="opt"><input type="checkbox" name="b7_support" value="签署NDA">签署 NDA</label>
-      </div>
-    </div>
-
-    <!-- B7.3 -->
-    <div class="q">
-      <div class="title"><span class="no">B7.3</span>若最终未合作，样品如何处理？ <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="b7_sample" value="未合作样品退还" required>退还供应商</label>
-      <label class="opt"><input type="radio" name="b7_sample" value="未合作样品留样">留样由植悦处理</label>
-      <label class="opt"><input type="radio" name="b7_sample" value="未合作样品结算">按样品费结算</label>
-    </div>
-
-    <!-- B7.4 -->
-    <div class="q">
-      <div class="title"><span class="no">B7.4</span>量产权签约形式 <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="b7_form" value="框架协议" required>框架协议（长期）</label>
-      <label class="opt"><input type="radio" name="b7_form" value="单笔订单">单笔订单</label>
-      <label class="opt"><input type="radio" name="b7_form" value="其他签约形式">其他（请说明）</label>
-      <div class="otherbox" data-other="b7_form" data-trigger="其他签约形式"><input class="txt" name="b7_form_other" placeholder="请填写具体签约形式"></div>
-    </div>
-
-    <!-- B7.5 -->
-    <div class="q">
-      <div class="title"><span class="no">B7.5</span>是否含最低合作量承诺？ <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="b7_min" value="无最低量承诺" required>无最低量承诺</label>
-      <label class="opt"><input type="radio" name="b7_min" value="有最低量承诺（请说明）">有最低量承诺（请说明）</label>
-      <div class="otherbox" data-other="b7_min" data-trigger="有最低量承诺（请说明）"><input class="txt" name="b7_min_other" placeholder="请说明最低合作量（数量 / 周期）"></div>
-      <textarea name="b7_note" placeholder="合作期限 / 其他说明（选答）…"></textarea>
-    </div>
-
-    <!-- B7.6 SLA -->
-    <div class="q">
-      <div class="title"><span class="no">B7.6</span>技术支持响应时效（SLA） <span class="tag-req">（必答）</span></div>
-      <label class="opt"><input type="radio" name="b7_sla" value="24h响应72h方案" required>重大问题 24 小时内响应、72 小时内给出方案</label>
-      <label class="opt"><input type="radio" name="b7_sla" value="48h响应">48 小时内响应</label>
-      <label class="opt"><input type="radio" name="b7_sla" value="无固定SLA">无固定 SLA</label>
-    </div>
-
-    <!-- B7.7 IP 担保 -->
-    <div class="q">
-      <div class="title"><span class="no">B7.7</span>是否可提供知识产权侵权担保？ <span class="tag-req">（必答）</span></div>
-      <div class="hint">我方将以自有品牌贴牌并对外交付，需明确第三方主张专利侵权时的责任归属。</div>
-      <label class="opt"><input type="radio" name="b7_ip" value="承担侵权赔偿" required>合同中可约定：因贵司方案侵权导致我方损失由贵司承担</label>
-      <label class="opt"><input type="radio" name="b7_ip" value="仅提供不侵权承诺">可提供不侵权承诺，但不承担赔偿责任</label>
-      <label class="opt"><input type="radio" name="b7_ip" value="不提供IP担保">不提供任何 IP 担保</label>
-    </div>
-
-    <!-- B7.8 验厂（选答） -->
-    <div class="q">
-      <div class="title"><span class="no">B7.8</span>是否接受植悦实地拜访 / 验厂审核？ <span class="tag-opt">（选答）</span></div>
-      <label class="opt"><input type="radio" name="b7_audit" value="接受实地验厂">接受，可预约实地考察</label>
-      <label class="opt"><input type="radio" name="b7_audit" value="仅接受线上沟通">仅接受线上沟通</label>
-    </div>
-
-    <div class="submit">
-      <button class="go" type="submit">提交问卷（必答题须全部填写）</button>
-    </div>
+<div class="sec">供应商基本信息 · 商务侧<small>公司 / 联系人 / 手机 / 地址 / 角色 — 用于建立联系、安排实地拜访与前序资格判断</small></div>
+<div class="note">说明：本板块为全清单中唯一需要手动填写的部分，共 4 项；其余题目均为选择作答。</div>
+<div class="q" data-q="b1_company" >
+<div class="title"><span class="no">B1</span>供应商公司名称 <span class="tag-req">（必答）</span></div>
+<textarea class="ta" name="b1_company" required placeholder="请填写贵司全称（与营业执照一致）"></textarea>
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="b2_contact" >
+<div class="title"><span class="no">B2</span>联系人 <span class="tag-req">（必答）</span></div>
+<textarea class="ta" name="b2_contact" required placeholder="姓名 / 职务"></textarea>
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="b3_phone" >
+<div class="title"><span class="no">B3</span>联系手机 <span class="tag-req">（必答）</span></div>
+<textarea class="ta" name="b3_phone" required placeholder="用于技术对接联系"></textarea>
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="b4_address" >
+<div class="title"><span class="no">B4</span>公司地址 <span class="tag-req">（必答）</span></div>
+<div class="hint">用于实地拜访考察</div>
+<textarea class="ta" name="b4_address" required placeholder="省 / 市 / 区 + 详细地址"></textarea>
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="b5_role" >
+<div class="title"><span class="no">B5</span>贵司在本型号中的实际角色 <span class="tag-req">（必答）</span></div>
+<div class="hint">此项决定后续硬件供应链题目的作答口径，请据实选择。</div>
+<label class="opt"><input type="radio" name="b5_role" value="自主研发并完成整机生产（自有固件、自有 PCBA）" required data-warn=""> 自主研发并完成整机生产（自有固件、自有 PCBA）</label>
+<label class="opt"><input type="radio" name="b5_role" value="外购模组 / PCBA 做整机组装与贴牌（固件属上游）" required data-warn=""> 外购模组 / PCBA 做整机组装与贴牌（固件属上游）</label>
+<label class="opt"><input type="radio" name="b5_role" value="纯贸易或品牌代理（不参与研发与生产）" required data-warn=""> 纯贸易或品牌代理（不参与研发与生产）</label>
+<div class="warnbox"></div>
+</div>
+<div class="sec">一、硬件方案与上游供应链 · 技术侧<small>主控 / 传感器 / PCBA / 固件归属 / 认证归属 — 决定方案是否同源、是否存在单点依赖</small></div>
+<div class="note">说明：智能戒指行业普遍存在「方案商 IDH 向多家品牌输出同一套方案」的情况。本组问题用于核实验证贵司方案的真实来源，请据实选择，我方将以证书核验。</div>
+<div class="q" data-q="t1_soc" >
+<div class="title"><span class="no">T1</span>主控芯片与蓝牙模组（可多选） <span class="tag-req">（必答）</span></div>
+<div class="hint">可多选；若不在下列型号中，请选最后一项补充。</div>
+<div class="mtipt"><span class="multi">（可多选）</span></div>
+<label class="opt"><input type="checkbox" name="t1_soc" value="主控 · Nordic nRF52832 / nRF52840" data-warn=""> 主控 · Nordic nRF52832 / nRF52840</label>
+<label class="opt"><input type="checkbox" name="t1_soc" value="主控 · Dialog（瑞萨）DA14531 / DA1469x" data-warn=""> 主控 · Dialog（瑞萨）DA14531 / DA1469x</label>
+<label class="opt"><input type="checkbox" name="t1_soc" value="主控 · Ambiq Apollo 系列" data-warn=""> 主控 · Ambiq Apollo 系列</label>
+<label class="opt"><input type="checkbox" name="t1_soc" value="主控 · Silicon Labs EFR32 系列" data-warn=""> 主控 · Silicon Labs EFR32 系列</label>
+<label class="opt"><input type="checkbox" name="t1_soc" value="主控 · 国产 SoC（中科蓝讯 / 杰理 / 恒玄 / 泰凌微 等）" data-warn=""> 主控 · 国产 SoC（中科蓝讯 / 杰理 / 恒玄 / 泰凌微 等）</label>
+<label class="opt"><input type="checkbox" name="t1_soc" value="模组 · 采用独立蓝牙模组（如 喆芯 ZX5005 / ZX8258）" data-warn=""> 模组 · 采用独立蓝牙模组（如 喆芯 ZX5005 / ZX8258）</label>
+<label class="opt"><input type="checkbox" name="t1_soc" value="模组 · 无独立模组，芯片直贴 PCBA" data-warn=""> 模组 · 无独立模组，芯片直贴 PCBA</label>
+<label class="opt"><input type="checkbox" name="t1_soc" value="以上均不符 / 需补充具体型号" data-warn=""> 以上均不符 / 需补充具体型号</label>
+<input class="txt sub" name="t1_soc_other" placeholder="请填写具体内容">
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="t2_sensor" >
+<div class="title"><span class="no">T2</span>传感器配置（可多选） <span class="tag-req">（必答）</span></div>
+<div class="hint">可多选；不在下列型号中请选最后一项补充。</div>
+<div class="mtipt"><span class="multi">（可多选）</span></div>
+<label class="opt"><input type="checkbox" name="t2_sensor" value="PPG · ams-OSRAM OB1203" data-warn=""> PPG · ams-OSRAM OB1203</label>
+<label class="opt"><input type="checkbox" name="t2_sensor" value="PPG · ADI MAX30101 / MAX86176" data-warn=""> PPG · ADI MAX30101 / MAX86176</label>
+<label class="opt"><input type="checkbox" name="t2_sensor" value="PPG · 汇顶 GH3011 / GH3020" data-warn=""> PPG · 汇顶 GH3011 / GH3020</label>
+<label class="opt"><input type="checkbox" name="t2_sensor" value="加速度 · ST LIS2DW12 / LIS2DH12" data-warn=""> 加速度 · ST LIS2DW12 / LIS2DH12</label>
+<label class="opt"><input type="checkbox" name="t2_sensor" value="加速度 · Bosch BMA 系列或其他三轴加速度计" data-warn=""> 加速度 · Bosch BMA 系列或其他三轴加速度计</label>
+<label class="opt"><input type="checkbox" name="t2_sensor" value="温度 · 集成于 PPG 传感器，无独立温度器件" data-warn=""> 温度 · 集成于 PPG 传感器，无独立温度器件</label>
+<label class="opt"><input type="checkbox" name="t2_sensor" value="温度 · 独立温度传感器（如 SC-7A20H 等）" data-warn=""> 温度 · 独立温度传感器（如 SC-7A20H 等）</label>
+<label class="opt"><input type="checkbox" name="t2_sensor" value="以上均不符 / 需补充具体型号" data-warn=""> 以上均不符 / 需补充具体型号</label>
+<input class="txt sub" name="t2_sensor_other" placeholder="请填写具体内容">
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="t3_pcba" >
+<div class="title"><span class="no">T3</span>PCBA 来源与方案商（可多选） <span class="tag-req">（必答）</span></div>
+<div class="hint">用于评估供应链单点依赖与方案同质化风险。</div>
+<div class="mtipt"><span class="multi">（可多选）</span></div>
+<label class="opt"><input type="checkbox" name="t3_pcba" value="PCBA 由我司自主设计" data-warn=""> PCBA 由我司自主设计</label>
+<label class="opt"><input type="checkbox" name="t3_pcba" value="PCBA 外购（模组或整板），由我司完成整机组装" data-warn=""> PCBA 外购（模组或整板），由我司完成整机组装</label>
+<label class="opt"><input type="checkbox" name="t3_pcba" value="直接使用方案商 / 模组厂的整板方案" data-warn=""> 直接使用方案商 / 模组厂的整板方案</label>
+<label class="opt"><input type="checkbox" name="t3_pcba" value="方案商 / IDH 名称请在下方填写" data-warn=""> 方案商 / IDH 名称请在下方填写</label>
+<input class="txt sub" name="t3_pcba_other" placeholder="请填写具体内容">
+<label class="opt"><input type="checkbox" name="t3_pcba" value="不便在此披露方案商，可签 NDA 后单独告知" data-warn=""> 不便在此披露方案商，可签 NDA 后单独告知</label>
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="t4_fw" >
+<div class="title"><span class="no">T4</span>固件是否为贵司自有 <span class="tag-req">（必答）</span></div>
+<div class="hint">固件归属直接决定贵司能否自主 OTA、能否开放原始数据，以及 SDK 的可定制深度。</div>
+<label class="opt"><input type="radio" name="t4_fw" value="完全自有，可自主修改固件" required data-warn=""> 完全自有，可自主修改固件</label>
+<label class="opt"><input type="radio" name="t4_fw" value="基于上游固件二次开发" required data-warn=""> 基于上游固件二次开发</label>
+<label class="opt"><input type="radio" name="t4_fw" value="完全为上游固件，我司无权修改" required data-warn=""> 完全为上游固件，我司无权修改</label>
+<div class="warnbox"></div>
+</div>
+<div class="q cond" data-q="t5_fwparty" data-show-if="t4_fw" data-show-in="基于上游固件二次开发||完全为上游固件，我司无权修改">
+<div class="title"><span class="no">T5</span>若固件非贵司自有：固件 / 算法方可否直接向我方开放 SDK 定制、OTA 与原始数据能力？ <span class="tag-req">（必答）</span></div>
+<div class="hint">此项仅在上一题选择「非自有固件」时出现。</div>
+<label class="opt"><input type="radio" name="t5_fwparty" value="可以，可安排三方直接对接" required data-warn=""> 可以，可安排三方直接对接</label>
+<label class="opt"><input type="radio" name="t5_fwparty" value="不可以，须经贵司转达" required data-warn=""> 不可以，须经贵司转达</label>
+<label class="opt"><input type="radio" name="t5_fwparty" value="不确定" required data-warn=""> 不确定</label>
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="t6_cert" >
+<div class="title"><span class="no">T6</span>无线电认证证书上的「设备型号」与「持证方全称」 <span class="tag-opt">（选答）</span></div>
+<div class="hint">本项为选答。请填写证书实际记载的「设备型号」与「申请单位 / 持证方」全称；若不便在此填写，请在回执邮件中附上证书扫描件 —— 我方将以证书原件核验，口头说明不予采信。</div>
+<textarea class="ta" name="t6_cert" placeholder="证书名称 | 设备型号 | 持证方全称（选答）"></textarea>
+<div class="warnbox"></div>
+</div>
+<div class="sec">二、P0 数据能力与算法 · 技术侧<small>P0 覆盖 / 数据粒度 / 原始数据流 / 算法口径 — 决定趋势数据能否被解释与追溯</small></div>
+<div class="note">P0 必备＝睡眠时长与结构 · 静息心率 RHR · HRV · 心率 PPG · 活动步数；P1 强建议＝皮温趋势 · SpO₂ · 呼吸率；P2 可选＝睡眠评分 · 恢复指数。含 ECG / 血压 / 血糖 / 血脂等医疗宣称款不在本次采购范围内，请勿据此作答。</div>
+<div class="q" data-q="t7_p0" >
+<div class="title"><span class="no">T7</span>请勾选推荐型号实际具备的 P0 能力（未勾选项即为缺失） <span class="tag-req">（必答）</span></div>
+<div class="hint">P0 五项为我方采购底线，缺一即不进入商务评估。若有多个型号，请就主推型号作答。</div>
+<div class="mtipt"><span class="multi">（可多选）</span></div>
+<label class="opt"><input type="checkbox" name="t7_p0" value="睡眠（时长与结构）" data-warn=""> 睡眠（时长与结构）</label>
+<label class="opt"><input type="checkbox" name="t7_p0" value="静息心率 RHR" data-warn=""> 静息心率 RHR</label>
+<label class="opt"><input type="checkbox" name="t7_p0" value="HRV" data-warn=""> HRV</label>
+<label class="opt"><input type="checkbox" name="t7_p0" value="心率 PPG" data-warn=""> 心率 PPG</label>
+<label class="opt"><input type="checkbox" name="t7_p0" value="活动 / 步数" data-warn=""> 活动 / 步数</label>
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="t8_gran" >
+<div class="title"><span class="no">T8</span>SDK 返回的数据粒度 <span class="tag-req">（必答）</span></div>
+<label class="opt"><input type="radio" name="t8_gran" value="原始传感器数据流（PPG 波形、三轴加速度原始采样、温度传感器原始读数）" required data-warn=""> 原始传感器数据流（PPG 波形、三轴加速度原始采样、温度传感器原始读数）</label>
+<label class="opt"><input type="radio" name="t8_gran" value="已计算好的体征指标（心率 / 静息心率 / HRV / 血氧 / 皮温等数值）" required data-warn=""> 已计算好的体征指标（心率 / 静息心率 / HRV / 血氧 / 皮温等数值）</label>
+<label class="opt"><input type="radio" name="t8_gran" value="两者都提供" required data-warn=""> 两者都提供</label>
+<label class="opt"><input type="radio" name="t8_gran" value="不确定，需与上游确认" required data-warn=""> 不确定，需与上游确认</label>
+<div class="warnbox"></div>
+</div>
+<div class="q cond" data-q="t9_raw" data-show-if="t8_gran" data-show-in="已计算好的体征指标（心率 / 静息心率 / HRV / 血氧 / 皮温等数值）">
+<div class="title"><span class="no">T9</span>若仅提供成品指标：原始数据可否另行开放（含算法归属） <span class="tag-req">（必答）</span></div>
+<div class="hint">我方不要求自研算法，但需保留数据核验与未来获取的可能。若因算法属上游而贵司无权开放，请如实勾选 —— 我方将据此判断是否有必要与固件方直接洽谈，而非重复向贵司施压。</div>
+<label class="opt"><input type="radio" name="t9_raw" value="我司自研算法，可开放原始数据，无需额外授权或费用" required data-warn=""> 我司自研算法，可开放原始数据，无需额外授权或费用</label>
+<label class="opt"><input type="radio" name="t9_raw" value="我司自研算法，但暂不开放原始数据（含需另行授权 / 付费）" required data-warn=""> 我司自研算法，但暂不开放原始数据（含需另行授权 / 付费）</label>
+<label class="opt"><input type="radio" name="t9_raw" value="算法属上游 / 方案商，我司无权开放，但可安排与固件方对接" required data-warn=""> 算法属上游 / 方案商，我司无权开放，但可安排与固件方对接</label>
+<label class="opt opt-warn"><input type="radio" name="t9_raw" value="算法属上游 / 方案商，且不可对接固件方" required data-warn="原始数据既不可得、固件方亦不可对接时，我方无法核验数据准确性，也无法在换代时回溯对齐历史数据，该项将作为重大负面评估因素。"> 算法属上游 / 方案商，且不可对接固件方</label>
+<label class="opt"><input type="radio" name="t9_raw" value="不确定，需与上游确认" required data-warn=""> 不确定，需与上游确认</label>
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="t10_doc" >
+<div class="title"><span class="no">T10</span>可随 SDK 一并提供的算法与数据文档（可多选） <span class="tag-req">（必答）</span></div>
+<div class="hint">算法口径白皮书须说明：HRV 采用 RMSSD 或 SDNN、计算窗口长度、RHR 定义口径（全天最低 / 夜间均值）、睡眠分期模型依据。信号质量标记用于判断某一晚数据可否采信。</div>
+<div class="mtipt"><span class="multi">（可多选）</span></div>
+<label class="opt"><input type="checkbox" name="t10_doc" value="算法口径白皮书（完整）" data-warn=""> 算法口径白皮书（完整）</label>
+<label class="opt"><input type="checkbox" name="t10_doc" value="算法口径简要书面说明（非正式白皮书）" data-warn=""> 算法口径简要书面说明（非正式白皮书）</label>
+<label class="opt"><input type="checkbox" name="t10_doc" value="全部指标均带信号质量标记 SQI / 置信度" data-warn=""> 全部指标均带信号质量标记 SQI / 置信度</label>
+<label class="opt"><input type="checkbox" name="t10_doc" value="仅部分指标带信号质量标记" data-warn=""> 仅部分指标带信号质量标记</label>
+<label class="opt opt-warn"><input type="checkbox" name="t10_doc" value="以上均不可提供" data-warn="缺少算法口径说明与信号质量标记时，我方无法向用户解释数据含义、也无法过滤无效数据，该项将作为负面评估因素。"> 以上均不可提供</label>
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="t11_extra" >
+<div class="title"><span class="no">T11</span>除 P0 外尚可提供的能力（可多选，选答） <span class="tag-opt">（选答）</span></div>
+<div class="mtipt"><span class="multi">（可多选）</span></div>
+<label class="opt"><input type="checkbox" name="t11_extra" value="P1 · 皮温 / 体温趋势" data-warn=""> P1 · 皮温 / 体温趋势</label>
+<label class="opt"><input type="checkbox" name="t11_extra" value="P1 · SpO₂ 血氧" data-warn=""> P1 · SpO₂ 血氧</label>
+<label class="opt"><input type="checkbox" name="t11_extra" value="P1 · RR 呼吸率" data-warn=""> P1 · RR 呼吸率</label>
+<label class="opt"><input type="checkbox" name="t11_extra" value="P2 · 睡眠评分" data-warn=""> P2 · 睡眠评分</label>
+<label class="opt"><input type="checkbox" name="t11_extra" value="P2 · 恢复 / 就绪指数" data-warn=""> P2 · 恢复 / 就绪指数</label>
+<label class="opt"><input type="checkbox" name="t11_extra" value="其他（请说明）" data-warn=""> 其他（请说明）</label>
+<input class="txt sub" name="t11_extra_other" placeholder="请填写具体内容">
+<div class="warnbox"></div>
+</div>
+<div class="sec">三、BLE 协议 · SDK · 数据完整性 · 技术侧<small>协议文档 / 集成自由度 / 多端 SDK / 数据不丢不乱 — 决定长期技术自主性</small></div>
+<div class="q" data-q="t12_proto" >
+<div class="title"><span class="no">T12</span>是否提供完整 BLE 通信协议文档 <span class="tag-req">（必答）</span></div>
+<div class="hint">指 GATT 服务与特征值 UUID、数据包字节格式、指令集、认证与绑定方式。</div>
+<label class="opt"><input type="radio" name="t12_proto" value="提供完整协议文档，可作为技术交付物列入合同" required data-warn=""> 提供完整协议文档，可作为技术交付物列入合同</label>
+<label class="opt opt-warn"><input type="radio" name="t12_proto" value="仅提供 SDK，不提供协议文档" required data-warn="未提供协议文档将限制我方自主开发与多端扩展能力，该项为我方硬性评估指标。"> 仅提供 SDK，不提供协议文档</label>
+<label class="opt"><input type="radio" name="t12_proto" value="需额外授权或收费方可提供" required data-warn=""> 需额外授权或收费方可提供</label>
+<input class="txt sub" name="t12_proto_other" placeholder="请填写具体内容">
+<label class="opt opt-warn"><input type="radio" name="t12_proto" value="不提供协议文档" required data-warn="未提供协议文档将限制我方自主开发与多端扩展能力，该项为我方硬性评估指标。"> 不提供协议文档</label>
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="t13_integrate" >
+<div class="title"><span class="no">T13</span>SDK 允许的集成方式（可多选） <span class="tag-req">（必答）</span></div>
+<div class="hint">我方规划自建统一硬件接入层管理戒指设备，请勾选贵司 SDK 允许的方式。</div>
+<div class="mtipt"><span class="multi">（可多选）</span></div>
+<label class="opt"><input type="checkbox" name="t13_integrate" value="允许我方将 SDK 封装进自有统一接口层（内部二次封装）" data-warn=""> 允许我方将 SDK 封装进自有统一接口层（内部二次封装）</label>
+<label class="opt"><input type="checkbox" name="t13_integrate" value="允许 SDK 脱离贵司自有 App、独立对接植悦系统" data-warn=""> 允许 SDK 脱离贵司自有 App、独立对接植悦系统</label>
+<label class="opt"><input type="checkbox" name="t13_integrate" value="允许我方未来并行接入第二硬件供应商（用于不停服灰度切换）" data-warn=""> 允许我方未来并行接入第二硬件供应商（用于不停服灰度切换）</label>
+<label class="opt opt-warn"><input type="checkbox" name="t13_integrate" value="仅限按贵司指定方式调用，不接受上述任一项" data-warn="该限制会显著提高我方长期维护成本，将作为负面评估因素。"> 仅限按贵司指定方式调用，不接受上述任一项</label>
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="t14_sdk" >
+<div class="title"><span class="no">T14</span>可提供哪些端的 SDK（可多选） <span class="tag-req">（必答）</span></div>
+<div class="hint">植悦端形态含微信小程序及原生 iOS / Android App，无论开发先后顺序，三端 SDK 均须由贵司提供。</div>
+<div class="mtipt"><span class="multi">（可多选）</span></div>
+<label class="opt"><input type="checkbox" name="t14_sdk" value="微信小程序 SDK（JS，基于微信 BLE API）" data-warn=""> 微信小程序 SDK（JS，基于微信 BLE API）</label>
+<label class="opt"><input type="checkbox" name="t14_sdk" value="iOS 原生（Swift / Objective-C）" data-warn=""> iOS 原生（Swift / Objective-C）</label>
+<label class="opt"><input type="checkbox" name="t14_sdk" value="Android 原生（Java / Kotlin）" data-warn=""> Android 原生（Java / Kotlin）</label>
+<label class="opt"><input type="checkbox" name="t14_sdk" value="鸿蒙 HarmonyOS" data-warn=""> 鸿蒙 HarmonyOS</label>
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="t15_local" >
+<div class="title"><span class="no">T15</span>App 绑定与本地直连程度 <span class="tag-req">（必答）</span></div>
+<div class="hint">本地直连指植悦客户端可经 BLE 与设备直接通信、不经供应商云端。</div>
+<label class="opt"><input type="radio" name="t15_local" value="不强制绑定贵司 App，且支持 BLE 本地直连（数据不经供应商云）" required data-warn=""> 不强制绑定贵司 App，且支持 BLE 本地直连（数据不经供应商云）</label>
+<label class="opt"><input type="radio" name="t15_local" value="不强制绑定贵司 App，但部分功能需经供应商云" required data-warn=""> 不强制绑定贵司 App，但部分功能需经供应商云</label>
+<label class="opt opt-warn"><input type="radio" name="t15_local" value="强制绑定贵司自有 App，数据可本地直连" required data-warn="强制绑定会限制我方品牌体验的一致性，将作为负面评估因素。"> 强制绑定贵司自有 App，数据可本地直连</label>
+<label class="opt opt-warn"><input type="radio" name="t15_local" value="强制经供应商云，不支持本地直连" required data-warn="数据强制经供应商云与我方数据合规要求冲突，该项为我方硬性评估指标。"> 强制经供应商云，不支持本地直连</label>
+<div class="warnbox"></div>
+</div>
+<div class="q cond" data-q="t16_cloud" data-show-if="t15_local" data-show-in="不强制绑定贵司 App，但部分功能需经供应商云">
+<div class="title"><span class="no">T16</span>哪些功能必须调用贵司云？（可多选） <span class="tag-req">（必答）</span></div>
+<div class="mtipt"><span class="multi">（可多选）</span></div>
+<label class="opt"><input type="checkbox" name="t16_cloud" value="设备绑定与配对" data-warn=""> 设备绑定与配对</label>
+<label class="opt"><input type="checkbox" name="t16_cloud" value="历史数据同步 / 云端存储" data-warn=""> 历史数据同步 / 云端存储</label>
+<label class="opt"><input type="checkbox" name="t16_cloud" value="固件 OTA 升级" data-warn=""> 固件 OTA 升级</label>
+<label class="opt"><input type="checkbox" name="t16_cloud" value="健康算法计算（睡眠分期 / HRV）" data-warn=""> 健康算法计算（睡眠分期 / HRV）</label>
+<label class="opt"><input type="checkbox" name="t16_cloud" value="账号体系与登录" data-warn=""> 账号体系与登录</label>
+<label class="opt"><input type="checkbox" name="t16_cloud" value="其他（请说明）" data-warn=""> 其他（请说明）</label>
+<input class="txt sub" name="t16_cloud_other" placeholder="请填写具体内容">
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="t17_integrity" >
+<div class="title"><span class="no">T17</span>数据完整性保障措施（可多选） <span class="tag-req">（必答）</span></div>
+<div class="hint">小程序无后台实时连接，以下四项共同决定用户数据是否会丢、是否会乱。</div>
+<div class="mtipt"><span class="multi">（可多选）</span></div>
+<label class="opt"><input type="checkbox" name="t17_integrity" value="断连后戒指继续采集，重连自动补传（无数据丢失）" data-warn=""> 断连后戒指继续采集，重连自动补传（无数据丢失）</label>
+<label class="opt"><input type="checkbox" name="t17_integrity" value="回传数据均带分钟级时间戳" data-warn=""> 回传数据均带分钟级时间戳</label>
+<label class="opt"><input type="checkbox" name="t17_integrity" value="支持由手机端校准戒指时钟" data-warn=""> 支持由手机端校准戒指时钟</label>
+<label class="opt"><input type="checkbox" name="t17_integrity" value="戒指本地可缓存 ≥ 7 天数据" data-warn=""> 戒指本地可缓存 ≥ 7 天数据</label>
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="t18_fwdata" >
+<div class="title"><span class="no">T18</span>固件 / 算法升级是否影响历史数据可比性 <span class="tag-req">（必答）</span></div>
+<div class="hint">我方服务基于 21 天周期的趋势对比；若升级改变算法口径，前后数据将不可比。</div>
+<label class="opt"><input type="radio" name="t18_fwdata" value="不影响，升级前后数据口径一致" required data-warn=""> 不影响，升级前后数据口径一致</label>
+<label class="opt"><input type="radio" name="t18_fwdata" value="可能影响，但升级前会提前通知并说明口径变化" required data-warn=""> 可能影响，但升级前会提前通知并说明口径变化</label>
+<label class="opt opt-warn"><input type="radio" name="t18_fwdata" value="可能改变算法口径且不另行通知" required data-warn="该情形会直接破坏我方 21 天周期趋势的可解释性，须在合同中另行约定。"> 可能改变算法口径且不另行通知</label>
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="t19_migrate" >
+<div class="title"><span class="no">T19</span>用户更换手机或账号时的处理 <span class="tag-req">（必答）</span></div>
+<label class="opt"><input type="radio" name="t19_migrate" value="支持重新配对与迁移，且支持解绑换绑、数据不丢失" required data-warn=""> 支持重新配对与迁移，且支持解绑换绑、数据不丢失</label>
+<label class="opt"><input type="radio" name="t19_migrate" value="支持重新配对，但戒指内未同步数据会丢失" required data-warn=""> 支持重新配对，但戒指内未同步数据会丢失</label>
+<label class="opt"><input type="radio" name="t19_migrate" value="需恢复出厂设置，历史数据清空" required data-warn=""> 需恢复出厂设置，历史数据清空</label>
+<div class="warnbox"></div>
+</div>
+<div class="sec">四、实测验证与指模供应 · 技术侧<small>精度报告 / 指模供应 — 决定签约前能否验证，以及发货方案与单枚成本核算</small></div>
+<div class="q" data-q="t20_report" >
+<div class="title"><span class="no">T20</span>是否可提供精度测试报告 <span class="tag-req">（必答）</span></div>
+<div class="hint">请一并说明心率误差范围（如 ±__ bpm）；可勾选最后一项并在补充栏填写。</div>
+<label class="opt"><input type="radio" name="t20_report" value="可提供第三方机构（如 SGS / 泰尔 / 计量院等）测试报告" required data-warn=""> 可提供第三方机构（如 SGS / 泰尔 / 计量院等）测试报告</label>
+<label class="opt"><input type="radio" name="t20_report" value="可提供贵司自研实验室测试报告" required data-warn=""> 可提供贵司自研实验室测试报告</label>
+<label class="opt"><input type="radio" name="t20_report" value="可提供，但需签 NDA 后提供" required data-warn=""> 可提供，但需签 NDA 后提供</label>
+<label class="opt"><input type="radio" name="t20_report" value="不可提供任何精度测试报告" required data-warn=""> 不可提供任何精度测试报告</label>
+<label class="opt"><input type="radio" name="t20_report" value="其他 / 请在此说明报告名称、机构与心率误差范围" required data-warn=""> 其他 / 请在此说明报告名称、机构与心率误差范围</label>
+<input class="txt sub" name="t20_report_other" placeholder="请填写具体内容">
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="t21_sizing" >
+<div class="title"><span class="no">T21</span>指模（试戴指模）供应政策 <span class="tag-req">（必答）</span></div>
+<div class="hint">指模用于让用户自行测量圈号，其供应方式与收费口径直接影响我方发货方案与单枚成本核算。若第一问选「不提供指模」，后两问将自动隐藏。</div>
+<div class="subq" data-sub="t21_sizing_kit">
+<div class="subtitle">是否提供指模</div>
+<label class="opt"><input type="radio" name="t21_sizing_kit" value="提供指模（试戴指模 / 圈号测量套件）"> 提供指模（试戴指模 / 圈号测量套件）</label>
+<label class="opt"><input type="radio" name="t21_sizing_kit" value="不提供指模"> 不提供指模</label>
+</div>
+<div class="subq subcond" data-sub="t21_sizing_pair" data-sub-show-if="t21_sizing_kit" data-sub-show-in="提供指模（试戴指模 / 圈号测量套件）">
+<div class="subtitle">指模是否配套每一个产品</div>
+<label class="opt"><input type="radio" name="t21_sizing_pair" value="随每一枚戒指均配套一副指模"> 随每一枚戒指均配套一副指模</label>
+<label class="opt"><input type="radio" name="t21_sizing_pair" value="仅首单随货提供一次，后续订单不再配"> 仅首单随货提供一次，后续订单不再配</label>
+<label class="opt"><input type="radio" name="t21_sizing_pair" value="不随货配，按我方需求单独申请"> 不随货配，按我方需求单独申请</label>
+</div>
+<div class="subq subcond" data-sub="t21_sizing_fee" data-sub-show-if="t21_sizing_kit" data-sub-show-in="提供指模（试戴指模 / 圈号测量套件）">
+<div class="subtitle">指模是否单独收费</div>
+<label class="opt"><input type="radio" name="t21_sizing_fee" value="免费提供，不单独计入货款"> 免费提供，不单独计入货款</label>
+<label class="opt"><input type="radio" name="t21_sizing_fee" value="首批免费，后续按量收费"> 首批免费，后续按量收费</label>
+<label class="opt"><input type="radio" name="t21_sizing_fee" value="单独收费（请说明单价与结算方式）"> 单独收费（请说明单价与结算方式）</label>
+<input class="txt sub" name="t21_sizing_fee_other" placeholder="请填写具体内容">
+</div>
+<div class="warnbox"></div>
+</div>
+<div class="sec">五、结构核对 · 技术侧<small>结构爆炸图 / 内部图纸 — 决定我方能否自行完成 Oura 结构专利风险核对</small></div>
+<div class="q" data-q="t22_explode" >
+<div class="title"><span class="no">T22</span>是否可提供戒指结构爆炸图或内部结构图纸 <span class="tag-req">（必答）</span></div>
+<div class="hint">我方需自行核对结构是否落入美国专利 US 11,868,178 的权利要求，口头保证不予采信。</div>
+<label class="opt"><input type="radio" name="t22_explode" value="可提供正式结构爆炸图" required data-warn=""> 可提供正式结构爆炸图</label>
+<label class="opt"><input type="radio" name="t22_explode" value="可提供内部结构照片或 DWG 图纸" required data-warn=""> 可提供内部结构照片或 DWG 图纸</label>
+<label class="opt"><input type="radio" name="t22_explode" value="不可提供" required data-warn=""> 不可提供</label>
+<div class="warnbox"></div>
+</div>
+<div class="sec">六、知识产权 🔴 淘汰线 · 商务侧<small>Oura 授权 / FTO / 应诉责任 — 不达标者不予进入商务评估</small></div>
+<div class="note">背景（我方已核实）：美国专利 US 11,868,178 的权利人为 Oura Health Oy，2024 年 1 月 9 日授权，保护的是「内外壳体 + 中间腔体 + 弧形电池 + PCB」的戒指结构布局。Oura 已据此向美国国际贸易委员会提起 337 调查（案号 337-TA-1398 及 337-TA-1468），涉及中国、印度、法国、韩国等多家厂商；其中数家已和解并支付许可费，个别被签发排除令禁止对美出口。PTAB 于 2025 年 11 月终裁维持该专利权利要求 1–10 及 12–16 有效。我方以自有品牌 21DAYS WONDER 随营养包对外交付，故本组答案为本次选型的硬性前置条件。</div>
+<div class="q" data-q="b6_ip" >
+<div class="title"><span class="no">B6</span>贵司的知识产权状况与可提供文件（可多选） <span class="tag-req">（必答）</span></div>
+<div class="hint">授权书须写明覆盖我方品牌 21DAYS WONDER / 21DW，不能仅写工厂自身；FTO 结论须可传导至我方出货场景。</div>
+<div class="mtipt"><span class="multi">（可多选）</span></div>
+<label class="opt"><input type="checkbox" name="b6_ip" value="Oura 专利授权书，且将写明覆盖 21DW 品牌" data-warn=""> Oura 专利授权书，且将写明覆盖 21DW 品牌</label>
+<label class="opt opt-warn"><input type="checkbox" name="b6_ip" value="Oura 授权书，仅覆盖工厂自身（不覆盖我方品牌）" data-warn="仅保工厂自身出货的授权，不足以覆盖我方以自有品牌对外交付的场景，需补足覆盖范围。"> Oura 授权书，仅覆盖工厂自身（不覆盖我方品牌）</label>
+<label class="opt"><input type="checkbox" name="b6_ip" value="FTO 自由实施报告，并书面确认结论覆盖我方出货" data-warn=""> FTO 自由实施报告，并书面确认结论覆盖我方出货</label>
+<label class="opt opt-warn"><input type="checkbox" name="b6_ip" value="FTO 报告，结论仅适用贵司自身出货" data-warn="结论不可传导的报告无法覆盖我方交付场景，需重新出具或补充书面确认。"> FTO 报告，结论仅适用贵司自身出货</label>
+<label class="opt"><input type="checkbox" name="b6_ip" value="针对 US 11,868,178 的书面比对分析结论（含规避设计说明）" data-warn=""> 针对 US 11,868,178 的书面比对分析结论（含规避设计说明）</label>
+<label class="opt"><input type="checkbox" name="b6_ip" value="从未收到任何 Oura 警告函 / ITC 337 通知 / 亚马逊专利投诉" data-warn=""> 从未收到任何 Oura 警告函 / ITC 337 通知 / 亚马逊专利投诉</label>
+<label class="opt"><input type="checkbox" name="b6_ip" value="曾收到上述主张，现已了结（请说明结果与结案文件）" data-warn=""> 曾收到上述主张，现已了结（请说明结果与结案文件）</label>
+<input class="txt sub" name="b6_ip_other" placeholder="请填写具体内容">
+<label class="opt opt-warn"><input type="checkbox" name="b6_ip" value="曾收到上述主张，目前尚未解决" data-warn="未了结的专利主张会直接影响我方履约安全，须如实披露。"> 曾收到上述主张，目前尚未解决</label>
+<label class="opt opt-warn"><input type="checkbox" name="b6_ip" value="以上文件均不可提供" data-warn="无法提供授权、FTO 或比对分析，且产品可能落入 US 11,868,178 时，我方无法以自有品牌对外交付，该项构成淘汰条件。"> 以上文件均不可提供</label>
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="b7_indemnity" >
+<div class="title"><span class="no">B7</span>合同可否写明：专利侵权赔偿与应诉义务由贵司承担 <span class="tag-req">（必答）</span></div>
+<label class="opt"><input type="radio" name="b7_indemnity" value="可以，写入合同" required data-warn=""> 可以，写入合同</label>
+<label class="opt opt-warn"><input type="radio" name="b7_indemnity" value="可提供不侵权承诺，但不承担赔偿责任" required data-warn="不承担赔偿责任时，侵权风险实质上由我方独自承担，将作为重大负面评估因素。"> 可提供不侵权承诺，但不承担赔偿责任</label>
+<label class="opt opt-warn"><input type="radio" name="b7_indemnity" value="不接受写入合同" required data-warn="不接受写入合同将使我方承担无限连带责任，该项构成淘汰条件。"> 不接受写入合同</label>
+<div class="warnbox"></div>
+</div>
+<div class="sec">七、样品 · 定制 · 报价 · 交付 · 商务侧<small>样品 / 验厂 / 白标 / 报价 / 起订量与圈号混装 / 交期 — 决定能否先验证再签约</small></div>
+<div class="q" data-q="b8_sample" >
+<div class="title"><span class="no">B8</span>样品提供与验厂配合（可多选） <span class="tag-req">（必答）</span></div>
+<div class="hint">样品用于植入悦实测：佩戴率 / SDK 对接 / 数据质量三项。</div>
+<div class="mtipt"><span class="multi">（可多选）</span></div>
+<label class="opt"><input type="checkbox" name="b8_sample" value="签约前可提供 5–10 台样品，无需前置条件" data-warn=""> 签约前可提供 5–10 台样品，无需前置条件</label>
+<label class="opt"><input type="checkbox" name="b8_sample" value="签约前可提供样品，但需先签 NDA / 样品协议" data-warn=""> 签约前可提供样品，但需先签 NDA / 样品协议</label>
+<label class="opt"><input type="checkbox" name="b8_sample" value="接受植悦实地拜访 / 验厂审核" data-warn=""> 接受植悦实地拜访 / 验厂审核</label>
+<label class="opt"><input type="checkbox" name="b8_sample" value="仅接受线上沟通，不接受实地拜访" data-warn=""> 仅接受线上沟通，不接受实地拜访</label>
+<label class="opt"><input type="checkbox" name="b8_sample" value="不可在签约前提供样品" data-warn=""> 不可在签约前提供样品</label>
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="b9_white" >
+<div class="title"><span class="no">B9</span>白标定制范围 <span class="tag-req">（必答）</span></div>
+<label class="opt"><input type="radio" name="b9_white" value="含镭雕标识 + 包装 + 说明书定制，语言可指定（中文 / 英文）" required data-warn=""> 含镭雕标识 + 包装 + 说明书定制，语言可指定（中文 / 英文）</label>
+<label class="opt"><input type="radio" name="b9_white" value="含镭雕 + 包装定制，说明书仅英文" required data-warn=""> 含镭雕 + 包装定制，说明书仅英文</label>
+<label class="opt"><input type="radio" name="b9_white" value="仅裸机与通用包装，不可定制" required data-warn=""> 仅裸机与通用包装，不可定制</label>
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="b10_price" >
+<div class="title"><span class="no">B10</span>主推型号单价区间 <span class="tag-req">（必答）</span></div>
+<div class="hint">请按主推型号填写「不含充电仓」的单价区间（人民币）。各档阶梯价（1k / 5k / 1w 枚）可在回执邮件中另附报价单。</div>
+<label class="opt"><input type="radio" name="b10_price" value="≤ ¥50 / 枚" required data-warn=""> ≤ ¥50 / 枚</label>
+<label class="opt"><input type="radio" name="b10_price" value="¥51–80 / 枚" required data-warn=""> ¥51–80 / 枚</label>
+<label class="opt"><input type="radio" name="b10_price" value="¥81–120 / 枚" required data-warn=""> ¥81–120 / 枚</label>
+<label class="opt"><input type="radio" name="b10_price" value="¥121–160 / 枚" required data-warn=""> ¥121–160 / 枚</label>
+<label class="opt"><input type="radio" name="b10_price" value="&gt; ¥160 / 枚" required data-warn=""> &gt; ¥160 / 枚</label>
+<label class="opt"><input type="radio" name="b10_price" value="可提供正式报价单（另附），不在本清单内填写" required data-warn=""> 可提供正式报价单（另附），不在本清单内填写</label>
+<label class="opt"><input type="radio" name="b10_price" value="需签 NDA 后报价" required data-warn=""> 需签 NDA 后报价</label>
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="b11_order" >
+<div class="title"><span class="no">B11</span>量产起订量与圈号混装政策 <span class="tag-req">（必答）</span></div>
+<div class="hint">圈号混装能否按我方指定比例执行，直接决定首批备货的圈号结构与库存风险。若贵司的起订量按「单一圈号」分别计算，请在第二问如实选择。</div>
+<div class="subq" data-sub="b11_moq">
+<div class="subtitle">最低起订量（MOQ）</div>
+<label class="opt"><input type="radio" name="b11_moq" value="无最低起订量"> 无最低起订量</label>
+<label class="opt"><input type="radio" name="b11_moq" value="≤ 500 枚"> ≤ 500 枚</label>
+<label class="opt"><input type="radio" name="b11_moq" value="501–1000 枚"> 501–1000 枚</label>
+<label class="opt"><input type="radio" name="b11_moq" value="1001–3000 枚"> 1001–3000 枚</label>
+<label class="opt"><input type="radio" name="b11_moq" value="&gt; 3000 枚"> &gt; 3000 枚</label>
+<label class="opt"><input type="radio" name="b11_moq" value="其他（请说明）"> 其他（请说明）</label>
+<input class="txt sub" name="b11_moq_other" placeholder="请填写具体内容">
+</div>
+<div class="subq" data-sub="b11_mix">
+<div class="subtitle">量产权可否按我方指定比例混装各圈号</div>
+<label class="opt"><input type="radio" name="b11_mix" value="可以，同一订单内按我方指定比例混装，不另收费用"> 可以，同一订单内按我方指定比例混装，不另收费用</label>
+<label class="opt"><input type="radio" name="b11_mix" value="可以，但每个圈号须各自达到其最低起订量"> 可以，但每个圈号须各自达到其最低起订量</label>
+<label class="opt"><input type="radio" name="b11_mix" value="可以，但混装需另收分装 / 包装费用（请说明标准）"> 可以，但混装需另收分装 / 包装费用（请说明标准）</label>
+<input class="txt sub" name="b11_mix_other" placeholder="请填写具体内容">
+<label class="opt"><input type="radio" name="b11_mix" value="不可以，各圈号须分别整批下单"> 不可以，各圈号须分别整批下单</label>
+</div>
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="b12_lead_s" >
+<div class="title"><span class="no">B12</span>样品交期（5–10 台） <span class="tag-req">（必答）</span></div>
+<label class="opt"><input type="radio" name="b12_lead_s" value="≤ 7 天" required data-warn=""> ≤ 7 天</label>
+<label class="opt"><input type="radio" name="b12_lead_s" value="8–15 天" required data-warn=""> 8–15 天</label>
+<label class="opt"><input type="radio" name="b12_lead_s" value="16–30 天" required data-warn=""> 16–30 天</label>
+<label class="opt"><input type="radio" name="b12_lead_s" value="&gt; 30 天" required data-warn=""> &gt; 30 天</label>
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="b13_lead_b" >
+<div class="title"><span class="no">B13</span>首批量交期（500 / 1000 枚） <span class="tag-req">（必答）</span></div>
+<label class="opt"><input type="radio" name="b13_lead_b" value="≤ 30 天" required data-warn=""> ≤ 30 天</label>
+<label class="opt"><input type="radio" name="b13_lead_b" value="31–60 天" required data-warn=""> 31–60 天</label>
+<label class="opt"><input type="radio" name="b13_lead_b" value="61–90 天" required data-warn=""> 61–90 天</label>
+<label class="opt"><input type="radio" name="b13_lead_b" value="&gt; 90 天" required data-warn=""> &gt; 90 天</label>
+<div class="warnbox"></div>
+</div>
+<div class="sec">八、质量 · 结算 · 支持 · 合规 · 授权 · 商务侧<small>质量标准 / 售后 / 结算 / SLA / 合规材料 / SDK 与协议授权条款 — 决定长期合作可行性</small></div>
+<div class="q" data-q="b14_quality" >
+<div class="title"><span class="no">B14</span>质量承诺（可多选） <span class="tag-req">（必答）</span></div>
+<div class="hint">请勾选贵司可写入合同的全部承诺项。</div>
+<div class="mtipt"><span class="multi">（可多选）</span></div>
+<label class="opt"><input type="checkbox" name="b14_quality" value="出厂不良率 AQL 0.65 或更严" data-warn=""> 出厂不良率 AQL 0.65 或更严</label>
+<label class="opt"><input type="checkbox" name="b14_quality" value="出厂不良率 AQL 1.0" data-warn=""> 出厂不良率 AQL 1.0</label>
+<label class="opt"><input type="checkbox" name="b14_quality" value="出厂不良率 AQL 2.5" data-warn=""> 出厂不良率 AQL 2.5</label>
+<label class="opt"><input type="checkbox" name="b14_quality" value="保修期 12 个月" data-warn=""> 保修期 12 个月</label>
+<label class="opt"><input type="checkbox" name="b14_quality" value="保修期 6 个月" data-warn=""> 保修期 6 个月</label>
+<label class="opt"><input type="checkbox" name="b14_quality" value="某批次不良率超标时无条件召回补货，相关费用由贵司承担" data-warn=""> 某批次不良率超标时无条件召回补货，相关费用由贵司承担</label>
+<label class="opt"><input type="checkbox" name="b14_quality" value="其他（请说明）" data-warn=""> 其他（请说明）</label>
+<input class="txt sub" name="b14_quality_other" placeholder="请填写具体内容">
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="b15_term" >
+<div class="title"><span class="no">B15</span>结算方式与技术支持条件（可多选） <span class="tag-req">（必答）</span></div>
+<div class="mtipt"><span class="multi">（可多选）</span></div>
+<label class="opt"><input type="checkbox" name="b15_term" value="无账期（先款后货）" data-warn=""> 无账期（先款后货）</label>
+<label class="opt"><input type="checkbox" name="b15_term" value="月结 30 天" data-warn=""> 月结 30 天</label>
+<label class="opt"><input type="checkbox" name="b15_term" value="月结 60 天" data-warn=""> 月结 60 天</label>
+<label class="opt"><input type="checkbox" name="b15_term" value="技术支持：重大问题 24 小时内响应、72 小时内给出方案" data-warn=""> 技术支持：重大问题 24 小时内响应、72 小时内给出方案</label>
+<label class="opt"><input type="checkbox" name="b15_term" value="技术支持：48 小时内响应" data-warn=""> 技术支持：48 小时内响应</label>
+<label class="opt"><input type="checkbox" name="b15_term" value="无固定售后 SLA" data-warn=""> 无固定售后 SLA</label>
+<label class="opt"><input type="checkbox" name="b15_term" value="其他（请说明）" data-warn=""> 其他（请说明）</label>
+<input class="txt sub" name="b15_term_other" placeholder="请填写具体内容">
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="b16_compliance" >
+<div class="title"><span class="no">B16</span>合规能力与可提供材料（可多选） <span class="tag-req">（必答）</span></div>
+<div class="hint">用于确认产品在中国大陆与加拿大两地可合法落地。已具备的中国无线电合规证书型号请与 T6 填写内容保持一致。</div>
+<div class="mtipt"><span class="multi">（可多选）</span></div>
+<label class="opt"><input type="checkbox" name="b16_compliance" value="支持数据不出境，可在植悦自有服务端处理" data-warn=""> 支持数据不出境，可在植悦自有服务端处理</label>
+<label class="opt"><input type="checkbox" name="b16_compliance" value="提供符合《个人信息保护法》及境外法规要求的 DPA 数据处理协议模板" data-warn=""> 提供符合《个人信息保护法》及境外法规要求的 DPA 数据处理协议模板</label>
+<label class="opt"><input type="checkbox" name="b16_compliance" value="CE / FCC / RoHS 认证" data-warn=""> CE / FCC / RoHS 认证</label>
+<label class="opt"><input type="checkbox" name="b16_compliance" value="加拿大 ISED 认证" data-warn=""> 加拿大 ISED 认证</label>
+<label class="opt"><input type="checkbox" name="b16_compliance" value="中国无线电合规（SRRC 型号核准 / 微功率豁免）" data-warn=""> 中国无线电合规（SRRC 型号核准 / 微功率豁免）</label>
+<label class="opt"><input type="checkbox" name="b16_compliance" value="电池 UN38.3 运输安全认证" data-warn=""> 电池 UN38.3 运输安全认证</label>
+<label class="opt"><input type="checkbox" name="b16_compliance" value="Bluetooth SIG 认证" data-warn=""> Bluetooth SIG 认证</label>
+<label class="opt"><input type="checkbox" name="b16_compliance" value="可提供跨境发货至加拿大的清关与运输合规文件" data-warn=""> 可提供跨境发货至加拿大的清关与运输合规文件</label>
+<label class="opt"><input type="checkbox" name="b16_compliance" value="其他（请说明）" data-warn=""> 其他（请说明）</label>
+<input class="txt sub" name="b16_compliance_other" placeholder="请填写具体内容">
+<div class="warnbox"></div>
+</div>
+<div class="q" data-q="b17_license" >
+<div class="title"><span class="no">B17</span>SDK 与协议授权条款 <span class="tag-req">（必答）</span></div>
+<div class="hint">我方可能多源并用（同一系统接入多家硬件，用于不停服灰度切换）。请在第二问说明多源并用时的授权条件 —— 该项直接决定我方未来更换供应商的成本。</div>
+<div class="subq" data-sub="b17_basis">
+<div class="subtitle">SDK / 协议授权的收费性质</div>
+<label class="opt"><input type="radio" name="b17_basis" value="一次性买断，永久可用，且不绑定具体硬件型号"> 一次性买断，永久可用，且不绑定具体硬件型号</label>
+<label class="opt"><input type="radio" name="b17_basis" value="一次性买断，但仅限配合本型号硬件使用"> 一次性买断，但仅限配合本型号硬件使用</label>
+<label class="opt"><input type="radio" name="b17_basis" value="按项目一次性收费，后续同型号订单不再收费"> 按项目一次性收费，后续同型号订单不再收费</label>
+<label class="opt"><input type="radio" name="b17_basis" value="按年收取授权费，需逐年续费"> 按年收取授权费，需逐年续费</label>
+<label class="opt"><input type="radio" name="b17_basis" value="按出货量收取（每台抽成 / 每枚计费）"> 按出货量收取（每台抽成 / 每枚计费）</label>
+<label class="opt"><input type="radio" name="b17_basis" value="免费提供，已含在硬件单价内"> 免费提供，已含在硬件单价内</label>
+<label class="opt"><input type="radio" name="b17_basis" value="其他（请说明收费口径与金额）"> 其他（请说明收费口径与金额）</label>
+<input class="txt sub" name="b17_basis_other" placeholder="请填写具体内容">
+</div>
+<div class="subq" data-sub="b17_multi">
+<div class="subtitle">我方多源并用时的授权条件</div>
+<label class="opt"><input type="radio" name="b17_multi" value="不另收费，同一授权即可覆盖我方接入的多家硬件"> 不另收费，同一授权即可覆盖我方接入的多家硬件</label>
+<label class="opt"><input type="radio" name="b17_multi" value="每接入一家新硬件方，须另行签署授权（含费用）"> 每接入一家新硬件方，须另行签署授权（含费用）</label>
+<label class="opt"><input type="radio" name="b17_multi" value="授权写死单一硬件型号，不支持多源并用"> 授权写死单一硬件型号，不支持多源并用</label>
+<label class="opt"><input type="radio" name="b17_multi" value="不确定，需与法务确认后答复"> 不确定，需与法务确认后答复</label>
+</div>
+<div class="warnbox"></div>
+</div>
   </form>
 
-  <div class="okbox" id="okbox">
-    <b>✅ 已为你打开邮件客户端，请点击"发送"将答案发送至植悦。</b><br>
-    若邮件未自动弹出，或贵司环境无法发送邮件，请点击下方按钮复制全部答案，通过微信 / 邮件手动发送。
-    <br><button class="copybtn" id="copybtn" type="button">复制全部答案</button>
-    <div id="raw" style="white-space:pre-wrap;font-size:12px;color:#374151;margin-top:10px;display:none"></div>
+  <div id="report" class="report"></div>
+
+  <div class="submit">
+    <button class="go" id="go" type="button">生成回执并提交</button>
+    <div class="okbox" id="okbox">
+      <div id="okmsg"></div>
+      <div class="btnrow">
+        <button class="copybtn" id="btn-file" type="button">下载 HTML 回执</button>
+        <button class="copybtn" id="btn-text" type="button">复制回执文本</button>
+        <button class="copybtn" id="btn-json" type="button">复制 JSON</button>
+        <button class="copybtn" id="btn-mail" type="button">用邮件客户端发送</button>
+        <button class="copybtn" id="btn-print" type="button">打印 / 存为 PDF</button>
+      </div>
+    </div>
   </div>
 
-  <footer>植悦 21DAYS WONDER · 智能戒指供应商评估问卷 · 答案将发送至 4007890@qq.com</footer>
+  <footer>
+    植悦 21DAYS WONDER · 供应商技术与商务尽调清单 v4.3 · 20260929-1050<br>
+    回卷内容贵司可先行留存；提交即视为贵司对所填内容的真实性负责。
+  </footer>
 </div>
 
 <script>
-const TO = "4007890@qq.com";
-const ORDER = [
-  ["company","供应商公司名称"],["contact","联系人"],["phone","联系手机"],["address","公司地址"],
-  ["t1","T1 SDK数据粒度"],["t1b","T1.1 额外暴露原始流"],["t1b_note","T1.1 说明"],
-  ["t1_base","T1.3 数据底座要求"],["t1_base_other","T1.3 数据底座-不满足说明"],
-  ["t2_local","T2.1 本地直连支持程度"],["t2_cloud","T2.2 必须过云功能"],["t2_note","T2 说明"],
-  ["t3_has","T3.1 P0五项是否齐全"],["t3_p0miss","T3.1a P0缺失项"],
-  ["t3_cap","T3.2 分级能力(P0/P1/P2)"],["t3_cap_other","T3.2 能力-其他说明"],
-  ["t3_models","T3.3 型号明细"],["t3_med","T3.4 医疗宣称功能"],["t3_med_other","T3.4 医疗功能说明"],
-  ["t3_size","T3.5 圈号规格"],["t3_size_note","T3.5 圈号说明"],["t3_sizing","T3.6 试戴与混装"],
-  ["t3_return","T3.7 尺码退换"],["t3_charge","T3.8 充电时长"],
-  ["t3_battery","T3.9 电池寿命"],["t3_battery_note","T3.9 电池说明"],
-  ["t4_wx","T4.1 微信小程序端 SDK"],["t4_wx_note","T4.1a 同步机制"],
-  ["t4_store","T4.1b 戒指本地存储容量"],["t4_store_note","T4.1b 存储说明"],
-  ["t4_offline","T4.1c 断连采集与补传"],["t4_offline_note","T4.1c 同步耗时说明"],
-  ["t4_ts","T4.1d 数据时间戳"],["t4_clock","T4.1e 时钟校准"],["t4_clock_note","T4.1e 校时说明"],
-  ["t4_ios","T4.2 iOS 原生端 SDK"],["t4_and","T4.3 Android 原生端 SDK"],["t4_note","T4.4 三端授权/收费/稳定性/鸿蒙"],
-  ["t5_algo","T5.1 算法来源"],["t5_calib","T5.2 标定"],["t5_report","T5.3 精度报告"],["t5_note","T5 说明"],
-  ["t6_ota","T6.1 OTA"],["t6_sdkfee","T6.2 SDK授权收费"],["t6_sdkfee_other","T6.2 SDK收费说明"],["t6_support","T6.3 支持方式"],["t6_note","T6 说明"],
-  ["t6_migrate","T6.4 换机迁移"],["t6_bind","T6.5 解绑限制"],["t6_fwdata","T6.6 固件与数据可比性"],
-  ["t7_laser","T7.1 白标镭雕"],["t7_moq","T7.2 白标MOQ"],["t7_bind","T7.3 绑定限制"],["t7_note","T7 说明"],
-  ["t8_pre","T8.1 签约前提供样品"],["t8_fee","T8.2 样品费用"],["t8_fee_other","T8.2 样品费说明"],
-  ["t8_nda","T8.3 样品NDA"],["t8_note","T8 物流说明"],
-  ["t9_proto","T9.0 通信协议文档"],["t9_proto_note","T9.0 协议文档说明"],
-  ["t9_deliver","T9.1 交付物"],["t9_lang","T9.2 文档语言"],["t9_note","T9 说明"],
-  ["t10_dataout","T10.1 数据不出境"],["t10_dpa","T10.2 DPA支持"],["t10_note","T10 说明"],
-  ["t11_material","T11.1 材质与皮肤接触（选答）"],
-  ["b1_ladder","B1.1 报价方式"],["b1","B1.2 报价表"],
-  ["b2_auth","B2.1 授权形式"],["b2_fee","B2.2 授权收费"],["b2_fee_other","B2.2 授权收费说明"],["b2_note","B2 说明"],
-  ["b2_pack","B2.3 包装与说明书"],["b2_pack_note","B2.3 包装说明"],
-  ["b3_samp","B3.1 样品交期"],["b3_bulk","B3.2 首批量交期"],["b3_cap","B3.3 月产能"],["b3_note","B3 说明"],
-  ["b4_aql","B4.1 AQL"],["b4_aql_other","B4.1 AQL-其他说明"],["b4_warr","B4.2 保修期"],["b4_warr_other","B4.2 保修期-其他说明"],
-  ["b4_repair","B4.3 返修时效"],["b4_repair_other","B4.3 返修时效-其他说明"],["b4_note","B4 说明"],
-  ["b4_recall","B4.4 批量不良召回"],
-  ["b5_cert","B5.1 认证"],["b5_cert_other","B5.1 认证-其他说明"],["b5_customs","B5.2 清关文件"],["b5_medlist","B5.3 非医疗清单"],["b5_note","B5 说明"],
-  ["b5_eol","B5.4 停产政策"],["b5_supply","B5.5 保供承诺"],
-  ["b6_pay","B6.1 付款方式"],["b6_pay_other","B6.1 付款方式-其他说明"],["b6_deposit","B6.2 首付比例"],["b6_deposit_other","B6.2 首付比例-其他说明"],
-  ["b6_term","B6.3 账期"],["b6_term_other","B6.3 账期-其他说明"],["b6_samplefee","B6.4 样品款抵扣"],["b6_note","B6 说明"],
-  ["b7_accept","B7.1 接受先评估后签约"],["b7_support","B7.2 签约前配合"],["b7_sample","B7.3 未合作样品处理"],
-  ["b7_form","B7.4 签约形式"],["b7_form_other","B7.4 签约形式-其他说明"],["b7_min","B7.5 最低量承诺"],["b7_min_other","B7.5 最低量承诺-其他说明"],["b7_note","B7 说明"],
-  ["b7_sla","B7.6 技术支持SLA"],["b7_ip","B7.7 IP侵权担保"],["b7_audit","B7.8 实地验厂（选答）"]
+var ORDER = [
+  ["b1_company", "B1 供应商公司名称", "供应商基本信息 · 商务侧"],
+  ["b2_contact", "B2 联系人", "供应商基本信息 · 商务侧"],
+  ["b3_phone", "B3 联系手机", "供应商基本信息 · 商务侧"],
+  ["b4_address", "B4 公司地址", "供应商基本信息 · 商务侧"],
+  ["b5_role", "B5 贵司在本型号中的实际角色", "供应商基本信息 · 商务侧"],
+  ["t1_soc", "T1 主控芯片与蓝牙模组（可多选）", "一、硬件方案与上游供应链 · 技术侧"],
+  ["t2_sensor", "T2 传感器配置（可多选）", "一、硬件方案与上游供应链 · 技术侧"],
+  ["t3_pcba", "T3 PCBA 来源与方案商（可多选）", "一、硬件方案与上游供应链 · 技术侧"],
+  ["t4_fw", "T4 固件是否为贵司自有", "一、硬件方案与上游供应链 · 技术侧"],
+  ["t5_fwparty", "T5 若固件非贵司自有：固件 / 算法方可否直接向我方开放 SDK 定制、OTA 与原始数据能力？", "一、硬件方案与上游供应链 · 技术侧"],
+  ["t6_cert", "T6 无线电认证证书上的「设备型号」与「持证方全称」", "一、硬件方案与上游供应链 · 技术侧"],
+  ["t7_p0", "T7 请勾选推荐型号实际具备的 P0 能力（未勾选项即为缺失）", "二、P0 数据能力与算法 · 技术侧"],
+  ["t8_gran", "T8 SDK 返回的数据粒度", "二、P0 数据能力与算法 · 技术侧"],
+  ["t9_raw", "T9 若仅提供成品指标：原始数据可否另行开放（含算法归属）", "二、P0 数据能力与算法 · 技术侧"],
+  ["t10_doc", "T10 可随 SDK 一并提供的算法与数据文档（可多选）", "二、P0 数据能力与算法 · 技术侧"],
+  ["t11_extra", "T11 除 P0 外尚可提供的能力（可多选，选答）", "二、P0 数据能力与算法 · 技术侧"],
+  ["t12_proto", "T12 是否提供完整 BLE 通信协议文档", "三、BLE 协议 · SDK · 数据完整性 · 技术侧"],
+  ["t13_integrate", "T13 SDK 允许的集成方式（可多选）", "三、BLE 协议 · SDK · 数据完整性 · 技术侧"],
+  ["t14_sdk", "T14 可提供哪些端的 SDK（可多选）", "三、BLE 协议 · SDK · 数据完整性 · 技术侧"],
+  ["t15_local", "T15 App 绑定与本地直连程度", "三、BLE 协议 · SDK · 数据完整性 · 技术侧"],
+  ["t16_cloud", "T16 哪些功能必须调用贵司云？（可多选）", "三、BLE 协议 · SDK · 数据完整性 · 技术侧"],
+  ["t17_integrity", "T17 数据完整性保障措施（可多选）", "三、BLE 协议 · SDK · 数据完整性 · 技术侧"],
+  ["t18_fwdata", "T18 固件 / 算法升级是否影响历史数据可比性", "三、BLE 协议 · SDK · 数据完整性 · 技术侧"],
+  ["t19_migrate", "T19 用户更换手机或账号时的处理", "三、BLE 协议 · SDK · 数据完整性 · 技术侧"],
+  ["t20_report", "T20 是否可提供精度测试报告", "四、实测验证与指模供应 · 技术侧"],
+  ["t21_sizing", "T21 指模（试戴指模）供应政策", "四、实测验证与指模供应 · 技术侧"],
+  ["t22_explode", "T22 是否可提供戒指结构爆炸图或内部结构图纸", "五、结构核对 · 技术侧"],
+  ["b6_ip", "B6 贵司的知识产权状况与可提供文件（可多选）", "六、知识产权 🔴 淘汰线 · 商务侧"],
+  ["b7_indemnity", "B7 合同可否写明：专利侵权赔偿与应诉义务由贵司承担", "六、知识产权 🔴 淘汰线 · 商务侧"],
+  ["b8_sample", "B8 样品提供与验厂配合（可多选）", "七、样品 · 定制 · 报价 · 交付 · 商务侧"],
+  ["b9_white", "B9 白标定制范围", "七、样品 · 定制 · 报价 · 交付 · 商务侧"],
+  ["b10_price", "B10 主推型号单价区间", "七、样品 · 定制 · 报价 · 交付 · 商务侧"],
+  ["b11_order", "B11 量产起订量与圈号混装政策", "七、样品 · 定制 · 报价 · 交付 · 商务侧"],
+  ["b12_lead_s", "B12 样品交期（5–10 台）", "七、样品 · 定制 · 报价 · 交付 · 商务侧"],
+  ["b13_lead_b", "B13 首批量交期（500 / 1000 枚）", "七、样品 · 定制 · 报价 · 交付 · 商务侧"],
+  ["b14_quality", "B14 质量承诺（可多选）", "八、质量 · 结算 · 支持 · 合规 · 授权 · 商务侧"],
+  ["b15_term", "B15 结算方式与技术支持条件（可多选）", "八、质量 · 结算 · 支持 · 合规 · 授权 · 商务侧"],
+  ["b16_compliance", "B16 合规能力与可提供材料（可多选）", "八、质量 · 结算 · 支持 · 合规 · 授权 · 商务侧"],
+  ["b17_license", "B17 SDK 与协议授权条款", "八、质量 · 结算 · 支持 · 合规 · 授权 · 商务侧"],
 ];
 
-// "其他（请说明）"行内输入框：选中对应选项时才显示，并强制校验必填
-document.querySelectorAll('.otherbox').forEach(ob=>{
-  const name = ob.dataset.other;
-  const trig = ob.dataset.trigger;
-  if(!name) return;
-  // 单选：监听该组所有 radio
-  const radios = document.querySelectorAll('input[type=radio][name="'+name+'"]');
-  radios.forEach(r=>{
-    r.addEventListener('change', ()=>{
-      if(r.value===trig && r.checked) ob.classList.add('show');
-      else ob.classList.remove('show');
-    });
+/* ============ 基础工具 ============ */
+function selAll(name){
+  var out = [];
+  document.querySelectorAll('input[name="'+name+'"]').forEach(function(el){
+    if(el.checked) out.push(el.value);
   });
-  // 多选：监听该 checkbox（如 B5.1 其他认证）
-  const cbs = document.querySelectorAll('input[type=checkbox][name="'+name+'"][value="'+trig+'"]');
-  cbs.forEach(c=>{
-    c.addEventListener('change', ()=>{
-      if(c.checked) ob.classList.add('show');
-      else ob.classList.remove('show');
-    });
-  });
-});
+  return out;
+}
 
-function getVals(fd,name){
-  const all = fd.getAll(name);
-  if(all.length===0) return "";
-  return all.join("、");
+function visible(q){ return q.offsetParent !== null; }
+
+function esc(s){
+  return String(s == null ? '' : s)
+    .replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;');
 }
-function buildBody(){
-  let s = "植悦 21DW 智能戒指 · 供应商问卷回卷\n";
-  s += "提交时间：" + new Date().toLocaleString("zh-CN") + "\n";
-  s += "========================================\n\n";
-  const fd = new FormData(document.getElementById("f"));
-  for(const [k,label] of ORDER){
-    let v = getVals(fd,k);
-    if(v==="") v="（未填写）";
-    s += "【"+label+"】\n"+v+"\n\n";
+
+function pad2(n){ return (n < 10 ? '0' : '') + n; }
+
+function stampNow(){
+  var d = new Date();
+  return d.getFullYear() + pad2(d.getMonth()+1) + pad2(d.getDate()) + '-'
+       + pad2(d.getHours()) + pad2(d.getMinutes());
+}
+
+function stampReadable(){
+  var d = new Date();
+  return d.getFullYear() + '年' + (d.getMonth()+1) + '月' + d.getDate() + '日 '
+       + pad2(d.getHours()) + ':' + pad2(d.getMinutes());
+}
+
+/* ============ 条件显隐 ============ */
+function refreshCond(){
+  document.querySelectorAll('.q.cond').forEach(function(q){
+    var pname = q.getAttribute('data-show-if');
+    var vals = (q.getAttribute('data-show-in')||'').split('||');
+    var sel = selAll(pname);
+    var hit = vals.some(function(v){ return sel.indexOf(v) >= 0; });
+    q.classList.toggle('hide', !hit);
+  });
+  /* 题内子问的条件显隐：由同题内其他子问的取值为准 */
+  document.querySelectorAll('.subq.subcond').forEach(function(sq){
+    var sp = sq.getAttribute('data-sub-show-if');
+    var sv = (sq.getAttribute('data-sub-show-in')||'').split('||');
+    var ssel = selAll(sp);
+    var shit = sv.some(function(v){ return ssel.indexOf(v) >= 0; });
+    sq.classList.toggle('hide', !shit);
+  });
+}
+
+function refreshWarn(){
+  document.querySelectorAll('.q').forEach(function(q){
+    var box = q.querySelector('.warnbox');
+    if(!box) return;
+    var msg = '';
+    q.querySelectorAll('input[data-warn]').forEach(function(el){
+      if(el.checked && el.getAttribute('data-warn')) msg = el.getAttribute('data-warn');
+    });
+    box.textContent = msg;
+    box.classList.toggle('show', !!msg);
+  });
+}
+
+/* ============ 数据收集：按板块分组 ============ */
+function collect(){
+  var groups = [], map = {};
+  ORDER.forEach(function(p){
+    var name = p[0], label = p[1], secTitle = p[2];
+    var node = document.querySelector('.q[data-q="'+name+'"]');
+    if(!node || !visible(node)) return;
+
+    var ans = '';
+    if(node.querySelector('.subq')){
+      /* 题内子问：逐子问取值，格式「子问标题：答案」逐行 */
+      var segs = [];
+      node.querySelectorAll('.subq').forEach(function(sq){
+        if(!visible(sq)) return;                 /* 隐藏子问不计入 */
+        var sv = [];
+        sq.querySelectorAll('input[type=radio],input[type=checkbox]').forEach(function(el){
+          if(el.checked) sv.push(el.value);
+        });
+        var sn = '';
+        sq.querySelectorAll('input.txt.sub').forEach(function(el){
+          var v = (el.value||'').trim();
+          if(v) sn += (sn ? ' / ' : '') + v;
+        });
+        var stEl = sq.querySelector('.subtitle');
+        var stitle = stEl ? stEl.textContent.trim() : (sq.getAttribute('data-sub')||'');
+        var one = sv.join('、');
+        if(sn) one = one ? one + '（补充：' + sn + '）' : sn;
+        segs.push(stitle + '：' + (one || '未填写'));
+      });
+      ans = segs.join('\n');
+    } else {
+      var vals = [];
+      node.querySelectorAll('input[type=radio],input[type=checkbox]').forEach(function(el){
+        if(el.checked) vals.push(el.value);
+      });
+      var note = '';
+      node.querySelectorAll('input.txt.sub').forEach(function(el){
+        var v = (el.value||'').trim();
+        if(v) note += (note ? ' / ' : '') + v;
+      });
+      node.querySelectorAll('textarea.ta').forEach(function(el){
+        var v = (el.value||'').trim();
+        if(v) note += (note ? ' / ' : '') + v;
+      });
+      ans = vals.join('、');
+      if(note) ans = ans ? ans + '（补充：' + note + '）' : note;
+    }
+
+    if(!map[secTitle]){ map[secTitle] = { title: secTitle, items: [] }; groups.push(map[secTitle]); }
+    map[secTitle].items.push({
+      no: (label.split(' ')[0] || name).trim() || name,
+      name: name, label: label,
+      ans: ans, empty: !ans
+    });
+  });
+  return groups;
+}
+
+/* ============ 回执：页内卡片 ============ */
+function renderInline(groups){
+  var h = [];
+  groups.forEach(function(g){
+    h.push('<div class="rp-sec">'+esc(g.title)+'</div>');
+    h.push('<table class="rp-tb">');
+    g.items.forEach(function(it){
+      h.push('<tr>'
+        + '<td class="rp-no">'+esc(it.no)+'</td>'
+        + '<td class="rp-q">'+esc(it.label)+'</td>'
+        + '<td class="rp-a'+(it.empty ? ' rp-blank' : '')+'">'
+        + (it.empty ? '未填写' : esc(it.ans).replace(/\n/g,'<br>')) + '</td>'
+        + '</tr>');
+    });
+    h.push('</table>');
+  });
+  return h.join('');
+}
+
+/* ============ 回执：结构化纯文本（邮件正文用） ============ */
+function buildText(groups, meta){
+  var L = [];
+  L.push('植悦 21DW 智能戒指 · 供应商技术与商务尽调清单 回执');
+  L.push('供应商：' + (meta.company || '（未填写）')
+         + '　联系人：' + (meta.contact || '（未填写）'));
+  L.push('提交时间：' + meta.time);
+  L.push('='.repeat(48));
+  groups.forEach(function(g){
+    L.push('');
+    L.push('【' + g.title + '】');
+    g.items.forEach(function(it){
+      L.push(it.label);
+      var ansLines = (it.empty ? '未填写' : String(it.ans)).split('\n');
+      L.push('　　→ ' + ansLines[0]);
+      for(var li = 1; li < ansLines.length; li++) L.push('　　　' + ansLines[li]);
+    });
+  });
+  var blanks = [];
+  groups.forEach(function(g){ g.items.forEach(function(it){ if(it.empty) blanks.push(it.no + ' ' + it.label); }); });
+  L.push('');
+  L.push('='.repeat(48));
+  L.push(blanks.length ? ('待补充项（' + blanks.length + '）：' + blanks.join('；'))
+                       : '本清单已全部填写完毕，无待补充项。');
+  return L.join('\n');
+}
+
+/* ============ 回执：JSON（供植悦汇总多家） ============ */
+function buildJson(groups, meta){
+  var arr = [];
+  groups.forEach(function(g){
+    g.items.forEach(function(it){
+      arr.push({ section: g.title, no: it.no, question: it.label,
+                 answer: it.empty ? '' : it.ans, filled: !it.empty });
+    });
+  });
+  return JSON.stringify({
+    doc: '植悦 21DW 智能戒指 · 供应商技术与商务尽调清单',
+    version: 'v4.3',
+    company: meta.company, contact: meta.contact,
+    phone: meta.phone, address: meta.address,
+    submitted_at: meta.time, items: arr
+  }, null, 2);
+}
+
+/* ============ 回执：单文件 HTML（可邮件附件 / 微信文件发送） ============ */
+function buildFileHtml(groups, meta){
+  var css = ''
+    + '*{box-sizing:border-box}'
+    + 'body{margin:0;background:#f2f4f7;color:#1f2329;'
+    + 'font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif;'
+    + 'line-height:1.65;font-size:15px}'
+    + '.wrap{max-width:920px;margin:0 auto;padding:24px 18px 60px}'
+    + '.hd{background:linear-gradient(135deg,#002FA7,#3457c4);color:#fff;'
+    + 'border-radius:14px;padding:22px 22px;margin-bottom:16px}'
+    + '.hd h1{margin:0 0 8px;font-size:20px;line-height:1.4}'
+    + '.hd .m{font-size:13px;opacity:.95}'
+    + '.meta{background:#fff;border:1px solid #e5e7eb;border-radius:12px;'
+    + 'padding:14px 18px;margin-bottom:18px;font-size:14px}'
+    + '.meta b{color:#002FA7}'
+    + '.meta div{margin:3px 0}'
+    + '.rp-sec{background:#002FA7;color:#fff;border-radius:9px;padding:10px 14px;'
+    + 'margin:20px 0 8px;font-size:15.5px;font-weight:700;letter-spacing:.3px}'
+    + 'table.rp-tb{width:100%;border-collapse:collapse;background:#fff;'
+    + 'border:1px solid #e5e7eb;border-radius:10px;overflow:hidden}'
+    + 'table.rp-tb td{border-bottom:1px solid #eef0f3;padding:9px 12px;'
+    + 'vertical-align:top;font-size:14px}'
+    + 'table.rp-tb tr:last-child td{border-bottom:0}'
+    + '.rp-no{width:52px;color:#002FA7;font-weight:700;white-space:nowrap}'
+    + '.rp-q{width:38%;color:#4b5563}'
+    + '.rp-a{font-weight:600}'
+    + '.rp-blank{color:#b0b6be;font-weight:400;font-style:italic}'
+    + '.note{background:#FFFAEB;border:1px solid #F0C68A;border-radius:10px;'
+    + 'padding:12px 16px;margin:18px 0 0;font-size:13.5px;color:#8a5a10}'
+    + 'footer{color:#8b93a1;font-size:12px;text-align:center;margin-top:26px;line-height:1.8}';
+
+  var h = [];
+  h.push('<!DOCTYPE html>');
+  h.push('<html lang="zh-CN"><head><meta charset="UTF-8">');
+  h.push('<meta name="viewport" content="width=device-width, initial-scale=1.0">');
+  h.push('<title>' + esc('植悦21DW 供应商尽调清单回执 - ' + (meta.company || '未填写')) + '</title>');
+  h.push('<style>' + css + '</style></head><body><div class="wrap">');
+  h.push('<div class="hd"><h1>植悦 21DW 智能戒指 · 供应商技术与商务尽调清单</h1>'
+         + '<div class="m">回执单 · v4.3 · 生成于 ' + esc(meta.time) + '</div></div>');
+  h.push('<div class="meta">'
+         + '<div><b>供应商</b>：' + esc(meta.company || '（未填写）') + '</div>'
+         + '<div><b>联系人</b>：' + esc(meta.contact || '（未填写）') + '</div>'
+         + '<div><b>联系手机</b>：' + esc(meta.phone || '（未填写）') + '</div>'
+         + '<div><b>公司地址</b>：' + esc(meta.address || '（未填写）') + '</div>'
+         + '</div>');
+  h.push(renderInline(groups));
+
+  var blanks = [];
+  groups.forEach(function(g){ g.items.forEach(function(it){ if(it.empty) blanks.push(it.no + ' ' + it.label); }); });
+  h.push('<div class="note">' + (blanks.length
+      ? ('<b>待补充项（' + blanks.length + '）：</b><br>' + esc(blanks.join('；')))
+      : '<b>本清单已全部填写完毕，无待补充项。</b>') + '</div>');
+  h.push('<footer>植悦 21DAYS WONDER · 供应商技术与商务尽调清单 v4.3<br>'
+         + '本回执由贵司在尽调清单页面自行生成，内容以贵司填报为准。</footer>');
+  h.push('</div></body></html>');
+  return h.join('\n');
+}
+
+/* ============ 下载与复制 ============ */
+function download(filename, content, mime){
+  var blob = new Blob([content], { type: mime + ';charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(function(){ URL.revokeObjectURL(url); a.remove(); }, 1500);
+}
+
+function copyText(txt, btn, okLabel){
+  var ta = document.createElement('textarea');
+  ta.value = txt;
+  ta.style.position = 'fixed'; ta.style.left = '-9999px';
+  document.body.appendChild(ta);
+  ta.select(); ta.setSelectionRange(0, 999999);
+  var done = false;
+  try { done = document.execCommand('copy'); } catch(e){ done = false; }
+  ta.remove();
+  if(!done && navigator.clipboard){
+    navigator.clipboard.writeText(txt).then(function(){ flash(btn, okLabel); },
+      function(){ flash(btn, '请手动全选复制'); });
+    return;
   }
-  return s;
+  flash(btn, done ? okLabel : '请手动全选复制');
 }
-document.getElementById("f").addEventListener("submit",function(e){
-  e.preventDefault();
-  const f=document.getElementById("f");
-  if(!f.checkValidity()){ f.reportValidity(); return; }
-  // 多选组至少勾选一项
-  let chkOk=true, firstBad=null;
-  document.querySelectorAll('.chkgrp').forEach(g=>{
-    if(g.dataset.optional) return;
-    if(!g.querySelector('input[type=checkbox]:checked')){
-      chkOk=false;
-      if(!firstBad) firstBad=g;
+
+function flash(btn, label){
+  if(!btn) return;
+  var old = btn.textContent;
+  btn.textContent = label;
+  setTimeout(function(){ btn.textContent = old; }, 1800);
+}
+
+/* ============ 校验 ============ */
+function validate(){
+  var miss = [];
+  document.querySelectorAll('.q').forEach(function(q){
+    if(!visible(q)) return;
+    q.classList.remove('miss');
+    var name = q.getAttribute('data-q');
+    var lblOf = function(){
+      var l = '';
+      ORDER.forEach(function(p){ if(p[0] === name) l = p[1]; });
+      return l;
+    };
+    if(q.querySelector('.subq')){
+      /* 题内子问：逐个可见子问校验 */
+      var missSubs = [];
+      q.querySelectorAll('.subq').forEach(function(sq){
+        if(!visible(sq)) return;
+        var f = false;
+        sq.querySelectorAll('input[type=radio],input[type=checkbox]').forEach(function(el){
+          if(el.checked) f = true;
+        });
+        sq.querySelectorAll('input.txt.sub').forEach(function(el){
+          if((el.value||'').trim()) f = true;
+        });
+        if(!f){
+          var stEl = sq.querySelector('.subtitle');
+          missSubs.push(stEl ? stEl.textContent.trim() : '（子项）');
+        }
+      });
+      if(!!q.querySelector('.tag-req') && missSubs.length){
+        miss.push(lblOf() + ' → ' + missSubs.join(' ／ '));
+        q.classList.add('miss');
+      }
+      return;
+    }
+    var filled = false;
+    q.querySelectorAll('input[type=radio],input[type=checkbox]').forEach(function(el){
+      if(el.checked) filled = true;
+    });
+    q.querySelectorAll('textarea').forEach(function(el){
+      if((el.value||'').trim()) filled = true;
+    });
+    var required = !!q.querySelector('.tag-req');
+    if(required && !filled){
+      miss.push(lblOf());
+      q.classList.add('miss');
     }
   });
-  if(!chkOk){
-    if(firstBad) firstBad.scrollIntoView({behavior:'smooth',block:'center'});
-    alert('请在每个标注【可多选】的题目中至少勾选一项。');
+  return miss;
+}
+
+/* ============ 交互绑定 ============ */
+document.addEventListener('change', function(){
+  document.querySelectorAll('label.opt').forEach(function(l){
+    var inp = l.querySelector('input');
+    l.classList.toggle('sel', !!(inp && inp.checked));
+  });
+  refreshCond();
+  refreshWarn();
+});
+
+document.getElementById('go').addEventListener('click', function(){
+  var bar = document.getElementById('missbar');
+  var miss = validate();
+  if(miss.length){
+    bar.innerHTML = '还有 <b>' + miss.length + '</b> 道必答题未完成：<br>· ' + miss.join('<br>· ');
+    bar.classList.add('show');
+    bar.scrollIntoView({behavior:'smooth', block:'center'});
     return;
   }
-  // "其他（请说明）"若已显示但为空，则拦截
-  let otherOk=true;
-  document.querySelectorAll('.otherbox.show').forEach(ob=>{
-    const inp = ob.querySelector('input.txt');
-    if(inp && inp.value.trim()===""){ otherOk=false; if(!firstBad) firstBad=ob; }
-  });
-  if(!otherOk){
-    if(firstBad) firstBad.scrollIntoView({behavior:'smooth',block:'center'});
-    alert('您选择了"其他（请说明）"，请在展开的输入栏中填写具体内容后再提交。');
-    return;
-  }
-  const body = buildBody();
-  document.getElementById("raw").textContent = body;
-  const subject = "智能戒指供应商问卷回卷 - " + (f.company.value||"") + " - " + (f.contact.value||"");
-  window.location.href = "mailto:"+TO+"?subject="+encodeURIComponent(subject)+"&body="+encodeURIComponent(body);
-  document.getElementById("okbox").classList.add("show");
-  window.scrollTo({top:document.body.scrollHeight,behavior:"smooth"});
+  bar.classList.remove('show');
+
+  var g = function(n){
+    var el = document.querySelector('[name="'+n+'"]');
+    return el ? (el.value||'').trim() : '';
+  };
+  var meta = {
+    company: g('b1_company'), contact: g('b2_contact'),
+    phone: g('b3_phone'), address: g('b4_address'),
+    time: stampReadable()
+  };
+  var groups = collect();
+  var safeName = (meta.company || '供应商').replace(/[\\\/:*?"<>|\s]/g, '');
+  var fname = '植悦21DW_供应商尽调清单回执_' + safeName + '_' + stampNow() + '.html';
+
+  var rep = document.getElementById('report');
+  rep.innerHTML = renderInline(groups);
+  rep.classList.add('show');
+  var box = document.getElementById('okbox');
+  box.classList.add('show');
+  document.getElementById('okmsg').innerHTML =
+    '<b>回执已生成。</b>请任选一种方式回传给我方 ——'
+    + '<br>① <b>推荐</b>：点「下载 HTML 回执」，得到 1 个文件，'
+    + '用<b>邮件附件</b>或<b>微信文件</b>直接发给我方联系人；'
+    + '<br>② 点「复制回执文本」粘贴到邮件正文；'
+    + '<br>③ 也可直接对本页回执卡片<b>截图</b>发送。'
+    + '<br>回传邮箱：<b>' + esc('4007890@qq.com') + '</b>';
+
+  var btnFile = document.getElementById('btn-file');
+  var btnText = document.getElementById('btn-text');
+  var btnJson = document.getElementById('btn-json');
+  var btnMail = document.getElementById('btn-mail');
+  var btnPrint = document.getElementById('btn-print');
+
+  btnFile.onclick = function(){
+    download(fname, buildFileHtml(groups, meta), 'text/html');
+    flash(this, '已下载 ✓');
+  };
+  btnText.onclick = function(){ copyText(buildText(groups, meta), this, '已复制 ✓'); };
+  btnJson.onclick = function(){ copyText(buildJson(groups, meta), this, '已复制 ✓'); };
+  btnPrint.onclick = function(){ window.print(); };
+
+  var subject = '供应商尽调清单回执 - ' + (meta.company || '未填写') + ' - ' + (meta.contact || '未填写');
+  var mailBody = buildText(groups, meta);
+  btnMail.onclick = function(){
+    location.href = 'mailto:4007890@qq.com?subject=' + encodeURIComponent(subject)
+                  + '&body=' + encodeURIComponent(mailBody);
+  };
+
+  rep.scrollIntoView({behavior:'smooth', block:'start'});
 });
-document.getElementById("copybtn").addEventListener("click",function(){
-  const body=document.getElementById("raw").textContent;
-  navigator.clipboard.writeText(body).then(()=>{
-    this.textContent="已复制 ✓";
-  }).catch(()=>{
-    const ta=document.createElement("textarea");ta.value=body;document.body.appendChild(ta);
-    ta.select();document.execCommand("copy");document.body.removeChild(ta);
-    this.textContent="已复制 ✓";
-  });
-});
+
+/* ============ 初始化 ============ */
+refreshCond();
+refreshWarn();
+
 </script>
 </body>
 </html>
