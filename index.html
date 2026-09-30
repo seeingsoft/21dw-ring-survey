@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>植悦 21DW 智能戒指 · 供应商技术与商务尽调清单 v4.3</title>
+<title>植悦 21DW 智能戒指 · 供应商技术与商务尽调清单 v4.4</title>
 <style>
   :root{
     --bg:#f5f6f8;--card:#fff;--ink:#1f2329;--sub:#6b7280;
@@ -101,7 +101,7 @@
 <div class="wrap">
   <header>
     <h1>植悦 21DW 智能戒指 · 供应商技术与商务尽调清单</h1>
-    <p>v4.3 · 仅「基本信息」4 项需手动填写，其余全部选择作答 · 技术侧 T1–T22 ／ 商务侧 B1–B17 ·
+    <p>v4.4 · 仅「基本信息」4 项需手动填写，其余全部选择作答 · 技术侧 T1–T22 ／ 商务侧 B1–B17 ·
        <span style="font-weight:700">（必答）</span> 题须全部填写后方可提交；
        <span style="opacity:.85">（选答）</span> 可留空</p>
   </header>
@@ -260,12 +260,15 @@
 </div>
 <div class="q" data-q="t11_extra" >
 <div class="title"><span class="no">T11</span>除 P0 外尚可提供的能力（可多选，选答） <span class="tag-opt">（选答）</span></div>
+<div class="hint">体脂率在本品类智能戒指中属少见能力 —— PPG 光学方案无法直接测得，通常需 BIA 生物电阻抗或多点电极接触。若为模型估算而非实测，请按估算项勾选，勿按实测勾选。</div>
 <div class="mtipt"><span class="multi">（可多选）</span></div>
 <label class="opt"><input type="checkbox" name="t11_extra" value="P1 · 皮温 / 体温趋势" data-warn=""> P1 · 皮温 / 体温趋势</label>
 <label class="opt"><input type="checkbox" name="t11_extra" value="P1 · SpO₂ 血氧" data-warn=""> P1 · SpO₂ 血氧</label>
 <label class="opt"><input type="checkbox" name="t11_extra" value="P1 · RR 呼吸率" data-warn=""> P1 · RR 呼吸率</label>
 <label class="opt"><input type="checkbox" name="t11_extra" value="P2 · 睡眠评分" data-warn=""> P2 · 睡眠评分</label>
 <label class="opt"><input type="checkbox" name="t11_extra" value="P2 · 恢复 / 就绪指数" data-warn=""> P2 · 恢复 / 就绪指数</label>
+<label class="opt"><input type="checkbox" name="t11_extra" value="体脂率 · BIA 生物电阻抗实测" data-warn=""> 体脂率 · BIA 生物电阻抗实测</label>
+<label class="opt"><input type="checkbox" name="t11_extra" value="体脂率 · 模型估算（非实测）" data-warn=""> 体脂率 · 模型估算（非实测）</label>
 <label class="opt"><input type="checkbox" name="t11_extra" value="其他（请说明）" data-warn=""> 其他（请说明）</label>
 <input class="txt sub" name="t11_extra_other" placeholder="请填写具体内容">
 <div class="warnbox"></div>
@@ -572,7 +575,7 @@
   </div>
 
   <footer>
-    植悦 21DAYS WONDER · 供应商技术与商务尽调清单 v4.3 · 20260929-1050<br>
+    植悦 21DAYS WONDER · 供应商技术与商务尽调清单 v4.4 · 20260930-1100<br>
     回卷内容贵司可先行留存；提交即视为贵司对所填内容的真实性负责。
   </footer>
 </div>
@@ -798,7 +801,7 @@ function buildJson(groups, meta){
   });
   return JSON.stringify({
     doc: '植悦 21DW 智能戒指 · 供应商技术与商务尽调清单',
-    version: 'v4.3',
+    version: 'v4.4',
     company: meta.company, contact: meta.contact,
     phone: meta.phone, address: meta.address,
     submitted_at: meta.time, items: arr
@@ -843,7 +846,7 @@ function buildFileHtml(groups, meta){
   h.push('<title>' + esc('植悦21DW 供应商尽调清单回执 - ' + (meta.company || '未填写')) + '</title>');
   h.push('<style>' + css + '</style></head><body><div class="wrap">');
   h.push('<div class="hd"><h1>植悦 21DW 智能戒指 · 供应商技术与商务尽调清单</h1>'
-         + '<div class="m">回执单 · v4.3 · 生成于 ' + esc(meta.time) + '</div></div>');
+         + '<div class="m">回执单 · v4.4 · 生成于 ' + esc(meta.time) + '</div></div>');
   h.push('<div class="meta">'
          + '<div><b>供应商</b>：' + esc(meta.company || '（未填写）') + '</div>'
          + '<div><b>联系人</b>：' + esc(meta.contact || '（未填写）') + '</div>'
@@ -857,7 +860,7 @@ function buildFileHtml(groups, meta){
   h.push('<div class="note">' + (blanks.length
       ? ('<b>待补充项（' + blanks.length + '）：</b><br>' + esc(blanks.join('；')))
       : '<b>本清单已全部填写完毕，无待补充项。</b>') + '</div>');
-  h.push('<footer>植悦 21DAYS WONDER · 供应商技术与商务尽调清单 v4.3<br>'
+  h.push('<footer>植悦 21DAYS WONDER · 供应商技术与商务尽调清单 v4.4<br>'
          + '本回执由贵司在尽调清单页面自行生成，内容以贵司填报为准。</footer>');
   h.push('</div></body></html>');
   return h.join('\n');
